@@ -21,6 +21,7 @@ De applicatie demonstreert de volgende niet-functionele aspecten:
 
 
 Open eindjes:
+
 * onvoldoende tests (foei!)
 
 
