@@ -17,7 +17,7 @@ De applicatie demonstreert de volgende niet-functionele aspecten:
 * pagination (opgevraagde content wordt geretourneerd in pagina's)
 * ajax
 * RESTful web service
-* enkele tests
+* verschillende soorten test
 
 
 Open eindjes:
