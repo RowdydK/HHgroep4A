@@ -30,7 +30,7 @@ Open eindjes:
 #### Installatie van de ontwikkelomgeving "Spring Tool Suite": ####
 
 * Zorg dat je (de laatste versie) van JDK 8 geïnstalleerd hebt van http://www.oracle.com/technetwork/java/javase/downloads/index.html. Kies duidelijk of je de 32-bit of 64-bit versie wilt gebruiken.
-* De Spring bibliotheken kun je het beste downloaden door de bijhorende IDE te installeren die Spring Tool Suite (STS) heet. STS is gebaseerd op de Eclipse IDE. Als je STS installeert, blijft je eventuele andere Eclipse installatie behouden. Je hebt dan twee Eclipse installaties naast elkaar staan. STS kun je vinden op http://spring.io/tools/sts. 
+* De Spring bibliotheken kun je het beste downloaden door de bijhorende IDE te installeren die Spring Tool Suite (STS) heet. STS is gebaseerd op de Eclipse IDE. Als je STS installeert, blijft je eventuele andere Eclipse installatie behouden. Je hebt dan twee Eclipse installaties naast elkaar staan. STS kun je vinden op http://spring.io/tools/sts. Kies duidelijk of je de 32-bit of 64-bit versie wilt gebruiken.
 * De Hartige Hap applicatie maakt gebruik van Lombok. Lombok is een bibliotheek die de hoeveelheid benodigde boiler plate code vermindert, bijvoorbeeld getters/setters, waardoor je minder hoeft te typen. Hiervoor moet STS worden aangepast, anders begrijpt STS de broncode niet en geeft foutieve foutmeldingen. Om dit te doen:
     1. download lombok.jar van http://projectlombok.org/
     2. dubbelklik op lombok.jar
