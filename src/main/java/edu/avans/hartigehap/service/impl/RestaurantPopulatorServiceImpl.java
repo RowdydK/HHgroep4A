@@ -72,7 +72,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         createCustomer("barry", "batsbak", new DateTime(), 1, "description", photo);
         createCustomer("piet", "bakker", new DateTime(), 1, "description", photo);
         createCustomer("piet", "bakker", new DateTime(), 1, "description", photo);
-        createCustomer("piet", "bakker", new DateTime(), 1, "description", photo);
+        createCustomer("piet", "bukker", new DateTime(), 1, "description", photo);
     }
 
     private void createFoodCategory(String tag) {
