@@ -3,6 +3,7 @@ package edu.avans.hartigehap.domain;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -29,6 +30,9 @@ public class Restaurant extends DomainObjectNaturalId {
     private static final long serialVersionUID = 1L;
 
     private String imageFileName;
+
+    @ManyToMany(mappedBy="restaurants")
+    private List<Owner> owners;
 
     // unidirectional one-to-one
     @OneToOne(cascade = CascadeType.ALL)
