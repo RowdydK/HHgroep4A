@@ -21,7 +21,7 @@ import java.util.List;
 @ToString(callSuper=true, includeFieldNames=true, of= {"name"})
 
 public class Owner extends DomainObject {
-    @Column(name = "naam van de kolom")
+    @Column(name = "name")
     private String name;
 
     @ManyToMany (cascade=javax.persistence.CascadeType.ALL)
