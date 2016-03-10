@@ -34,7 +34,7 @@ public class BillServiceImpl implements BillService {
     @Transactional(readOnly = true)
     public List<Bill> findSubmittedBillsForRestaurant(Restaurant restaurant) {
         // a query created using a repository method name
-        return billRepository.findByBillStatusAndDiningTableRestaurant(
-                Bill.BillStatus.SUBMITTED, restaurant, new Sort(Sort.Direction.ASC, "submittedTime"));
+        return billRepository.findByBillStateIdAndDiningTableRestaurant(
+                Bill.BillStateId.SUBMITTED, restaurant, new Sort(Sort.Direction.ASC, "submittedTime"));
     }
 }

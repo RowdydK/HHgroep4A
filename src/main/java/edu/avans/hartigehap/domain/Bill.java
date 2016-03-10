@@ -22,6 +22,10 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import edu.avans.hartigehap.domain.BillState.BillState;
+import edu.avans.hartigehap.domain.BillState.BillStateCreated;
+import edu.avans.hartigehap.domain.BillState.BillStatePaid;
+
 /**
  * 
  * @author Erco
@@ -32,17 +36,28 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @Getter
 @Setter
-@ToString(callSuper = true, includeFieldNames = true, of = { "billStatus", "currentOrder", "orders" })
+@ToString(callSuper = true, includeFieldNames = true, of = { "billStateId", "currentOrder", "orders" })
 public class Bill extends DomainObject {
     private static final long serialVersionUID = 1L;
 
-    public enum BillStatus {
+    public enum BillStateId {
         CREATED, SUBMITTED, PAID
     }
-
+    
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private BillState billState;
+    
+//    public void setBillState(BillState state){
+//    	billState = state;
+//    }
+//    
+//    public BillState getBillState(){
+//    	return billState;
+//    }
+    
     // represented in database as integer
     @Enumerated(EnumType.ORDINAL)
-    private BillStatus billStatus;
+    private BillStateId billStateId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date submittedTime;
@@ -64,13 +79,22 @@ public class Bill extends DomainObject {
     // bidirectional one-to-many relationship
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
-
-    public Bill() {
-        billStatus = BillStatus.CREATED;
-        currentOrder = new Order();
-        currentOrder.setBill(this);
-        orders.add(currentOrder);
+    
+    //New BillState
+    public Bill(){
+    	billState = new BillStateCreated();
+    	billStateId = billStateId.CREATED;
+    	currentOrder = new Order();
+    	currentOrder.setBill(this);
+    	orders.add(currentOrder);
     }
+
+//    public Bill() {
+//        billStatus = BillStatus.CREATED;
+//        currentOrder = new Order();
+//        currentOrder.setBill(this);
+//        orders.add(currentOrder);
+//    }
 
     /* business logic */
 
@@ -132,52 +156,62 @@ public class Bill extends DomainObject {
      * as the table gets a new bill, there is no risk that a customer keeps
      * ordering on the submitted or paid bill
      */
-    public void submit() throws StateException, EmptyBillException {
-        boolean allEmpty = true;
-        Iterator<Order> orderIterator = orders.iterator();
-        while (orderIterator.hasNext()) {
-            Order order = orderIterator.next();
-            if (!order.isEmpty()) {
-                allEmpty = false;
-                break;
-            }
-        }
-        if (allEmpty) {
-            throw new EmptyBillException("not allowed to submit an empty bill");
-        }
-
-        if (!currentOrder.isEmpty() && currentOrder.getOrderStatus() == Order.OrderStatus.CREATED) {
-            // the currentOrder is not empty, but not yet submitted
-            throw new StateException("not allowed to submit an with currentOrder in created state");
-        }
-
-        // this can only happen by directly invoking HTTP requests, so not via
-        // GUI
-        // TODO better to use another exception, because now GUI shows wrong
-        // error message
-        if (billStatus != BillStatus.CREATED) {
-            throw new StateException("not allowed to submit an already submitted bill");
-        }
-
-        submittedTime = new Date();
-        billStatus = BillStatus.SUBMITTED;
+    
+    public void submit() throws StateException, EmptyBillException{
+    	submittedTime = billState.billCreated(this, orders, currentOrder);
     }
+    
+//    public void submit() throws StateException, EmptyBillException {
+//        boolean allEmpty = true;
+//        Iterator<Order> orderIterator = orders.iterator();
+//        while (orderIterator.hasNext()) {
+//            Order order = orderIterator.next();
+//            if (!order.isEmpty()) {
+//                allEmpty = false;
+//                break;
+//            }
+//        }
+//        if (allEmpty) {
+//            throw new EmptyBillException("not allowed to submit an empty bill");
+//        }
+//
+//        if (!currentOrder.isEmpty() && currentOrder.getOrderStatus() == Order.OrderStatus.CREATED) {
+//            // the currentOrder is not empty, but not yet submitted
+//            throw new StateException("not allowed to submit an with currentOrder in created state");
+//        }
+//
+//        // this can only happen by directly invoking HTTP requests, so not via
+//        // GUI
+//        // TODO better to use another exception, because now GUI shows wrong
+//        // error message
+//        if (billStatus != BillStatus.CREATED) {
+//            throw new StateException("not allowed to submit an already submitted bill");
+//        }
+//
+//        submittedTime = new Date();
+//        billStatus = BillStatus.SUBMITTED;
+//    }
 
-    @Transient
-    public boolean isSubmitted() {
-        return billStatus == BillStatus.SUBMITTED;
-    }
-
+//    @Transient
+//    public boolean isSubmitted() {
+//        return billStatus == BillStatus.SUBMITTED;
+//    }
+    
+    
     public void paid() throws StateException {
-
-        // this can only happen by directly invoking HTTP requests, so not via
-        // GUI
-        if (billStatus != BillStatus.SUBMITTED) {
-            throw new StateException("not allowed to pay an bill that is not in the submitted state");
-        }
-
-        paidTime = new Date();
-        billStatus = BillStatus.PAID;
+    	paidTime = billState.billSubmitted(this);
     }
+
+//    public void paid() throws StateException {
+//
+//        // this can only happen by directly invoking HTTP requests, so not via
+//        // GUI
+//        if (billStatus != BillStatus.SUBMITTED) {
+//            throw new StateException("not allowed to pay an bill that is not in the submitted state");
+//        }
+//
+//        paidTime = new Date();
+//        billStatus = BillStatus.PAID;
+//    }
 
 }
