@@ -22,10 +22,6 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import edu.avans.hartigehap.domain.BillState.BillState;
-import edu.avans.hartigehap.domain.BillState.BillStateCreated;
-import edu.avans.hartigehap.domain.BillState.BillStatePaid;
-
 /**
  * 
  * @author Erco
