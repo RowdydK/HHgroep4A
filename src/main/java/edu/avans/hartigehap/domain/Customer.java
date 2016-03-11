@@ -50,7 +50,23 @@ public class Customer extends DomainObject {
     @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     private String lastName;
-
+    
+//    @NotEmpty(message = "{validation.streetName.NotEmpty.message}")
+//    @Size(min = 1, max = 40, message = "{validation.streetName.Size.message}")
+    private String streetName;
+    
+//    @NotEmpty(message = "{validation.number.NotEmpty.message}")
+//    @Size(min = 1, max = 10, message = "{validation.number.Size.message}")
+    private String number;
+    
+//    @NotEmpty(message = "{validation.zipCode.NotEmpty.message}")
+//    @Size(min = 1, max = 10, message = "{validation.zipCode.Size.message}")
+    private String zipCode;
+    
+    //@NotEmpty(message = "{validation.cityName.NotEmpty.message}")
+    //@Size(min = 1, max = 40, message = "{validation.cityName.Size.message}")
+    private String cityName;
+    
     // works with hibernate 3.x
     // @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     // to allow using Joda's DateTime with hibernate 4.x use:
