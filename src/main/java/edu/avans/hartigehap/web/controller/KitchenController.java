@@ -15,7 +15,7 @@ import edu.avans.hartigehap.service.*;
 import edu.avans.hartigehap.web.form.Message;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+//@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 @Slf4j
 public class KitchenController {
 

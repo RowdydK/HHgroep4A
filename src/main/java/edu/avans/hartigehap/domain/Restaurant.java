@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
- * 
+ *
  * @author Erco
  */
 @Entity
@@ -38,6 +38,9 @@ public class Restaurant extends DomainObjectNaturalId {
     @OneToOne(cascade = CascadeType.ALL)
     private Menu menu = new Menu();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Menu onlineMenu = new Menu();
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
     private Collection<DiningTable> diningTables = new ArrayList<>();
 
@@ -49,42 +52,74 @@ public class Restaurant extends DomainObjectNaturalId {
         super(name);
         this.imageFileName = imageFileName;
     }
-
-    // business methods
-    public void warmup() {
-        Iterator<DiningTable> diningTableIterator = diningTables.iterator();
-        while (diningTableIterator.hasNext()) {
-            diningTableIterator.next().getId();
-        }
-
-        Iterator<MenuItem> mealsIterator = menu.getMeals().iterator();
-        while (mealsIterator.hasNext()) {
-            MenuItem mi = mealsIterator.next();
-            mi.getId();
-            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
-            while (fcIterator.hasNext()) {
-                fcIterator.next().getId();
-            }
-        }
-
-        Iterator<MenuItem> drinksIterator = menu.getDrinks().iterator();
-        while (drinksIterator.hasNext()) {
-            MenuItem mi = drinksIterator.next();
-            mi.getId();
-            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
-            while (fcIterator.hasNext()) {
-                fcIterator.next().getId();
-            }
-        }
-
-        Iterator<FoodCategory> foodCategoryIterator = menu.getFoodCategories().iterator();
-        while (foodCategoryIterator.hasNext()) {
-            FoodCategory fc = foodCategoryIterator.next();
-            Iterator<MenuItem> miIterator = fc.getMenuItems().iterator();
-            while (miIterator.hasNext()) {
-                miIterator.next().getId();
-            }
-        }
-
-    }
+//
+//    // business methods
+//    public void warmup() {
+//        Iterator<DiningTable> diningTableIterator = diningTables.iterator();
+//        while (diningTableIterator.hasNext()) {
+//            diningTableIterator.next().getId();
+//        }
+//
+//        Iterator<MenuItem> mealsIterator = menu.getMeals().iterator();
+//        while (mealsIterator.hasNext()) {
+//            MenuItem mi = mealsIterator.next();
+//            mi.getId();
+//            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
+//            while (fcIterator.hasNext()) {
+//                fcIterator.next().getId();
+//            }
+//        }
+//
+//        Iterator<MenuItem> drinksIterator = menu.getDrinks().iterator();
+//        while (drinksIterator.hasNext()) {
+//            MenuItem mi = drinksIterator.next();
+//            mi.getId();
+//            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
+//            while (fcIterator.hasNext()) {
+//                fcIterator.next().getId();
+//            }
+//        }
+//
+//        Iterator<FoodCategory> foodCategoryIterator = menu.getFoodCategories().iterator();
+//        while (foodCategoryIterator.hasNext()) {
+//            FoodCategory fc = foodCategoryIterator.next();
+//            Iterator<MenuItem> miIterator = fc.getMenuItems().iterator();
+//            while (miIterator.hasNext()) {
+//                miIterator.next().getId();
+//            }
+//        }
+//
+//        //OnlineMenuWarmup
+//        Iterator<MenuItem> onlineMealsIterator = onlineMenu.getMeals().iterator();
+//        while (onlineMealsIterator.hasNext()){
+//            MenuItem mi = onlineMealsIterator.next();
+//            mi.getId();
+//            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
+//            while (fcIterator.hasNext()){
+//                fcIterator.next().getId();
+//            }
+//        }
+//
+//        Iterator<MenuItem> onlineMenuDrinksIterator = onlineMenu.getDrinks().iterator();
+//        while (onlineMenuDrinksIterator.hasNext()){
+//            MenuItem mi = onlineMenuDrinksIterator.next();
+//            mi.getId();
+//            Iterator<FoodCategory> fcIterator = mi.getFoodCategories().iterator();
+//            while (fcIterator.hasNext()) {
+//                fcIterator.next().getId();
+//            }
+//        }
+//
+//        Iterator<FoodCategory> foodCategoryOnlineMenuIterator = onlineMenu.getFoodCategories().iterator();
+//        while (foodCategoryOnlineMenuIterator.hasNext()) {
+//            FoodCategory fc = foodCategoryIterator.next();
+//            if(fc.getId().equals(9) || fc.getId().equals(10)) {
+//                Iterator<MenuItem> miIterator = fc.getMenuItems().iterator();
+//                while (miIterator.hasNext()) {
+//                    miIterator.next().getId();
+//                }
+//            }
+//        }
+//
+//    }
 }
