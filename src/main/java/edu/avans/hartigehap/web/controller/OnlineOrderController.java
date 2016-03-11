@@ -47,13 +47,14 @@ public class OnlineOrderController {
     
     private void fillModel(String restaurantId, Model uiModel) {
         Collection<Restaurant> restaurants = restaurantService.findAll();
+
         uiModel.addAttribute("restaurants", restaurants);
         for(Restaurant r : restaurants){
+
         	if(r.getId().equals(restaurantId)) {
         		uiModel.addAttribute("restaurant", r);
         	}
         }
-
 
     }
     

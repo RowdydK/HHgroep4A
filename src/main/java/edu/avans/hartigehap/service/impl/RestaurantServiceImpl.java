@@ -46,6 +46,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findAll(pageable);
     }
 
+
     /**
      * to be able to follow associations outside the context of a transaction,
      * prefetch the associated entities by traversing the associations
@@ -53,7 +54,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Transactional(readOnly = true)
     public Restaurant fetchWarmedUp(String restaurantName) {
         Restaurant restaurant = restaurantRepository.findOne(restaurantName);
-        restaurant.warmup();
+        //restaurant.warmup();
 
         return restaurant;
     }
