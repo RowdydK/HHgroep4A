@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -88,6 +89,9 @@ public class Customer extends DomainObject {
     @ManyToMany
     private Collection<Restaurant> restaurants = new ArrayList<Restaurant>();
 
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private Bill currentBill;
+    
     // no cascading
     // bidirectional one-to-many; mapping on the database happens at the many
     // side
