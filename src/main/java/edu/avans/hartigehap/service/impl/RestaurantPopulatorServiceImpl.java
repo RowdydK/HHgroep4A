@@ -41,13 +41,15 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
      */
     private void createCommonEntities() {
         // create FoodCategories
-        createFoodCategory("low fat");
-        createFoodCategory("high energy");
-        createFoodCategory("vegatarian");
-        createFoodCategory("italian");
-        createFoodCategory("asian");
-        createFoodCategory("alcoholic drinks");
-        createFoodCategory("energizing drinks");
+        createFoodCategory("low fat"); //0
+        createFoodCategory("high energy");//1
+        createFoodCategory("vegatarian");//2
+        createFoodCategory("italian");//3
+        createFoodCategory("asian");//4
+        createFoodCategory("alcoholic drinks");//5
+        createFoodCategory("energizing drinks");//6
+        createFoodCategory("pizza");//7
+
 
         // create Meals
         createMeal("spaghetti", "spaghetti.jpg", 8, "easy",
@@ -62,9 +64,17 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         createMeal("ravioli", "ravioli.jpg", 8, "easy",
                 Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(1), foodCats.get(2)));
 
+
+        //create Pizzas
+         createMeal("pizza tonno", "tonno.jpg", 9, "easy",
+            Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
+        createMeal("pizza meatlovers", "meatlovers.jpg", 9, "easy",
+               Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
+
         // create Drinks
         createDrink("beer", "beer.jpg", 1, Drink.Size.LARGE, Arrays.<FoodCategory> asList(foodCats.get(5)));
         createDrink("coffee", "coffee.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
+        createDrink("cola", "cola.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
 
         // create Customers
         byte[] photo = new byte[] { 127, -128, 0 };
@@ -142,6 +152,23 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
             restaurant.getMenu().getDrinks().add(drink);
         }
 
+        // OnlineMenu
+        // for the moment every restaurant has all available food categories
+        for (FoodCategory foodCat : foodCats) {
+            if(foodCat.getId() == 8L || foodCat.getId() == 7L) {
+                restaurant.getOnlineMenu().getFoodCategories().add(foodCat);
+            }
+        }
+
+        // for the moment every restaurant has the same menu
+        for (Meal meal : meals) {
+            restaurant.getOnlineMenu().getMeals().add(meal);
+        }
+
+        // for the moment every restaurant has the same menu
+        for (Drink drink : drinks) {
+            restaurant.getOnlineMenu().getDrinks().add(drink);
+        }
         // for the moment, every customer has dined in every restaurant
         // no cascading between customer and restaurant; therefore both
         // restaurant and customer

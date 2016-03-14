@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -50,7 +51,23 @@ public class Customer extends DomainObject {
     @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     private String lastName;
-
+    
+//    @NotEmpty(message = "{validation.streetName.NotEmpty.message}")
+//    @Size(min = 1, max = 40, message = "{validation.streetName.Size.message}")
+    private String streetName;
+    
+//    @NotEmpty(message = "{validation.number.NotEmpty.message}")
+//    @Size(min = 1, max = 10, message = "{validation.number.Size.message}")
+    private String number;
+    
+//    @NotEmpty(message = "{validation.zipCode.NotEmpty.message}")
+//    @Size(min = 1, max = 10, message = "{validation.zipCode.Size.message}")
+    private String zipCode;
+    
+    //@NotEmpty(message = "{validation.cityName.NotEmpty.message}")
+    //@Size(min = 1, max = 40, message = "{validation.cityName.Size.message}")
+    private String cityName;
+    
     // works with hibernate 3.x
     // @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     // to allow using Joda's DateTime with hibernate 4.x use:
@@ -72,6 +89,9 @@ public class Customer extends DomainObject {
     @ManyToMany
     private Collection<Restaurant> restaurants = new ArrayList<Restaurant>();
 
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private Bill currentBill;
+    
     // no cascading
     // bidirectional one-to-many; mapping on the database happens at the many
     // side

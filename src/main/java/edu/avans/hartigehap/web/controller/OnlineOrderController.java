@@ -22,23 +22,22 @@ public class OnlineOrderController {
     @Autowired
     private RestaurantService restaurantService;
     @Autowired
-    private DiningTableService diningTableService;
-    
+    private OnlineOrderService onlineOrderService;
     @Autowired
     private CustomerService customerService;
     
-    @RequestMapping(value = "/restaurant/{restaurantId}/online", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online", method = RequestMethod.GET)
     public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
-        log.info("diningTable = " + restaurantId);
+        log.info("restaurantId = " + restaurantId);
 
         fillModel(restaurantId, uiModel);
 
         return "hartigehap/onlineorder";
     }
     
-    @RequestMapping(value = "/restaurant/{restaurantId}/online/{customerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}", method = RequestMethod.GET)
     public String showTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, Model uiModel) {
-        log.info("diningTable = " + restaurantId);
+        log.info("restaurantId = " + restaurantId);
 
         fillModel(restaurantId, customerId, uiModel);
 
@@ -53,8 +52,6 @@ public class OnlineOrderController {
         		uiModel.addAttribute("restaurant", r);
         	}
         }
-
-
     }
     
     private void fillModel(String restaurantId, String customerId, Model uiModel) {
@@ -71,7 +68,16 @@ public class OnlineOrderController {
         //return customer;
     }
     
-    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
+    private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId,
+    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel) {
+    	log.info("Adding Order Item " + menuItemName + " by customer " + customerId + " to order: " + orderId);
+    	Customer customer = customerService.findById(Long.valueOf(customerId));
+    	log.info(customer.toString());
+    	
+    	onlineOrderService.addOrderItem(customer, menuItemName);
+    	return "hartigehap/onlineorder";//redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
+    }
 
 //    @RequestMapping(value = "/diningTables/{diningTableId}", method = RequestMethod.GET)
 //    public String showTable(@PathVariable("diningTableId") String diningTableId, Model uiModel) {

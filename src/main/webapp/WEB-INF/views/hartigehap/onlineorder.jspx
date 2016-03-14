@@ -140,7 +140,7 @@
 				<span class="pull-right">
 					<ul class="nav panel-tabs">
 						<li class="active"><a href="#tab1" data-toggle="tab" class="capitalise">${labelCategorie}</a></li>
-						<c:forEach items="${restaurant.menu.foodCategories}" var="foodCategory">
+						<c:forEach items="${restaurant.onlineMenu.foodCategories}" var="foodCategory">
 							<c:if test="${not empty foodCategory.menuItems}">
 								<li><a href="#tabs-${foodCategory.id}" class="capitalise" data-toggle="tab">${foodCategory.tag}</a></li>
 							</c:if>
@@ -152,7 +152,7 @@
 				<div class="tab-pane active" id="tab1">
 					<div class="panel-body">${labelCategorieTabText}</div>
 				</div>
-				<c:forEach items="${restaurant.menu.foodCategories}" var="foodCategory">
+				<c:forEach items="${restaurant.onlineMenu.foodCategories}" var="foodCategory">
 					<div class="tab-pane" id="tabs-${foodCategory.id}">
 						<table class="table">
 							<thead>
@@ -172,7 +172,7 @@
 											<td><img id="menuitemimg" src="${imageUrl}" width="150px" /></td>
 											<td>${labelCurrency} ${menuItem.price}</td>
 											<td>
-												<spring:url var="addOrderItemUrl" value="/diningTables/${diningTable.id}/menuItems" />
+												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems" />
 												<form:form name="addOrderItemForm" action="${addOrderItemUrl}" method="post">
 													<input type="hidden" name="menuItemName" value="${menuItem.id}" />
 													<button type="submit" class="btn btn-success btn-float-left-margin-right" value="${labelAddButton}"><span class="glyphicon glyphicon-plus-sign glyphicon-padding-right"><jsp:text /></span> ${labelAddButton}</button>
