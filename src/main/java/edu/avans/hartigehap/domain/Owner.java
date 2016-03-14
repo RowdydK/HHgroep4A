@@ -21,6 +21,8 @@ import java.util.List;
 @ToString(callSuper=true, includeFieldNames=true, of= {"name"})
 
 public class Owner extends DomainObject {
+	private static final long serialVersionUID = 1L;
+	
     @Column(name = "name")
     private String name;
 
