@@ -18,6 +18,7 @@
 	<spring:message code="label_customer_subsystem" var="labelCustomerSubsystem" />
 	<spring:message code="label_dining_tables" var="labelDiningTables" />
 	<spring:message code="label_dining_table" var="labelDiningTable" />
+	<spring:message code="label_online_order" var="labelOnlineOrder" />
 
 	<spring:message code="label_management_subsystem" var="labelManagementSubSystem" />
 	<spring:message code="label_employee_subsystem" var="labelEmployeeSubsystem" />
@@ -47,7 +48,19 @@
 			</ul>
 		</div>
 	</div>
-
+	
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">${labelOnlineOrder}</h3>
+			</div>
+			<ul class="list-group">
+				<spring:url var="onlineLink" value="/restaurant/${restaurant.id}/online" />
+				<a href="${onlineLink}" class="list-group-item">${labelOnlineOrder}</a>
+			</ul>
+		</div>
+	</div>
+	
     <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
 		<div class="row">
 			<h2 class="restaurant muted">${labelEmployeeSubsystem}</h2>

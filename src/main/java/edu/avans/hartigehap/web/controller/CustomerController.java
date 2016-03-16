@@ -22,7 +22,7 @@ import edu.avans.hartigehap.service.*;
 import javax.servlet.http.*;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+//@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 @Slf4j
 public class CustomerController {
 
