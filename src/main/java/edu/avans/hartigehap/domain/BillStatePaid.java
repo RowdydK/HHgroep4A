@@ -19,6 +19,15 @@ import lombok.ToString;
 public class BillStatePaid extends BillState{
     private static final long serialVersionUID = 1L;
 
+    public BillStatePaid(Bill bill){
+    	super(bill);
+    	super.setBillStatusId(BillStatusId.PAID);
+    }
+
+    public BillStatePaid(){
+    	super.setBillStatusId(BillStatusId.PAID);
+    }
+    
 	@Override
 	public void billPaid(Bill context){
 		System.out.println("Bill has already been paid for");

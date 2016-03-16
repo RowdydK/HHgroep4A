@@ -35,26 +35,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @ToString(callSuper = true, includeFieldNames = true, of = { "billStateId", "currentOrder", "orders" })
 public class Bill extends DomainObject {
     private static final long serialVersionUID = 1L;
-
-    public enum BillStateId {
-        CREATED, SUBMITTED, PAID
-    }
     
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
     private BillState billState;
     
-//    public void setBillState(BillState state){
-//    	billState = state;
-//    }
-//    
-//    public BillState getBillState(){
-//    	return billState;
-//    }
+    public BillState getBillState(){
+    	return billState;
+    }
     
-    // represented in database as integer
-    @Enumerated(EnumType.ORDINAL)
-    private BillStateId billStateId;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date submittedTime;
 
@@ -78,8 +66,7 @@ public class Bill extends DomainObject {
     
     //New BillState
     public Bill(){
-    	billState = new BillStateCreated();
-    	billStateId = billStateId.CREATED;
+    	billState = new BillStateCreated(this);
     	currentOrder = new Order();
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
