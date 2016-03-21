@@ -82,7 +82,7 @@ public class Bill extends DomainObject {
     	billStateId = billStateId.CREATED;
     	currentOrder = new Order();
     	currentOrder.setBill(this);
-    	orders.add(currentOrder);
+        orders.add(currentOrder);
     }
 
 //    public Bill() {

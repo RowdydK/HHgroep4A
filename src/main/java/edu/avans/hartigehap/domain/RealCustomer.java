@@ -4,6 +4,7 @@ package edu.avans.hartigehap.domain;
 import org.joda.time.DateTime;
 
 public class RealCustomer extends Customer {
+    private static final long serialVersionUID = 1L;
 
     public RealCustomer(String firstName, String lastName, DateTime birthDate, int partySize, String description,
                         byte[] photo ) {
@@ -14,10 +15,16 @@ public class RealCustomer extends Customer {
         this.description = description;
         this.photo = photo;
     }
+    public void becomeNull(Customer context){
+        System.out.println("NullCustomer");
+        context.setCustomerState(new NullCustomer());
+    }
 
     public boolean isNil(){
+
         return false;
     }
+
     public String firstName(){
 
         return firstName;

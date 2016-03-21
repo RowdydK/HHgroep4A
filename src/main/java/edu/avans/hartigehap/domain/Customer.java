@@ -3,16 +3,7 @@ package edu.avans.hartigehap.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -43,6 +34,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @NoArgsConstructor
 public abstract class Customer extends DomainObject {
     private static final long serialVersionUID = 1L;
+
+    @Transient
+    public final String error = "Cannot instantiate the selected state";
 
     @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
@@ -100,6 +94,23 @@ public abstract class Customer extends DomainObject {
     @OneToMany(mappedBy = "customer")
     public Collection<Bill> bills = new ArrayList<Bill>();
 
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private Customer customerState;
+
+    public void setCustomerState(Customer state){
+    	customerState = state;
+    }
+
+    public Customer getCustomerState(){
+    	return customerState;
+ }
+    public enum CustomerStateId {
+        NULL, REAL
+    }
+
+    @Enumerated(EnumType.ORDINAL)
+    private CustomerStateId customerStateId;
+
     // TODO not complete (bills)
     public Customer(String firstName, String lastName, DateTime birthDate, int partySize, String description,
                     byte[] photo) {
@@ -109,6 +120,8 @@ public abstract class Customer extends DomainObject {
         this.partySize = partySize;
         this.description = description;
         this.photo = photo.clone();
+
+
     }
 
     // This method only updates user-editable fields
@@ -145,6 +158,12 @@ public abstract class Customer extends DomainObject {
 
     // business logic
 
+    public void becomeNull(Customer context){
+        System.out.println(error);
+    }
 
+    public void becomeReal(Customer context){
+        System.out.println(error);
+    }
 
 }
