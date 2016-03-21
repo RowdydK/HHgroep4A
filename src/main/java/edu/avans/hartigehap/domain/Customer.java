@@ -41,32 +41,32 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Setter
 @ToString(callSuper = true, includeFieldNames = true, of = { "firstName", "lastName", "bills" })
 @NoArgsConstructor
-public class Customer extends DomainObject {
+public abstract class Customer extends DomainObject {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
-    private String firstName;
+    public String firstName;
 
     @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
-    private String lastName;
+    public String lastName;
     
 //    @NotEmpty(message = "{validation.streetName.NotEmpty.message}")
 //    @Size(min = 1, max = 40, message = "{validation.streetName.Size.message}")
-    private String streetName;
+    public String streetName;
     
 //    @NotEmpty(message = "{validation.number.NotEmpty.message}")
 //    @Size(min = 1, max = 10, message = "{validation.number.Size.message}")
-    private String number;
+    public String number;
     
 //    @NotEmpty(message = "{validation.zipCode.NotEmpty.message}")
 //    @Size(min = 1, max = 10, message = "{validation.zipCode.Size.message}")
-    private String zipCode;
+    public String zipCode;
     
     //@NotEmpty(message = "{validation.cityName.NotEmpty.message}")
     //@Size(min = 1, max = 40, message = "{validation.cityName.Size.message}")
-    private String cityName;
+    public String cityName;
     
     // works with hibernate 3.x
     // @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
@@ -74,33 +74,35 @@ public class Customer extends DomainObject {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     // needed to allow changing a date in the GUI
     @DateTimeFormat(iso = ISO.DATE)
-    private DateTime birthDate;
+    public DateTime birthDate;
 
-    private int partySize;
+    public int partySize;
 
-    private String description;
+    public String description;
 
     @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "PHOTO")
-    private byte[] photo;
+    public byte[] photo;
+
+    public abstract boolean isNil();
 
     // no cascading
     @ManyToMany
-    private Collection<Restaurant> restaurants = new ArrayList<Restaurant>();
+    public Collection<Restaurant> restaurants = new ArrayList<Restaurant>();
 
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
-    private Bill currentBill;
+    public Bill currentBill;
     
     // no cascading
     // bidirectional one-to-many; mapping on the database happens at the many
     // side
     @OneToMany(mappedBy = "customer")
-    private Collection<Bill> bills = new ArrayList<Bill>();
+    public Collection<Bill> bills = new ArrayList<Bill>();
 
     // TODO not complete (bills)
     public Customer(String firstName, String lastName, DateTime birthDate, int partySize, String description,
-            byte[] photo) {
+                    byte[] photo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -142,5 +144,7 @@ public class Customer extends DomainObject {
     }
 
     // business logic
+
+
 
 }
