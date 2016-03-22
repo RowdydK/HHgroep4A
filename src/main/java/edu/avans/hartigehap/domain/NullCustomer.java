@@ -1,8 +1,6 @@
 package edu.avans.hartigehap.domain;
 
 
-import org.exolab.castor.types.DateTime;
-
 public class NullCustomer extends Customer {
     private static final long serialVersionUID = 1L;
 
@@ -14,31 +12,33 @@ public class NullCustomer extends Customer {
         return nullCustomer;
     }
 
-    public boolean isNil(){
-        return true;
-    }
-
-    public String firstName(){
+    @Override
+    public String getFirstName(){
         return "";
     }
 
-    public String lastName(){
+    @Override
+    public String getLastName(){
         return "";
     }
 
-    public DateTime birthDate(){
+    @Override
+    public org.joda.time.DateTime getBirthDate(){
         return null;
     }
 
-    public int partySize(){
+    @Override
+    public int getPartySize(){
         return 0;
     }
 
-    public String description(){
+    @Override
+    public String getDescription(){
         return "";
     }
 
-    public byte[] photo(){
+    @Override
+    public byte[] getPhoto(){
         return null;
     }
 

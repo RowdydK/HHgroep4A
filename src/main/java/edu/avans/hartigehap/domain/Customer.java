@@ -79,8 +79,6 @@ public abstract class Customer extends DomainObject {
     @Column(name = "PHOTO")
     public byte[] photo;
 
-    public abstract boolean isNil();
-
     // no cascading
     @ManyToMany
     public Collection<Restaurant> restaurants = new ArrayList<Restaurant>();

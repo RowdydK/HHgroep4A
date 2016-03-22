@@ -20,37 +20,38 @@ public class RealCustomer extends Customer {
         context.setCustomerState(new NullCustomer());
     }
 
-    public boolean isNil(){
-
-        return false;
-    }
-
-    public String firstName(){
+    @Override
+    public String getFirstName(){
 
         return firstName;
     }
 
-    public String lastName(){
+    @Override
+    public String getLastName(){
 
         return lastName;
     }
 
-    public DateTime birthDate(){
+    @Override
+    public DateTime getBirthDate(){
 
         return birthDate;
     }
 
-    public int partySize(){
+    @Override
+    public int getPartySize(){
 
         return partySize;
     }
 
-    public String description(){
+    @Override
+    public String getDescription(){
 
         return description;
     }
 
-    public byte[] photo(){
+    @Override
+    public byte[] getPhoto(){
 
         return photo;
     }
