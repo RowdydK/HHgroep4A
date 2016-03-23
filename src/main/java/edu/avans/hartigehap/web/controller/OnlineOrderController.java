@@ -68,6 +68,15 @@ public class OnlineOrderController {
         //return customer;
     }
     
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/orderItems", method = RequestMethod.POST)
+    private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @RequestParam String menuItemName, Model uiModel) {
+    	log.info("Adding Order Item " + menuItemName);
+    	
+    	uiModel.addAttribute("customer", onlineOrderService.addOrderItem(menuItemName));
+    	
+    	return "hartigehap/onlineorder";//redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
+    }
+    
     @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
     private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId,
     		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel) {

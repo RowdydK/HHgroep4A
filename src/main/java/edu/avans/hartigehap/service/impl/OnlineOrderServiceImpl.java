@@ -10,6 +10,7 @@ import edu.avans.hartigehap.domain.Customer;
 import edu.avans.hartigehap.domain.DiningTable;
 import edu.avans.hartigehap.domain.EmptyBillException;
 import edu.avans.hartigehap.domain.MenuItem;
+import edu.avans.hartigehap.domain.Order;
 import edu.avans.hartigehap.domain.StateException;
 import edu.avans.hartigehap.repository.CustomerRepository;
 import edu.avans.hartigehap.repository.MenuItemRepository;
@@ -26,6 +27,16 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@Override
+	public Customer addOrderItem(String menuItemName) {
+		Customer customer = new Customer();
+        customer.setCurrentBill(new Bill());
+		MenuItem menuItem = menuItemRepository.findOne(menuItemName);
+		
+		customer.getCurrentBill().getCurrentOrder().addOrderItem(menuItem);
+		customerRepository.save(customer);
+		return customer;
+	}
 	
 	@Override
 	public void addOrderItem(Customer customer, String menuItemName) {
@@ -33,6 +44,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
         	customer.setCurrentBill(new Bill());
         }
 		MenuItem menuItem = menuItemRepository.findOne(menuItemName);
+		
 		customer.getCurrentBill().getCurrentOrder().addOrderItem(menuItem);
 		customerRepository.save(customer);
 	}

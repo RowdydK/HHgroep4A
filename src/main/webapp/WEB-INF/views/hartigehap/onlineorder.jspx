@@ -172,7 +172,7 @@
 											<td><img id="menuitemimg" src="${imageUrl}" width="150px" /></td>
 											<td>${labelCurrency} ${menuItem.price}</td>
 											<td>
-												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems" />
+												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/orderItems" />
 												<form:form name="addOrderItemForm" action="${addOrderItemUrl}" method="post">
 													<input type="hidden" name="menuItemName" value="${menuItem.id}" />
 													<button type="submit" class="btn btn-success btn-float-left-margin-right" value="${labelAddButton}"><span class="glyphicon glyphicon-plus-sign glyphicon-padding-right"><jsp:text /></span> ${labelAddButton}</button>
