@@ -15,9 +15,10 @@ public class RealCustomer extends Customer {
         this.description = description;
         this.photo = photo;
     }
+    @Override
     public void becomeNull(Customer context){
         System.out.println("NullCustomer");
-        context.setCustomerState(new NullCustomer());
+        context.setCustomerState(NullCustomer.getInstance());
     }
 
     @Override

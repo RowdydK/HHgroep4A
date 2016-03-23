@@ -6,7 +6,12 @@ public class NullCustomer extends Customer {
 
     private static NullCustomer nullCustomer = new NullCustomer();
 
-    public NullCustomer(){}
+    private NullCustomer(){}
+
+    public void becomeReal(Customer context){
+        System.out.println("Real Customer");
+        context.setCustomerState(new RealCustomer(firstName, lastName,birthDate, partySize, description, photo));
+    }
 
     public static NullCustomer getInstance(){
         return nullCustomer;
@@ -42,8 +47,5 @@ public class NullCustomer extends Customer {
         return null;
     }
 
-    public void becomeReal(Customer context){
-        System.out.println("Real Customer");
-        context.setCustomerState(new RealCustomer(firstName, lastName,birthDate, partySize, description, photo));
-    }
+
 }

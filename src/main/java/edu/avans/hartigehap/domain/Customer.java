@@ -118,8 +118,6 @@ public abstract class Customer extends DomainObject {
         this.partySize = partySize;
         this.description = description;
         this.photo = photo.clone();
-
-
     }
 
     // This method only updates user-editable fields
