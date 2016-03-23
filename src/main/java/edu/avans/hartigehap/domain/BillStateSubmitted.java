@@ -24,7 +24,4 @@ public class BillStateSubmitted extends BillState{
 		context.setBillStateId(Bill.BillStateId.PAID);
 		return new Date();
 	}
-	
-
-
 }

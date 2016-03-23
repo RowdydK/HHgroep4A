@@ -129,7 +129,7 @@ public class Bill extends DomainObject {
      * @return
      */
     @Transient
-    public int getPriceSubmittedOrSuccessiveStateOrders() {
+    public int getPriceSubmittedOrSuccessiveStateOrders(Bill bill, int discountValue) {
         int price = 0;
         Iterator<Order> orderIterator = orders.iterator();
         while (orderIterator.hasNext()) {
@@ -138,6 +138,10 @@ public class Bill extends DomainObject {
                 price += tmp.getPrice();
             }
         }
+
+        DiscountStrategy disc = new DiscountStrategy();
+        price = disc.getDiscountPrice(bill, discountValue);
+
         return price;
     }
 

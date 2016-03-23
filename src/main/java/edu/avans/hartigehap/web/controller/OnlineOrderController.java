@@ -76,7 +76,9 @@ public class OnlineOrderController {
     	log.info(customer.toString());
     	
     	onlineOrderService.addOrderItem(customer, menuItemName);
-    	return "hartigehap/onlineorder";//redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
+
+    	return "hartigehap/onlineorder";
+        //redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
     }
 
 //    @RequestMapping(value = "/diningTables/{diningTableId}", method = RequestMethod.GET)
