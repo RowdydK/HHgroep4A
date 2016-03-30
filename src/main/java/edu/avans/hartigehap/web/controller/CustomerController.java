@@ -2,6 +2,7 @@ package edu.avans.hartigehap.web.controller;
 
 import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -79,7 +80,7 @@ public class CustomerController {
 
         log.info("Create customer form");
 
-        Customer customer = new Customer();
+        NullCustomer customer = new NullCustomer();
         uiModel.addAttribute("customer", customer);
         return "hartigehap/editcustomer";
     }

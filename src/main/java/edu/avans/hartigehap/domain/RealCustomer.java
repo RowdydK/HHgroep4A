@@ -1,7 +1,15 @@
 package edu.avans.hartigehap.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.joda.time.DateTime;
+
+import javax.persistence.Entity;
 
 import org.joda.time.DateTime;
+@Entity
+@Getter
+@Setter
 
 public class RealCustomer extends Customer {
     private static final long serialVersionUID = 1L;

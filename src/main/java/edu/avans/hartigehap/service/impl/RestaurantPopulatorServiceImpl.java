@@ -114,7 +114,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
 
     private void createCustomer(String firstName, String lastName, DateTime birthDate, int partySize,
             String description, byte[] photo) {
-        RealCustomer customer = new RealCustomer(firstName, lastName, birthDate, partySize, description, photo);
+        NullCustomer customer = new NullCustomer();
         customers.add(customer);
         customerRepository.save(customer);
     }

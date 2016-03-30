@@ -1,12 +1,21 @@
 package edu.avans.hartigehap.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+
+@Entity
+@Getter
+@Setter
+
 
 public class NullCustomer extends Customer {
     private static final long serialVersionUID = 1L;
 
     private static NullCustomer nullCustomer = new NullCustomer();
 
-    private NullCustomer(){}
+    public NullCustomer(){}
 
     public void becomeReal(Customer context){
         System.out.println("Real Customer");
