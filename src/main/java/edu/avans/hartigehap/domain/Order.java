@@ -75,6 +75,7 @@ public class Order extends DomainObject {
 
     @Transient
     public boolean isSubmittedOrSuccessiveState() {
+
         return orderStatus != OrderStatus.CREATED;
     }
 
@@ -82,6 +83,7 @@ public class Order extends DomainObject {
     // as properties
     @Transient
     public boolean isEmpty() {
+
         return orderItems.isEmpty();
     }
 
