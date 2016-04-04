@@ -1,9 +1,6 @@
 package edu.avans.hartigehap.service;
 
-import edu.avans.hartigehap.domain.Customer;
-import edu.avans.hartigehap.domain.DiningTable;
-import edu.avans.hartigehap.domain.EmptyBillException;
-import edu.avans.hartigehap.domain.StateException;
+import edu.avans.hartigehap.domain.*;
 
 public interface OnlineOrderService {
 	void addOrderItem(Customer customer, String menuItemName);

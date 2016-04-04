@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
-    List<Customer> findByFirstNameAndLastName(String firstName, String lastName);
+    List<RealCustomer> findByFirstNameAndLastName(String firstName, String lastName);
 
     List<Customer> findByRestaurants(Collection<Restaurant> restaurants, Sort sort);
 

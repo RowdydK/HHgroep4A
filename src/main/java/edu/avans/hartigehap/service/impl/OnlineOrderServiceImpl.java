@@ -1,16 +1,11 @@
 package edu.avans.hartigehap.service.impl;
 
+import edu.avans.hartigehap.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.avans.hartigehap.domain.Bill;
-import edu.avans.hartigehap.domain.Customer;
-import edu.avans.hartigehap.domain.DiningTable;
-import edu.avans.hartigehap.domain.EmptyBillException;
-import edu.avans.hartigehap.domain.MenuItem;
-import edu.avans.hartigehap.domain.StateException;
 import edu.avans.hartigehap.repository.CustomerRepository;
 import edu.avans.hartigehap.repository.MenuItemRepository;
 import edu.avans.hartigehap.service.OnlineOrderService;
@@ -36,7 +31,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 		customer.getCurrentBill().getCurrentOrder().addOrderItem(menuItem);
 		customerRepository.save(customer);
 	}
-	
+
 	@Override
 	public void deleteOrderItem(Customer customer, String menuItemName) {
 		// TODO Auto-generated method stub

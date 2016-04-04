@@ -67,7 +67,7 @@ public class CustomerController {
 
         log.info("Customer update form for customer: " + id);
 
-        Customer customer = customerService.findById(id);
+        RealCustomer customer = (RealCustomer) customerService.findById(id);
         uiModel.addAttribute("customer", customer);
         log.info("updatingCustomerForm(" + customer.getFirstName() + ", " + customer.getLastName() + ")");
         return "hartigehap/editcustomer";
@@ -85,7 +85,7 @@ public class CustomerController {
         return "hartigehap/editcustomer";
     }
 
-    private String handleCreateOrUpdateCustomer(boolean isCreate, String restaurantName, Customer customer, BindingResult bindingResult, Model uiModel,
+    private String handleCreateOrUpdateCustomer(boolean isCreate, String restaurantName, RealCustomer customer, BindingResult bindingResult, Model uiModel,
             HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale, Part file) {
         
         if (bindingResult.hasErrors()) {
@@ -105,7 +105,7 @@ public class CustomerController {
             Restaurant restaurant = warmupRestaurant(restaurantName, uiModel);
             customer.setRestaurants(Arrays.asList(new Restaurant[] { restaurant }));
             // to get the auto generated id
-            customer = customerService.save(customer);
+            customer = (RealCustomer) customerService.save(customer);
         } else { // update
             Customer existingCustomer = customerService.findById(customer.getId());
             assert existingCustomer != null : "customer should exist";
@@ -127,12 +127,12 @@ public class CustomerController {
             BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest,
             RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) Part file) {
 
-        return handleCreateOrUpdateCustomer(false, restaurantName, customer, bindingResult, uiModel,
+        return handleCreateOrUpdateCustomer(false, restaurantName, (RealCustomer) customer, bindingResult, uiModel,
                 httpServletRequest, redirectAttributes, locale, file);
         }
 
     @RequestMapping(value = "/restaurants/{restaurantName}/customers", params = "form", method = RequestMethod.POST)
-    public String createCustomer(@PathVariable("restaurantName") String restaurantName, @Valid Customer customer,
+    public String createCustomer(@PathVariable("restaurantName") String restaurantName, @Valid RealCustomer customer,
             BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest,
             RedirectAttributes redirectAttributes, Locale locale,
             @RequestParam(value = "file", required = false) Part file) {
@@ -145,7 +145,7 @@ public class CustomerController {
                 httpServletRequest, redirectAttributes, locale, file);
     }
 
-    private void processUploadedFile(Customer customer, Part file) {
+    private void processUploadedFile(RealCustomer customer, Part file) {
         if (file != null) {
             log.info("File name: " + file.getName());
             log.info("File size: " + file.getSize());
@@ -170,7 +170,7 @@ public class CustomerController {
     @RequestMapping(value = "/restaurants/{restaurantName}/customers/{id}/photo", method = RequestMethod.GET)
     @ResponseBody
     public byte[] downloadPhoto(@PathVariable("id") Long id) {
-        Customer customer = customerService.findById(id);
+        RealCustomer customer = (RealCustomer) customerService.findById(id);
         if (customer.getPhoto() != null) {
             log.info("Downloading photo for id: {} with size: {}", customer.getId(), customer.getPhoto().length);
         }

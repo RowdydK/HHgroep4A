@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer = null;
 
-        List<Customer> customers = customerRepository.findByFirstNameAndLastName(firstName, lastName);
+        List<RealCustomer> customers = customerRepository.findByFirstNameAndLastName(firstName, lastName);
         if (!customers.isEmpty()) {
             customer = customers.get(0);
         }
