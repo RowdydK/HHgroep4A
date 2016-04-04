@@ -26,4 +26,5 @@ public class Meal extends MenuItem {
         this.recipe = recipe;
     }
 
+
 }

@@ -11,3 +11,4 @@ public interface BillService {
 
     List<Bill> findSubmittedBillsForRestaurant(Restaurant restaurant);
 }
+
