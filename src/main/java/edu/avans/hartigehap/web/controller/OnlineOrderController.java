@@ -3,6 +3,8 @@ package edu.avans.hartigehap.web.controller;
 import java.util.Collection;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
+
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -25,12 +27,14 @@ public class OnlineOrderController {
     private OnlineOrderService onlineOrderService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private OrderService orderService;
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online", method = RequestMethod.GET)
     public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
 
-        fillModel(restaurantId, uiModel);
+        fillModel(restaurantId, null , null, uiModel);
 
         return "hartigehap/onlineorder";
     }
@@ -57,7 +61,14 @@ public class OnlineOrderController {
     private void fillModel(String restaurantId, String customerId, Model uiModel) {
         Collection<Restaurant> restaurants = restaurantService.findAll();
         uiModel.addAttribute("restaurants", restaurants);
-        Customer customer = customerService.findById(Long.valueOf(customerId));
+        Customer customer;
+        if (customerId == null){
+        	byte[] photo = new byte[] { 127, -128, 0 };
+        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
+        	System.out.println("test");
+        }else{
+        	customer = customerService.findById(Long.valueOf(customerId));
+        }
         uiModel.addAttribute("customer", customer);
         for(Restaurant r : restaurants){
         	if(r.getId().equals(restaurantId)) {
@@ -68,18 +79,91 @@ public class OnlineOrderController {
         //return customer;
     }
     
+    
+    private void fillModel(String restaurantId, String customerId,String orderId, Model uiModel) {
+        Collection<Restaurant> restaurants = restaurantService.findAll();
+        uiModel.addAttribute("restaurants", restaurants);
+        Customer customer;
+        if (customerId == null){
+        	byte[] photo = new byte[] { 127, -128, 0 };
+        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
+        	System.out.println("test");
+        }else{
+        	customer = customerService.findById(Long.valueOf(customerId));
+        }
+        uiModel.addAttribute("customer", customer);
+        for(Restaurant r : restaurants){
+        	if(r.getId().equals(restaurantId)) {
+        		uiModel.addAttribute("restaurant", r);
+        	}
+        }
+        uiModel.addAttribute("order", customer.getCurrentBill().getCurrentOrder());
+//        Order order;
+//        if (orderId == null){
+//        	order = orderService.save(new Order());
+//        }
+//        else{
+//        	order = onlineOrderService.getOrder(orderId);
+//        }
+//        
+//        uiModel.addAttribute("order", order);
+        //return customer;
+    }
+    
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
+//    private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId,
+//    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel) {
+//    	log.info("Adding Order Item " + menuItemName + " by customer " + customerId + " to order: " + orderId);
+//    	Customer customer = customerService.findById(Long.valueOf(customerId));
+//    	log.info(customer.toString());
+//    	
+//    	onlineOrderService.addOrderItem(customer, menuItemName);
+//
+//    	return "hartigehap/onlineorder";
+//        //redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
+//    }
+    
     @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
-    private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId,
-    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel) {
-    	log.info("Adding Order Item " + menuItemName + " by customer " + customerId + " to order: " + orderId);
+    public String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("customerId") String customerId,
+    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel){
+    	
+    	System.out.println("testing");
     	Customer customer = customerService.findById(Long.valueOf(customerId));
-    	log.info(customer.toString());
     	
     	onlineOrderService.addOrderItem(customer, menuItemName);
+    	
+    	
+//        DiningTable diningTable = diningTableService.fetchWarmedUp(Long.valueOf(diningTableId));
+//        uiModel.addAttribute("diningTable", diningTable);
+//
+//        diningTableService.addOrderItem(diningTable, menuItemName);
 
-    	return "hartigehap/onlineorder";
-        //redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
+        return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
     }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}", method = RequestMethod.GET)
+    public String newShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, 
+    		@PathVariable("orderId") String orderId,
+    		Model uiModel) {
+        log.info("restaurantId = " + restaurantId);
+        fillModel(restaurantId,customerId,orderId,uiModel);
+
+        return "hartigehap/onlineorder";
+    }
+    
+    
+//    @RequestMapping(value = "/diningTables/{diningTableId}/menuItems", method = RequestMethod.POST)
+//    public String addMenuItem(@PathVariable("diningTableId") String diningTableId, @RequestParam String menuItemName,
+//            Model uiModel) {
+//
+//        DiningTable diningTable = diningTableService.fetchWarmedUp(Long.valueOf(diningTableId));
+//        uiModel.addAttribute("diningTable", diningTable);
+//
+//        diningTableService.addOrderItem(diningTable, menuItemName);
+//
+//        return "redirect:/diningTables/" + diningTableId;
+//    }
+    
 
 //    @RequestMapping(value = "/diningTables/{diningTableId}", method = RequestMethod.GET)
 //    public String showTable(@PathVariable("diningTableId") String diningTableId, Model uiModel) {

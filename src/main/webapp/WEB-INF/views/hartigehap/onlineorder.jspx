@@ -54,7 +54,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${not empty diningTable.currentBill.currentOrder.orderItems}">
+	<c:if test="${not empty customer.currentBill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -63,7 +63,7 @@
 						<!-- Tabs -->
 						<ul class="nav panel-tabs">
 							<li>
-								<spring:url var="submitOrderUrl" value="/diningTables/${diningTable.id}" />
+								<spring:url var="submitOrderUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems" />
 								<form:form name="submitOrderForm" action="${submitOrderUrl}" method="put">
 									<input type="hidden" name="event" value="submitOrder" />
 									<button type="submit" class="btn btn-default">${labelSubmitOrderButton}</button>
@@ -81,7 +81,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${diningTable.currentBill.currentOrder.orderItems}" var="orderItem">
+							<c:forEach items="${customer.currentBill.currentOrder.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
@@ -94,7 +94,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${diningTable.currentBill.priceSubmittedOrSuccessiveStateOrders ne '0'}">
+	<c:if test="${customer.currentBill.priceSubmittedOrSuccessiveStateOrders ne '0'}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -121,7 +121,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>${labelCurrency} ${diningTable.currentBill.currentOrder.price}</td>
+								<td>${labelCurrency} ${customer.currentBill.currentOrder.price}</td>
 							</tr>
 						</tbody>
 					</table>

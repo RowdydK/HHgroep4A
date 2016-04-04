@@ -107,6 +107,10 @@ public class Customer extends DomainObject {
         this.partySize = partySize;
         this.description = description;
         this.photo = photo.clone();
+        
+        currentBill = new Bill();
+        currentBill.setCustomer(this);
+        bills.add(currentBill);
     }
 
     // This method only updates user-editable fields

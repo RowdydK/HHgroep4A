@@ -10,9 +10,11 @@ import edu.avans.hartigehap.domain.Customer;
 import edu.avans.hartigehap.domain.DiningTable;
 import edu.avans.hartigehap.domain.EmptyBillException;
 import edu.avans.hartigehap.domain.MenuItem;
+import edu.avans.hartigehap.domain.Order;
 import edu.avans.hartigehap.domain.StateException;
 import edu.avans.hartigehap.repository.CustomerRepository;
 import edu.avans.hartigehap.repository.MenuItemRepository;
+import edu.avans.hartigehap.repository.OrderRepository;
 import edu.avans.hartigehap.service.OnlineOrderService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +27,14 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     private MenuItemRepository menuItemRepository;
 	@Autowired
 	private CustomerRepository customerRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 	
+	
+	@Transactional(readOnly = true)
+	public Order getOrder(String orderId){
+		return orderRepository.findOne(Long.valueOf(orderId));
+	}
 	
 	@Override
 	public void addOrderItem(Customer customer, String menuItemName) {
