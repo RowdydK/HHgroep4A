@@ -68,7 +68,6 @@ public class NullCustomer extends Customer {
         return null;
     }
 
-
     public void updateEditableFields(RealCustomer customer) {
 
     }
