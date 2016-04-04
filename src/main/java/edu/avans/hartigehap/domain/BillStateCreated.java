@@ -21,6 +21,15 @@ import lombok.ToString;
 public class BillStateCreated extends BillState{
     private static final long serialVersionUID = 1L;
     
+    public BillStateCreated(Bill bill){
+    	super(bill);
+    	super.setBillStatusId(BillStatusId.CREATED);
+    }
+    
+    public BillStateCreated(){
+    	super.setBillStatusId(BillStatusId.CREATED);
+    }
+    
 	@Override
 	public Date billCreated(Bill context, Collection<Order> orders, Order currentOrder)throws StateException, EmptyBillException{
 		boolean allEmpty = true;
@@ -39,8 +48,7 @@ public class BillStateCreated extends BillState{
 		if (!currentOrder.isEmpty()){
 			throw new StateException("not allowed to submit an with currentOrder in created state");
         }
-		context.setBillState(new BillStateSubmitted());
-		context.setBillStateId(Bill.BillStateId.SUBMITTED);
+		context.setBillState(new BillStateSubmitted(context));
 		System.out.println("billCreated");
 		return new Date();
 	}

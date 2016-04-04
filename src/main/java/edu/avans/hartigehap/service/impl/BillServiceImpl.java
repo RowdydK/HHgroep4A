@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.avans.hartigehap.repository.*;
 import edu.avans.hartigehap.service.*;
 import edu.avans.hartigehap.domain.*;
+import edu.avans.hartigehap.domain.BillState.BillStatusId;
 
 @Service("billService")
 @Repository
@@ -34,7 +35,7 @@ public class BillServiceImpl implements BillService {
     @Transactional(readOnly = true)
     public List<Bill> findSubmittedBillsForRestaurant(Restaurant restaurant) {
         // a query created using a repository method name
-        return billRepository.findByBillStateIdAndDiningTableRestaurant(
-                Bill.BillStateId.SUBMITTED, restaurant, new Sort(Sort.Direction.ASC, "submittedTime"));
+        return billRepository.findByBillStateBillStatusIdAndDiningTableRestaurant(
+                BillState.BillStatusId.SUBMITTED, restaurant, new Sort(Sort.Direction.ASC, "submittedTime"));
     }
 }

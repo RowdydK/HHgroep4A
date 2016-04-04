@@ -29,8 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
-    public List<Customer> findAll() {
-        return Lists.newArrayList(customerRepository.findAll());
+    public List<Customer> findAll() { return Lists.newArrayList(customerRepository.findAll());
     }
 
     @Transactional(readOnly = true)

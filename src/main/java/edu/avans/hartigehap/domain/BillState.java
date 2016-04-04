@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,6 +27,22 @@ import lombok.ToString;
 public abstract class BillState {
     private static final long serialVersionUID = 1L;
     
+    public enum BillStatusId {
+    	CREATED, SUBMITTED, PAID
+    }
+    
+    public BillState(Bill bill){
+    	this.bill = bill;
+    }
+    
+    public BillState(){
+    	//empty constructor for states
+    }
+    
+    protected BillStatusId billStatusId;
+    
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL, mappedBy="billState")
+    Bill bill;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
