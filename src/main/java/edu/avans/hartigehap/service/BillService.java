@@ -8,6 +8,8 @@ public interface BillService {
     Bill findById(Long billId);
 
     void billHasBeenPaid(Bill bill) throws StateException;
+    
+    Bill save(Bill bill);
 
     List<Bill> findSubmittedBillsForRestaurant(Restaurant restaurant);
 }
