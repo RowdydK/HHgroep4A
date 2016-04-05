@@ -10,9 +10,12 @@ import edu.avans.hartigehap.domain.Customer;
 import edu.avans.hartigehap.domain.DiningTable;
 import edu.avans.hartigehap.domain.EmptyBillException;
 import edu.avans.hartigehap.domain.MenuItem;
+import edu.avans.hartigehap.domain.Order;
 import edu.avans.hartigehap.domain.StateException;
+import edu.avans.hartigehap.repository.BillRepository;
 import edu.avans.hartigehap.repository.CustomerRepository;
 import edu.avans.hartigehap.repository.MenuItemRepository;
+import edu.avans.hartigehap.repository.OrderRepository;
 import edu.avans.hartigehap.service.OnlineOrderService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,26 +28,37 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     private MenuItemRepository menuItemRepository;
 	@Autowired
 	private CustomerRepository customerRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private BillRepository billRepository;
 	
+	@Transactional(readOnly = true)
+	public Order getOrder(String orderId){
+		return orderRepository.findOne(Long.valueOf(orderId));
+	}
 	
 	@Override
-	public void addOrderItem(Customer customer, String menuItemName) {
-        if(customer.getCurrentBill() == null){
-        	customer.setCurrentBill(new Bill());
-        }
+	public void addOrderItem(Bill bill, String menuItemName) {
+		if (bill == null){
+			bill = new Bill();
+		}
 		MenuItem menuItem = menuItemRepository.findOne(menuItemName);
-		customer.getCurrentBill().getCurrentOrder().addOrderItem(menuItem);
-		customerRepository.save(customer);
+		bill.getCurrentOrder().addOrderItem(menuItem);
+		billRepository.save(bill);
 	}
 	
 	@Override
-	public void deleteOrderItem(Customer customer, String menuItemName) {
-		// TODO Auto-generated method stub
-		
+	public void deleteOrderItem(Bill bill, String menuItemName) {
+		if (bill == null){
+			bill = new Bill();
+		}
+		MenuItem menuItem = menuItemRepository.findOne(menuItemName);
+		bill.getCurrentOrder().deleteOrderItem(menuItem);
 	}
 	@Override
-	public void submitOrder(Customer customer) throws StateException {
-		// TODO Auto-generated method stub
+	public void submitOrder(Bill bill) throws StateException {
+		bill.submitOrder();
 		
 	}
 	@Override
@@ -52,6 +66,5 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 		// TODO Auto-generated method stub
 		
 	}
-	
 	
 }

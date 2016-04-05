@@ -43,7 +43,7 @@
 		</c:if>
 	</div>
 
-	<c:if test="${empty diningTable.currentBill.currentOrder.orderItems}">
+	<c:if test="${empty bill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">${labelWelcomeWord}</div>
@@ -54,7 +54,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${not empty diningTable.currentBill.currentOrder.orderItems}">
+	<c:if test="${not empty bill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -63,7 +63,7 @@
 						<!-- Tabs -->
 						<ul class="nav panel-tabs">
 							<li>
-								<spring:url var="submitOrderUrl" value="/diningTables/${diningTable.id}" />
+								<spring:url var="submitOrderUrl" value="/restaurants/${restaurant.id}/online/bill/${bill.id}" />
 								<form:form name="submitOrderForm" action="${submitOrderUrl}" method="put">
 									<input type="hidden" name="event" value="submitOrder" />
 									<button type="submit" class="btn btn-default">${labelSubmitOrderButton}</button>
@@ -82,7 +82,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${diningTable.currentBill.currentOrder.orderItems}" var="orderItem">
+							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
@@ -95,7 +95,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${diningTable.currentBill.priceSubmittedOrSuccessiveStateOrders ne '0'}">
+	<c:if test="${bill.priceSubmittedOrSuccessiveStateOrders ne '0'}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -122,7 +122,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>${labelCurrency} ${diningTable.currentBill.currentOrder.price}</td>
+								<td>${labelCurrency} ${bill.currentOrder.price}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -173,12 +173,12 @@
 											<td><img id="menuitemimg" src="${imageUrl}" width="150px" /></td>
 											<td>${labelCurrency} ${menuItem.price}</td>
 											<td>
-												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems" />
+												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/orderItems" />
 												<form:form name="addOrderItemForm" action="${addOrderItemUrl}" method="post">
 													<input type="hidden" name="menuItemName" value="${menuItem.id}" />
 													<button type="submit" class="btn btn-success btn-float-left-margin-right" value="${labelAddButton}"><span class="glyphicon glyphicon-plus-sign glyphicon-padding-right"><jsp:text /></span> ${labelAddButton}</button>
 												</form:form>
-												<spring:url var="deleteOrderItemUrl" value="/diningTables/${diningTable.id}/menuItems/${menuItem.id}" />
+												<spring:url var="deleteOrderItemUrl" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/orderItems/${menuItem.id}" />
 												<form:form name="deleteOrderItemForm" action="${deleteOrderItemUrl}" method="delete">
 													<button type="submit" class="btn btn-danger btn-float-left-margin-right" value="${labelRemoveButton}"><span class="glyphicon glyphicon-remove-sign glyphicon-padding-right"><jsp:text /></span> ${labelRemoveButton}</button>
 												</form:form>
