@@ -30,7 +30,7 @@ public class OnlineOrderController {
     public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
 
-        fillModel(restaurantId, uiModel);
+        fillModel(restaurantId, "0", uiModel);
 
         return "hartigehap/onlineorder";
     }

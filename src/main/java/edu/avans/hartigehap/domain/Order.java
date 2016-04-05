@@ -88,22 +88,40 @@ public class Order extends DomainObject {
     }
 
     public void addOrderItem(MenuItem menuItem) {
+    	addOrderItem(menuItem, null);
+    }
+
+    public void addOrderItem(MenuItem menuItem, ArrayList<Ingredient> ingredients){
         Iterator<OrderItem> orderItemIterator = orderItems.iterator();
         boolean found = false;
         while (orderItemIterator.hasNext()) {
             OrderItem orderItem = orderItemIterator.next();
             if (orderItem.getMenuItem().equals(menuItem)) {
+            	if(ingredients != null){
+            		for(Ingredient i : ingredients){
+            			boolean containsIngredient = false;
+            			for(Ingredient oii : orderItem.getIngredients()){
+            				if(oii.equals(i)){
+            					containsIngredient = true;
+            				}
+            			}
+            			if(!containsIngredient){
+            				found = false;
+            				break;
+            			}
+            		}
+            	}
                 orderItem.incrementQuantity();
                 found = true;
                 break;
             }
         }
         if (!found) {
-            OrderItem orderItem = new OrderItem(menuItem, 1);
+        	OrderItem orderItem = new OrderItem.OrderItemBuilder(menuItem, 1).ingredients(ingredients).build();
             orderItems.add(orderItem);
         }
     }
-
+    
     public void deleteOrderItem(MenuItem menuItem) {
         Iterator<OrderItem> orderItemIterator = orderItems.iterator();
         boolean found = false;

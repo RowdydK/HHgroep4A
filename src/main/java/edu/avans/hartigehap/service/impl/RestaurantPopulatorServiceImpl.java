@@ -70,6 +70,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
             Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
         createMeal("pizza meatlovers", "meatlovers.jpg", 9, "easy",
                Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
+        
 
         // create Drinks
         createDrink("beer", "beer.jpg", 1, Drink.Size.LARGE, Arrays.<FoodCategory> asList(foodCats.get(5)));
