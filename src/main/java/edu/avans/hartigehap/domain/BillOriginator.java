@@ -13,8 +13,7 @@ import javax.persistence.Entity;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
-@Getter
-@Setter
+
 public class BillOriginator {
     private Bill bill;
 

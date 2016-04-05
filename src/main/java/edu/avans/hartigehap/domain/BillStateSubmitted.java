@@ -23,8 +23,12 @@ public class BillStateSubmitted extends BillState{
 
 	@Override
 	public Date billSubmitted(Bill context)throws StateException{
-		context.setBillState(new BillStatePaid());
-		context.setBillStateId(Bill.BillStateId.PAID);
+
+		Bill newContext = new Bill();
+		newContext = context;
+
+		newContext.setBillState(new BillStatePaid());
+		newContext.setBillStateId(Bill.BillStateId.PAID);
 
 		originator.setBill(context);
 		caretaker.add(originator.saveBillToMemento());

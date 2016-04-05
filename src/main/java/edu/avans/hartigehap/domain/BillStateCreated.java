@@ -43,8 +43,11 @@ public class BillStateCreated extends BillState{
 		if (!currentOrder.isEmpty()){
 			throw new StateException("not allowed to submit an with currentOrder in created state");
         }
-		context.setBillState(new BillStateSubmitted());
-		context.setBillStateId(Bill.BillStateId.SUBMITTED);
+		Bill newContext = new Bill();
+		newContext = context;
+		newContext.setBillState(new BillStateSubmitted());
+
+		newContext.setBillStateId(Bill.BillStateId.SUBMITTED);
 
 		originator.setBill(context);
 		caretaker.add(originator.saveBillToMemento());
