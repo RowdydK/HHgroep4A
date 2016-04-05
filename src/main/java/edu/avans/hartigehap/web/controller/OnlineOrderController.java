@@ -29,93 +29,85 @@ public class OnlineOrderController {
     private CustomerService customerService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private BillService billService;
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online", method = RequestMethod.GET)
-    public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
+    public String nShowTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
 
-        fillModel(restaurantId, null , null, uiModel);
+        nFillModel(restaurantId, null , uiModel);
 
         return "hartigehap/onlineorder";
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}", method = RequestMethod.GET)
-    public String showTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, Model uiModel) {
+    
+    private void nFillModel(String restaurantId, String billId, Model uiModel){
+    	Collection<Restaurant> restaurants = restaurantService.findAll();
+        uiModel.addAttribute("restaurants", restaurants);
+        for(Restaurant r : restaurants){
+        	if(r.getId().equals(restaurantId)) {
+        		uiModel.addAttribute("restaurant", r);
+        	}
+        }
+        Bill bill;
+        if (billId == null){
+        	bill = billService.save(new Bill());
+        }
+        else{
+        	bill = billService.findById(Long.valueOf(billId));
+        }
+        uiModel.addAttribute("bill", bill);
+    }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}", method = RequestMethod.GET)
+    public String nShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("billId") String billId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
-
-        fillModel(restaurantId, customerId, uiModel);
+        
+        nFillModel(restaurantId,billId,uiModel);
 
         return "hartigehap/onlineorder";
     }
     
-    private void fillModel(String restaurantId, Model uiModel) {
-        Collection<Restaurant> restaurants = restaurantService.findAll();
-        uiModel.addAttribute("restaurants", restaurants);
-        for(Restaurant r : restaurants){
-        	if(r.getId().equals(restaurantId)) {
-        		uiModel.addAttribute("restaurant", r);
-        	}
-        }
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems", method = RequestMethod.POST)
+    public String nAddOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("billId") String billId,
+    		@RequestParam String menuItemName, Model uiModel){
+    	
+    	Bill bill = billService.findById(Long.valueOf(billId));
+    	
+    	onlineOrderService.addOrderItem(bill, menuItemName);
+    	
+    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    	
     }
     
-    private void fillModel(String restaurantId, String customerId, Model uiModel) {
-        Collection<Restaurant> restaurants = restaurantService.findAll();
-        uiModel.addAttribute("restaurants", restaurants);
-        Customer customer;
-        if (customerId == null){
-        	byte[] photo = new byte[] { 127, -128, 0 };
-        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
-        	System.out.println("test");
-        }else{
-        	customer = customerService.findById(Long.valueOf(customerId));
-        }
-        uiModel.addAttribute("customer", customer);
-        for(Restaurant r : restaurants){
-        	if(r.getId().equals(restaurantId)) {
-        		uiModel.addAttribute("restaurant", r);
-        	}
-        }
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
+    public String nDeleteMenuItem(@PathVariable("restaurantId") String restaurantId,
+            @PathVariable("menuItemName") String menuItemName,@PathVariable("billId") String billId,
+            Model uiModel) {
 
-        //return customer;
-    }
-    
-    
-    private void fillModel(String restaurantId, String customerId,String orderId, Model uiModel) {
-        Collection<Restaurant> restaurants = restaurantService.findAll();
-        uiModel.addAttribute("restaurants", restaurants);
-        Customer customer;
-        if (customerId == null){
-        	byte[] photo = new byte[] { 127, -128, 0 };
-        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
-        	System.out.println("test");
-        }else{
-        	customer = customerService.findById(Long.valueOf(customerId));
-        }
-        uiModel.addAttribute("customer", customer);
-        for(Restaurant r : restaurants){
-        	if(r.getId().equals(restaurantId)) {
-        		uiModel.addAttribute("restaurant", r);
-        	}
-        }
-        uiModel.addAttribute("order", customer.getCurrentBill().getCurrentOrder());
-    }
+    	Bill bill = billService.findById(Long.valueOf(billId));
+    	
+    	onlineOrderService.deleteOrderItem(bill, menuItemName);
 
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/", method = RequestMethod.PUT)
-    public String receiveEvent(@PathVariable("restaurantId") String restaurantId,@PathVariable("customerId") String customerId
+
+    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}", method = RequestMethod.PUT)
+    public String nReceiveEvent(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId
     		,@RequestParam String event, Model uiModel, Locale locale) {
-
         log.info("(receiveEvent) restaurant = " + restaurantId);
 
         // because of REST, the "event" parameter is part of the body. It
         // therefore cannot be used for
         // the request mapping so all events for the same resource will be
         // handled by the same
-        // controller method; so we end up with an if statement
+        // controller method; so we end up with an if statement        
 
         switch (event) {
         case "submitOrder":
-        	
-            return submitOrder(restaurantId,customerId, uiModel, locale);
+        	return nSubmitOrder(restaurantId, billId, uiModel, locale);
         // break unreachable
 
         case "submitBill":
@@ -130,14 +122,13 @@ public class OnlineOrderController {
         }
     }
     
-
-    private String submitOrder(String restaurantId, String customerId, Model uiModel,
+    private String nSubmitOrder(String restaurantId, String billId, Model uiModel,
             Locale locale) {
         
         //DiningTable diningTable = warmupRestaurant(diningTableId, uiModel);
-        Customer customer =customerService.findById(Long.valueOf(customerId));
+        Bill bill = billService.findById(Long.valueOf(billId));
         try {
-            onlineOrderService.submitOrder(customer);
+            onlineOrderService.submitOrder(bill);
         } catch (StateException e) {
             //return handleStateException(e, "message_submit_order_fail", customerId, uiModel, locale);
         }
@@ -149,48 +140,166 @@ public class OnlineOrderController {
 
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
-    public String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("customerId") String customerId,
-    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel){
-    	
-    	System.out.println("testing");
-    	Customer customer = customerService.findById(Long.valueOf(customerId));
-    	
-    	onlineOrderService.addOrderItem(customer, menuItemName);
-    	
-    	
-//        DiningTable diningTable = diningTableService.fetchWarmedUp(Long.valueOf(diningTableId));
-//        uiModel.addAttribute("diningTable", diningTable);
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online", method = RequestMethod.GET)
+//    public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
+//        log.info("restaurantId = " + restaurantId);
 //
-//        diningTableService.addOrderItem(diningTable, menuItemName);
-
-        return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
-    }
-    
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}", method = RequestMethod.GET)
-    public String newShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, 
-    		@PathVariable("orderId") String orderId,
-    		Model uiModel) {
-        log.info("restaurantId = " + restaurantId);
-        fillModel(restaurantId,customerId,orderId,uiModel);
-
-        return "hartigehap/onlineorder";
-    }
-    
-  @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
-  public String deleteMenuItem(@PathVariable("restaurantId") String restaurantId,
-          @PathVariable("menuItemName") String menuItemName,@PathVariable("customerId") String customerId,
-          @PathVariable("orderId") String orderId, Model uiModel) {
-
-	  Customer customer = customerService.findById(Long.valueOf(customerId));
-	  
-	  onlineOrderService.deleteOrderItem(customer, menuItemName);
-
-
-	  return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
-  }
-    
-    
+//        fillModel(restaurantId, null , null, uiModel);
+//
+//        return "hartigehap/onlineorder";
+//    }
+//    
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}", method = RequestMethod.GET)
+//    public String showTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, Model uiModel) {
+//        log.info("restaurantId = " + restaurantId);
+//
+//        fillModel(restaurantId, customerId, uiModel);
+//
+//        return "hartigehap/onlineorder";
+//    }
+//    
+//    private void fillModel(String restaurantId, Model uiModel) {
+//        Collection<Restaurant> restaurants = restaurantService.findAll();
+//        uiModel.addAttribute("restaurants", restaurants);
+//        for(Restaurant r : restaurants){
+//        	if(r.getId().equals(restaurantId)) {
+//        		uiModel.addAttribute("restaurant", r);
+//        	}
+//        }
+//    }
+//    
+//    private void fillModel(String restaurantId, String customerId, Model uiModel) {
+//        Collection<Restaurant> restaurants = restaurantService.findAll();
+//        uiModel.addAttribute("restaurants", restaurants);
+//        Customer customer;
+//        if (customerId == null){
+//        	byte[] photo = new byte[] { 127, -128, 0 };
+//        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
+//        	System.out.println("test");
+//        }else{
+//        	customer = customerService.findById(Long.valueOf(customerId));
+//        }
+//        uiModel.addAttribute("customer", customer);
+//        for(Restaurant r : restaurants){
+//        	if(r.getId().equals(restaurantId)) {
+//        		uiModel.addAttribute("restaurant", r);
+//        	}
+//        }
+//
+//        //return customer;
+//    }
+//    
+//    
+//    private void fillModel(String restaurantId, String customerId,String orderId, Model uiModel) {
+//        Collection<Restaurant> restaurants = restaurantService.findAll();
+//        uiModel.addAttribute("restaurants", restaurants);
+//        Customer customer;
+//        if (customerId == null){
+//        	byte[] photo = new byte[] { 127, -128, 0 };
+//        	customer = customerService.save(new Customer("null", "null", new DateTime(), 1, "null", photo));
+//        	System.out.println("test");
+//        }else{
+//        	customer = customerService.findById(Long.valueOf(customerId));
+//        }
+//        uiModel.addAttribute("customer", customer);
+//        for(Restaurant r : restaurants){
+//        	if(r.getId().equals(restaurantId)) {
+//        		uiModel.addAttribute("restaurant", r);
+//        	}
+//        }
+//        uiModel.addAttribute("order", customer.getCurrentBill().getCurrentOrder());
+//    }
+//
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/", method = RequestMethod.PUT)
+//    public String receiveEvent(@PathVariable("restaurantId") String restaurantId,@PathVariable("customerId") String customerId
+//    		,@RequestParam String event, Model uiModel, Locale locale) {
+//
+//        log.info("(receiveEvent) restaurant = " + restaurantId);
+//
+//        // because of REST, the "event" parameter is part of the body. It
+//        // therefore cannot be used for
+//        // the request mapping so all events for the same resource will be
+//        // handled by the same
+//        // controller method; so we end up with an if statement
+//
+//        switch (event) {
+//        case "submitOrder":
+//        	
+//            return submitOrder(restaurantId,customerId, uiModel, locale);
+//        // break unreachable
+//
+//        case "submitBill":
+//            //return submitBill(diningTableId, redirectAttributes, uiModel, locale);
+//        // break unreachable
+//        			return null;
+//        default:
+//            //warmupRestaurant(diningTableId, uiModel);
+//            //log.error("internal error: event " + event + "not recognized");
+//            //return "hartigehap/diningtable";
+//        			return null;
+//        }
+//    }
+//    
+//
+//    private String submitOrder(String restaurantId, String customerId, Model uiModel,
+//            Locale locale) {
+//        
+//        //DiningTable diningTable = warmupRestaurant(diningTableId, uiModel);
+//        Customer customer =customerService.findById(Long.valueOf(customerId));
+////        try {
+////            onlineOrderService.submitOrder(customer);
+////        } catch (StateException e) {
+////            //return handleStateException(e, "message_submit_order_fail", customerId, uiModel, locale);
+////        }
+//        
+//        // store the message temporarily in the session to allow displaying
+//        // after redirect
+//        
+//        return "redirect:/restaurants/"+ restaurantId;
+//
+//    }
+//    
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
+//    public String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("customerId") String customerId,
+//    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel){
+//    	
+//    	System.out.println("testing");
+//    	Customer customer = customerService.findById(Long.valueOf(customerId));
+//    	
+//    	//onlineOrderService.addOrderItem(customer, menuItemName);
+//    	
+//    	
+////        DiningTable diningTable = diningTableService.fetchWarmedUp(Long.valueOf(diningTableId));
+////        uiModel.addAttribute("diningTable", diningTable);
+////
+////        diningTableService.addOrderItem(diningTable, menuItemName);
+//
+//        return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
+//    }
+//    
+//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}", method = RequestMethod.GET)
+//    public String newShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId, 
+//    		@PathVariable("orderId") String orderId,
+//    		Model uiModel) {
+//        log.info("restaurantId = " + restaurantId);
+//        fillModel(restaurantId,customerId,orderId,uiModel);
+//
+//        return "hartigehap/onlineorder";
+//    }
+//    
+//  @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
+//  public String deleteMenuItem(@PathVariable("restaurantId") String restaurantId,
+//          @PathVariable("menuItemName") String menuItemName,@PathVariable("customerId") String customerId,
+//          @PathVariable("orderId") String orderId, Model uiModel) {
+//
+//	  Customer customer = customerService.findById(Long.valueOf(customerId));
+//
+//	  return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
+//  }
+//  
+//  
+//    
+//    
 //    @RequestMapping(value = "/diningTables/{diningTableId}/menuItems", method = RequestMethod.POST)
 //    public String addMenuItem(@PathVariable("diningTableId") String diningTableId, @RequestParam String menuItemName,
 //            Model uiModel) {
