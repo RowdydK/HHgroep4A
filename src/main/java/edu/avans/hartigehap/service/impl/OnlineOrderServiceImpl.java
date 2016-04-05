@@ -48,12 +48,12 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 	
 	@Override
 	public void deleteOrderItem(Customer customer, String menuItemName) {
-		// TODO Auto-generated method stub
-		
+        MenuItem menuItem = menuItemRepository.findOne(menuItemName);
+        customer.getCurrentBill().getCurrentOrder().deleteOrderItem(menuItem);
 	}
 	@Override
 	public void submitOrder(Customer customer) throws StateException {
-		// TODO Auto-generated method stub
+		customer.getCurrentBill().submitOrder();
 		
 	}
 	@Override
@@ -61,6 +61,5 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 		// TODO Auto-generated method stub
 		
 	}
-	
 	
 }

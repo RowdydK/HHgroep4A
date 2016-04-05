@@ -98,30 +98,56 @@ public class OnlineOrderController {
         	}
         }
         uiModel.addAttribute("order", customer.getCurrentBill().getCurrentOrder());
-//        Order order;
-//        if (orderId == null){
-//        	order = orderService.save(new Order());
-//        }
-//        else{
-//        	order = onlineOrderService.getOrder(orderId);
-//        }
-//        
-//        uiModel.addAttribute("order", order);
-        //return customer;
+    }
+
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/", method = RequestMethod.PUT)
+    public String receiveEvent(@PathVariable("restaurantId") String restaurantId,@PathVariable("customerId") String customerId
+    		,@RequestParam String event, Model uiModel, Locale locale) {
+
+        log.info("(receiveEvent) restaurant = " + restaurantId);
+
+        // because of REST, the "event" parameter is part of the body. It
+        // therefore cannot be used for
+        // the request mapping so all events for the same resource will be
+        // handled by the same
+        // controller method; so we end up with an if statement
+
+        switch (event) {
+        case "submitOrder":
+        	
+            return submitOrder(restaurantId,customerId, uiModel, locale);
+        // break unreachable
+
+        case "submitBill":
+            //return submitBill(diningTableId, redirectAttributes, uiModel, locale);
+        // break unreachable
+        			return null;
+        default:
+            //warmupRestaurant(diningTableId, uiModel);
+            //log.error("internal error: event " + event + "not recognized");
+            //return "hartigehap/diningtable";
+        			return null;
+        }
     }
     
-//    @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
-//    private String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable("customerId") String customerId,
-//    		@PathVariable("orderId") String orderId, @RequestParam String menuItemName, Model uiModel) {
-//    	log.info("Adding Order Item " + menuItemName + " by customer " + customerId + " to order: " + orderId);
-//    	Customer customer = customerService.findById(Long.valueOf(customerId));
-//    	log.info(customer.toString());
-//    	
-//    	onlineOrderService.addOrderItem(customer, menuItemName);
-//
-//    	return "hartigehap/onlineorder";
-//        //redirect:/restaurants/" + restaurantId + "/online/" + customerId + "/" + orderId;
-//    }
+
+    private String submitOrder(String restaurantId, String customerId, Model uiModel,
+            Locale locale) {
+        
+        //DiningTable diningTable = warmupRestaurant(diningTableId, uiModel);
+        Customer customer =customerService.findById(Long.valueOf(customerId));
+        try {
+            onlineOrderService.submitOrder(customer);
+        } catch (StateException e) {
+            //return handleStateException(e, "message_submit_order_fail", customerId, uiModel, locale);
+        }
+        
+        // store the message temporarily in the session to allow displaying
+        // after redirect
+        
+        return "redirect:/restaurants/"+ restaurantId;
+
+    }
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems", method = RequestMethod.POST)
     public String addOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("customerId") String customerId,
@@ -150,6 +176,19 @@ public class OnlineOrderController {
 
         return "hartigehap/onlineorder";
     }
+    
+  @RequestMapping(value = "/restaurants/{restaurantId}/online/{customerId}/{orderId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
+  public String deleteMenuItem(@PathVariable("restaurantId") String restaurantId,
+          @PathVariable("menuItemName") String menuItemName,@PathVariable("customerId") String customerId,
+          @PathVariable("orderId") String orderId, Model uiModel) {
+
+	  Customer customer = customerService.findById(Long.valueOf(customerId));
+	  
+	  onlineOrderService.deleteOrderItem(customer, menuItemName);
+
+
+	  return "redirect:/restaurants/" + restaurantId + "/online/"+ customerId +"/" + orderId;
+  }
     
     
 //    @RequestMapping(value = "/diningTables/{diningTableId}/menuItems", method = RequestMethod.POST)

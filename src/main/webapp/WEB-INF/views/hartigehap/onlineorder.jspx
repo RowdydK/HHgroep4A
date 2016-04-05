@@ -63,7 +63,7 @@
 						<!-- Tabs -->
 						<ul class="nav panel-tabs">
 							<li>
-								<spring:url var="submitOrderUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems" />
+								<spring:url var="submitOrderUrl" value="/restaurants/${restaurant.id}/online/${customer.id}" />
 								<form:form name="submitOrderForm" action="${submitOrderUrl}" method="put">
 									<input type="hidden" name="event" value="submitOrder" />
 									<button type="submit" class="btn btn-default">${labelSubmitOrderButton}</button>
@@ -177,7 +177,7 @@
 													<input type="hidden" name="menuItemName" value="${menuItem.id}" />
 													<button type="submit" class="btn btn-success btn-float-left-margin-right" value="${labelAddButton}"><span class="glyphicon glyphicon-plus-sign glyphicon-padding-right"><jsp:text /></span> ${labelAddButton}</button>
 												</form:form>
-												<spring:url var="deleteOrderItemUrl" value="/diningTables/${diningTable.id}/menuItems/${menuItem.id}" />
+												<spring:url var="deleteOrderItemUrl" value="/restaurants/${restaurant.id}/online/${customer.id}/${order.id}/orderItems/${menuItem.id}" />
 												<form:form name="deleteOrderItemForm" action="${deleteOrderItemUrl}" method="delete">
 													<button type="submit" class="btn btn-danger btn-float-left-margin-right" value="${labelRemoveButton}"><span class="glyphicon glyphicon-remove-sign glyphicon-padding-right"><jsp:text /></span> ${labelRemoveButton}</button>
 												</form:form>
