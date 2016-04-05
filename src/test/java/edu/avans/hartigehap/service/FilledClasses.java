@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Student on 22-03-16.
  */
-public class MockClasses {
+public class FilledClasses {
 
     public Bill SetupBill(){
 

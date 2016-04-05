@@ -42,7 +42,7 @@ public class Bill extends DomainObject {
     
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
     private BillState billState;
-    
+
 //    public void setBillState(BillState state){
 //    	billState = state;
 //    }
@@ -78,6 +78,7 @@ public class Bill extends DomainObject {
     
     //New BillState
     public Bill(){
+
     	billState = new BillStateCreated();
     	billStateId = billStateId.CREATED;
     	currentOrder = new Order();

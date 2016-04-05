@@ -20,6 +20,10 @@ import lombok.ToString;
 @Setter
 public class BillStateCreated extends BillState{
     private static final long serialVersionUID = 1L;
+
+	BillOriginator originator;
+	BillCaretaker caretaker;
+	BillMemento billMemento;
     
 	@Override
 	public Date billCreated(Bill context, Collection<Order> orders, Order currentOrder)throws StateException, EmptyBillException{
@@ -41,8 +45,13 @@ public class BillStateCreated extends BillState{
         }
 		context.setBillState(new BillStateSubmitted());
 		context.setBillStateId(Bill.BillStateId.SUBMITTED);
+
+		originator.setBill(context);
+		caretaker.add(originator.saveBillToMemento());
+
 		System.out.println("billCreated");
 		return new Date();
 	}
+
 	
 }
