@@ -149,18 +149,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">${labelOnlineBill}</h3>
-					<span class="pull-right">
-						<!-- Tabs -->
-						<ul class="nav panel-tabs">
-							<li>
-								<spring:url var="submitBillUrl" value="/diningTables/${diningTable.id}" />
-								<form:form name="submitBillForm" action="${submitBillUrl}" method="put">
-									<input type="hidden" name="event" value="submitBill" />
-									<button type="submit" class="btn btn-success">${labelSubmitBillButton}</button>
-								</form:form>
-							</li>
-						</ul>
-					</span>
+
 				</div>
 				<div class="tab-content">
 					<table class="table">

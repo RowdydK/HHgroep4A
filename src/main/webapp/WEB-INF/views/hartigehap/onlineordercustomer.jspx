@@ -57,7 +57,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${not empty order.orderItems}">
+	<c:if test="${not empty bill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -72,7 +72,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${order.orderItems}" var="orderItem">
+							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
