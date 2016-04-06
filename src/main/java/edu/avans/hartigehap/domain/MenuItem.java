@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
@@ -28,7 +29,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name = "MENUITEMS")
 // images are stored in a separate database table (optional)
-@SecondaryTable(name = "MENUITEM_IMAGES", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id") )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @Getter
 @Setter
@@ -37,16 +37,20 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public abstract class MenuItem extends DomainObjectNaturalId {
     private static final long serialVersionUID = 1L;
 
-    // image stored in the database
-    @Column(name = "IMAGE", table = "MENUITEM_IMAGES")
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] image;
+//    // image stored in the database
+//    @Column(name = "IMAGE", table = "MENUITEM_IMAGES")
+//    @Lob
+//    @Basic(fetch = FetchType.LAZY)
+//    private byte[] image;
+//
+//    // filename of image stored in the database
+//    @Column(name = "IMAGEFILENAME")
+//    private String imageFileName;
 
-    // filename of image stored in the database
-    @Column(name = "IMAGEFILENAME")
-    private String imageFileName;
-
+    
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private Image image;
+    
     // JPA is case sensitive: the corresponding column name will be in small
     // caps "price"
     private int price;
@@ -57,7 +61,8 @@ public abstract class MenuItem extends DomainObjectNaturalId {
 
     public MenuItem(String id, String imageFileName, int price) {
         super(id);
-        this.imageFileName = imageFileName;
+        //this.imageFileName = imageFileName;
+        image = new ImageProxy(imageFileName);
         this.price = price;
 
     }
