@@ -62,7 +62,7 @@ public class Bill extends DomainObject {
     private Date paidTime;
 
     // unidirectional one-to-one relationship
-    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL) 
     private Order currentOrder;
 
     @OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "bill")

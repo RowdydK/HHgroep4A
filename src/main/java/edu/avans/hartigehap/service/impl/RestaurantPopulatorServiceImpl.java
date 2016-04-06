@@ -26,6 +26,8 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
     @Autowired
     private MenuItemRepository menuItemRepository;
     @Autowired
+    private IngredientRepository ingredientRepository;
+    @Autowired
     private CustomerRepository customerRepository;
 
     private List<Meal> meals = new ArrayList<>();
@@ -157,6 +159,19 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         // for the moment every restaurant has all available food categories
         for (FoodCategory foodCat : foodCats) {
             if(foodCat.getId() == 8L || foodCat.getId() == 7L) {
+            	if(foodCat.getId() == 8L){
+            		ArrayList<Ingredient> ingredients = new ArrayList<>();
+            		Ingredient ingredient = new Ingredient("Kaas");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		ingredient = new Ingredient("Salami");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		ingredient = new Ingredient("Ananas");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		foodCat.setIngredients(ingredients);
+            	}
                 restaurant.getOnlineMenu().getFoodCategories().add(foodCat);
             }
         }

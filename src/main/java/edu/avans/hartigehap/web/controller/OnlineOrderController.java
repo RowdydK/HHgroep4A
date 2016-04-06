@@ -81,6 +81,16 @@ public class OnlineOrderController {
     	
     }
     
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems/{orderItemId}", method = RequestMethod.POST)
+    public String nAddOrderItemIngredient(@PathVariable("restaurantId") String restaurantId, @PathVariable ("billId") String billId, @PathVariable ("orderItemId") String orderItemId,
+    		@RequestParam Long ingredientId, Model uiModel){
+    	log.debug("IngredientId: " + ingredientId);
+    	onlineOrderService.addOrderItemIngredient(Long.valueOf(orderItemId), ingredientId);
+    	
+    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    	
+    }
+    
     @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
     public String nDeleteMenuItem(@PathVariable("restaurantId") String restaurantId,
             @PathVariable("menuItemName") String menuItemName,@PathVariable("billId") String billId,

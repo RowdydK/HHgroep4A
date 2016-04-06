@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,6 +16,7 @@ import lombok.ToString;
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @ToString(callSuper = true, includeFieldNames = true, of = { "ingredientName", "quantity" })
+@NoArgsConstructor
 public class Ingredient extends DomainObject {
 
 	private static final long serialVersionUID = 1L;
@@ -22,11 +24,7 @@ public class Ingredient extends DomainObject {
 	private int quantity;
 	private String ingredientName;
 	
-	@OneToOne
-	private FoodCategory foodCategory;
-	
-	public Ingredient(String ingredientName, int quantity){
+	public Ingredient(String ingredientName){
 		this.ingredientName = ingredientName;
-		this.quantity = quantity;
 	}
 }
