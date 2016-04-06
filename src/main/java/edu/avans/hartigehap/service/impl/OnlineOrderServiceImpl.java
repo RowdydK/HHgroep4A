@@ -78,13 +78,13 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 		bill.getCurrentOrder().deleteOrderItem(menuItem);
 	}
 	@Override
-	public void submitOrder(Bill bill) throws StateException {
-		bill.submitOrder();
+	public void submitOrder(Order order) throws StateException {
+		order.submit();
 		
 	}
 	@Override
-	public void submitBill(Customer customer) throws StateException, EmptyBillException {
-		// TODO Auto-generated method stub
+	public void submitBill(Bill bill) throws StateException, EmptyBillException {
+		bill.submitOrder();
 		
 	}
 	

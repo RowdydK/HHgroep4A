@@ -15,9 +15,10 @@ public interface OnlineOrderService {
 
     void deleteOrderItem(Bill bill, String menuItemName);
 
-    void submitOrder(Bill bill) throws StateException;
-
-    void submitBill(Customer customer) throws StateException, EmptyBillException;
+    void submitOrder(Order order) throws StateException;
     
 	void addOrderItemIngredient(Long OrderItemId, Long ingredientId);
+
+    void submitBill(Bill bill) throws StateException, EmptyBillException;
+    
 }

@@ -44,11 +44,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Customer extends DomainObject {
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
+    //@NotEmpty(message = "{validation.firstname.NotEmpty.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
     private String firstName;
 
-    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    //@NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     private String lastName;
     
@@ -111,6 +111,18 @@ public class Customer extends DomainObject {
         currentBill = new Bill();
         currentBill.setCustomer(this);
         bills.add(currentBill);
+    }
+    
+    public Customer(String firstName, String lastName, String number, String zipCode, String cityName, Bill bill){
+    	this.firstName = firstName;
+    	this.lastName = lastName;
+    	this.number = number;
+    	this.zipCode = zipCode;
+    	this.cityName = cityName;
+    	
+    	currentBill = bill;
+    	bill.setCustomer(this);
+    	//bills.add(currentBill);
     }
 
     // This method only updates user-editable fields
