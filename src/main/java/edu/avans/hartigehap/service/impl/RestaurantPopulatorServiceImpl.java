@@ -52,6 +52,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         createFoodCategory("energizing drinks");//6
         createFoodCategory("pizza");//7
 
+        
 
         // create Meals
         createMeal("spaghetti", "spaghetti.jpg", 8, "easy",
@@ -68,16 +69,16 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
 
 
         //create Pizzas
-         createMeal("pizza tonno", "tonno.jpg", 9, "easy",
+         createMeal("pizza tonno", "macaroni.jpg", 9, "easy",
             Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
-        createMeal("pizza meatlovers", "meatlovers.jpg", 9, "easy",
+        createMeal("pizza meatlovers", "macaroni.jpg", 9, "easy",
                Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
         
 
         // create Drinks
         createDrink("beer", "beer.jpg", 1, Drink.Size.LARGE, Arrays.<FoodCategory> asList(foodCats.get(5)));
         createDrink("coffee", "coffee.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
-        createDrink("cola", "cola.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
+        createDrink("cola", "beer.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
 
         // create Customers
         byte[] photo = new byte[] { 127, -128, 0 };
