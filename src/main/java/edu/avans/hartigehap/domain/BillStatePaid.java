@@ -19,18 +19,22 @@ import lombok.ToString;
 public class BillStatePaid extends BillState{
     private static final long serialVersionUID = 1L;
 
-    public BillStatePaid(Bill bill){
-    	super(bill);
-    	super.setBillStatusId(BillStatusId.PAID);
-    }
+	BillOriginator originator;
+	BillCaretaker caretaker;
 
-    public BillStatePaid(){
-    	super.setBillStatusId(BillStatusId.PAID);
-    }
-    
 	@Override
 	public void billPaid(Bill context){
+
+		originator.setBill(context);
+		caretaker.add(originator.saveBillToMemento());
+
 		System.out.println("Bill has already been paid for");
+	}
+
+	public Bill getPreviousBillState(int i){
+		originator.getBillFromMemento(caretaker.get(i));
+
+		return originator.getBill();
 	}
 
 }

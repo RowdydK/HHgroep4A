@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import edu.avans.hartigehap.domain.BillState.BillStatusId;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,19 +17,24 @@ import lombok.ToString;
 @Getter
 @Setter
 public class BillStateSubmitted extends BillState{
-	
-    public BillStateSubmitted(Bill bill){
-    	super(bill);
-    	super.setBillStatusId(BillStatusId.SUBMITTED);
-    }
-    
-    public BillStateSubmitted(){
-    	super.setBillStatusId(BillStatusId.SUBMITTED);
-    }
-	
+
+	BillOriginator originator;
+	BillCaretaker caretaker;
+
 	@Override
 	public Date billSubmitted(Bill context)throws StateException{
-		context.setBillState(new BillStatePaid(context));
+		context.setBillState(new BillStatePaid());
+		context.setBillStateId(Bill.BillStateId.PAID);
+
+		originator.setBill(context);
+		caretaker.add(originator.saveBillToMemento());
+
 		return new Date();
+	}
+
+	public Bill getPreviousBillState(int i){
+		originator.getBillFromMemento(caretaker.get(i));
+
+		return originator.getBill();
 	}
 }
