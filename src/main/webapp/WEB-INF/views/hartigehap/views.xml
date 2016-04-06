@@ -23,6 +23,9 @@
 	<definition extends="default" name="hartigehap/onlineordercustomer">
 		<put-attribute name="body" value="/WEB-INF/views/hartigehap/onlineordercustomer.jspx" />
 	</definition>
+	<definition extends="default" name="hartigehap/onlineorderpayment">
+		<put-attribute name="body" value="/WEB-INF/views/hartigehap/onlineorderpayment.jspx" />
+	</definition>
 	<definition extends="default" name="hartigehap/kitchen">
 		<put-attribute name="body" value="/WEB-INF/views/hartigehap/kitchen.jspx" />
 	</definition>

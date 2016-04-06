@@ -32,9 +32,6 @@
 	<spring:message code="table_price" var="tablePrice" />
 	<spring:message code="table_actions" var="tableActions" />
 	<spring:message code="table_quantity" var="tableQuantity" />
-	<spring:message code="label_customer_first_name" var="labelCustomerFirstName" />
-	<spring:message code="label_customer_last_name" var="labelCustomerLastName" />
-	
 	<spring:url var="showRestaurant" value="/restaurants/${restaurant.id}" />
 
 	<div class="row">
@@ -46,43 +43,5 @@
 		</c:if>
 	</div>
 
-	<c:if test="${empty bill.currentOrder.orderItems}">
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">${labelWelcomeWord}</div>
-				<div class="panel-body">
-					${labelPickFromMenu}
-				</div>
-			</div>
-		</div>
-	</c:if>
-
-	<c:if test="${not empty bill.currentOrder.orderItems}">
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">${labelOnlineOrder}</h3>
-				</div>
-				<div class="tab-content">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>${tableItem}</th>
-								<th>${tableQuantity}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
-								<tr>
-									<td class="capitalise">${orderItem.menuItem.id}</td>
-									<td>${orderItem.quantity}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</c:if>
-
+		U heeft betaald
 </div>

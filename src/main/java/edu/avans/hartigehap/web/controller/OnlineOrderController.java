@@ -113,6 +113,7 @@ public class OnlineOrderController {
         case "submitOrder":
             try {
             	onlineOrderService.submitBill(bill);
+            	//onlineOrderService.submitOrder(bill.getCurrentOrder());
             }catch(Exception e){
             	
             }
@@ -124,13 +125,6 @@ public class OnlineOrderController {
             // after redirect
             
             return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer";
-        	//return nSubmitOrder(restaurantId, bill, uiModel, locale);
-        // break unreachable
-
-        case "submitBill":
-            //return submitBill(diningTableId, redirectAttributes, uiModel, locale);
-        // break unreachable
-        			return null;
         default:
             //warmupRestaurant(diningTableId, uiModel);
             //log.error("internal error: event " + event + "not recognized");
@@ -216,7 +210,7 @@ public class OnlineOrderController {
 		}
 
         System.out.println("paid");
-        return "hartigehap/onlineorder";
+        return "hartigehap/onlineorderpayment";
     }
     
     
