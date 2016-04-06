@@ -29,18 +29,18 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
-    public List<Customer> findAll() { return Lists.newArrayList(customerRepository.findAll());
+    public List<CopyCustomer> findAll() { return Lists.newArrayList(customerRepository.findAll());
     }
 
     @Transactional(readOnly = true)
-    public Customer findById(Long id) {
+    public CopyCustomer findById(Long id) {
         return customerRepository.findOne(id);
     }
 
     @Transactional(readOnly = true)
-    public Customer findByFirstNameAndLastName(String firstName, String lastName) {
+    public CopyCustomer findByFirstNameAndLastName(String firstName, String lastName) {
 
-        Customer customer = null;
+        CopyCustomer customer = null;
 
         List<RealCustomer> customers = customerRepository.findByFirstNameAndLastName(firstName, lastName);
         if (!customers.isEmpty()) {
@@ -50,16 +50,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public List<Customer> findCustomersForRestaurant(Restaurant restaurant) {
+    public List<CopyCustomer> findCustomersForRestaurant(Restaurant restaurant) {
 
         // a query created using a repository method name
-        List<Customer> customersForRestaurants = customerRepository.findByRestaurants(
+        List<CopyCustomer> customersForRestaurants = customerRepository.findByRestaurants(
                 Arrays.asList(new Restaurant[] { restaurant }), new Sort(Sort.Direction.ASC, "lastName"));
 
         log.info("findCustomersForRestaurant using query created using repository method name");
-        ListIterator<Customer> it = customersForRestaurants.listIterator();
+        ListIterator<CopyCustomer> it = customersForRestaurants.listIterator();
         while (it.hasNext()) {
-            Customer customer = it.next();
+            CopyCustomer customer = it.next();
             log.info("customer = " + customer);
         }
 
@@ -67,27 +67,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Customer> findAllByPage(Pageable pageable) {
+    public Page<CopyCustomer> findAllByPage(Pageable pageable) {
         return customerRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<Customer> findCustomersForRestaurantByPage(Restaurant restaurant, Pageable pageable) {
+    public Page<CopyCustomer> findCustomersForRestaurantByPage(Restaurant restaurant, Pageable pageable) {
         // a query created using a repository method name
-        Page<Customer> customersForRestaurants = customerRepository
+        Page<CopyCustomer> customersForRestaurants = customerRepository
                 .findByRestaurants((Collection<Restaurant>) Arrays.asList(new Restaurant[] { restaurant }), pageable);
 
         log.info("findCustomersForRestaurant using query created using repository method name");
-        Iterator<Customer> it = customersForRestaurants.iterator();
+        Iterator<CopyCustomer> it = customersForRestaurants.iterator();
         while (it.hasNext()) {
-            Customer customer = it.next();
+            CopyCustomer customer = it.next();
             log.info("customer = " + customer);
         }
 
         return customersForRestaurants;
     }
 
-    public Customer save(Customer customer) {
+    public CopyCustomer save(CopyCustomer customer) {
         return customerRepository.save(customer);
     }
 

@@ -33,7 +33,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
     private List<Meal> meals = new ArrayList<>();
     private List<FoodCategory> foodCats = new ArrayList<>();
     private List<Drink> drinks = new ArrayList<>();
-    private List<Customer> customers = new ArrayList<>();
+    private List<CopyCustomer> customers = new ArrayList<>();
 
     /**
      * menu items, food categories and customers are common to all restaurants
@@ -190,7 +190,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         // no cascading between customer and restaurant; therefore both
         // restaurant and customer
         // must have been saved before linking them one to another
-        for (Customer customer : customers) {
+        for (CopyCustomer customer : customers) {
             customer.getRestaurants().add(restaurant);
             restaurant.getCustomers().add(customer);
         }

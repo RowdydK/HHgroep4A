@@ -11,7 +11,7 @@ public class CustomerGrid {
 
     private long totalRecords;
 
-    private List<Customer> customerData;
+    private List<CopyCustomer> customerData;
 
     public int getTotalPages() {
         return totalPages;
@@ -37,11 +37,11 @@ public class CustomerGrid {
         this.totalRecords = totalRecords;
     }
 
-    public List<Customer> getCustomerData() {
+    public List<CopyCustomer> getCustomerData() {
         return customerData;
     }
 
-    public void setCustomerData(List<Customer> customerData) {
+    public void setCustomerData(List<CopyCustomer> customerData) {
         this.customerData = customerData;
     }
 

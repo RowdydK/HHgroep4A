@@ -3,21 +3,15 @@ package edu.avans.hartigehap.web.controller;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-
 import lombok.extern.slf4j.Slf4j;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import edu.avans.hartigehap.domain.*;
-import edu.avans.hartigehap.domain.Bill.BillStateId;
 import edu.avans.hartigehap.service.*;
-import edu.avans.hartigehap.web.form.Message;
-import org.springframework.web.servlet.mvc.support.*;
 
 @Controller
 @Slf4j
@@ -182,9 +176,9 @@ public class OnlineOrderController {
     		Model uiModel, Locale locale) {
         log.info("(receiveEvent) restaurant = " + restaurantId);
 
-        Customer customer;
+        CopyCustomer customer;
         Bill bill = billService.findById(Long.valueOf(billId));
-        customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
+        customer = customerService.save(new CopyCustomer(firstName,lastName,zipCode,cityName,number,bill));
         
         try {
 			bill.submit();

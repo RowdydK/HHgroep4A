@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Setter
 
 
-public class NullCustomer extends Customer {
+public class NullCustomer extends CopyCustomer {
     private static final long serialVersionUID = 1L;
 
     private static NullCustomer nullCustomer = new NullCustomer();
@@ -72,7 +72,7 @@ public class NullCustomer extends Customer {
 
     }
 
-    public void becomeReal(Customer context){
+    public void becomeReal(CopyCustomer context){
         System.out.println("Real Customer");
         context.setCustomerState(new RealCustomer(firstName, lastName,birthDate, partySize, description, photo));
     }

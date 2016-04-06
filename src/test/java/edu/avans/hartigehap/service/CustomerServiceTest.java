@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import edu.avans.hartigehap.domain.Customer;
+import edu.avans.hartigehap.domain.CopyCustomer;
 import edu.avans.hartigehap.service.testutil.AbstractTransactionRollbackTest;
 
 public class CustomerServiceTest extends AbstractTransactionRollbackTest {
@@ -31,10 +31,10 @@ public class CustomerServiceTest extends AbstractTransactionRollbackTest {
     @Test
     public void create() {
         // execute
-        Customer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
+        CopyCustomer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
 
         // verify
-        List<Customer> customers = customerService.findAll();
+        List<CopyCustomer> customers = customerService.findAll();
         assertNotNull(customers);
         assertTrue("created customer in list", customers.contains(customer));
     }
@@ -42,10 +42,10 @@ public class CustomerServiceTest extends AbstractTransactionRollbackTest {
     @Test
     public void findByName() {
         // prepare
-        Customer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
+        CopyCustomer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
 
         // execute
-        Customer customer2 = customerService.findByFirstNameAndLastName(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
+        CopyCustomer customer2 = customerService.findByFirstNameAndLastName(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
 
         // verify
         assertTrue("created customer in findByFirstNameAndLastName", customer.equals(customer2));
@@ -54,8 +54,8 @@ public class CustomerServiceTest extends AbstractTransactionRollbackTest {
     @Test
     public void delete() {
         // prepare
-        Customer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
-        List<Customer> customers = customerService.findAll();
+        CopyCustomer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
+        List<CopyCustomer> customers = customerService.findAll();
         assertNotNull(customers);
         assertTrue("created customer in list", customers.contains(customer));
 
@@ -63,27 +63,27 @@ public class CustomerServiceTest extends AbstractTransactionRollbackTest {
         customerService.delete(customer.getId());
 
         // verify
-        List<Customer> customers2 = customerService.findAll();
+        List<CopyCustomer> customers2 = customerService.findAll();
         assertNotNull(customers2);
         assertFalse("deleted customer not in the list", customers2.contains(customer));
     }
 
     @Test
     public void update() {
-        Customer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
+        CopyCustomer customer = createCustomer(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME);
         customer.setFirstName(CUSTOMER_FIRST_NAME2);
         customer.setLastName(CUSTOMER_LAST_NAME2);
 
-        Customer customer2 = customerService.findById(customer.getId());
+        CopyCustomer customer2 = customerService.findById(customer.getId());
         assertEquals("firstName", CUSTOMER_FIRST_NAME2, customer2.getFirstName());
         assertEquals("lastName", CUSTOMER_LAST_NAME2, customer2.getLastName());
     }
 
-    private Customer createCustomer(String firstName, String lastName) {
-        Customer customer = new Customer();
+    private CopyCustomer createCustomer(String firstName, String lastName) {
+        CopyCustomer customer = new CopyCustomer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        Customer retval = customerService.save(customer);
+        CopyCustomer retval = customerService.save(customer);
         assertNotNull(retval);
         assertNotNull(retval.getId());
         assertEquals("firstName", firstName, retval.getFirstName());

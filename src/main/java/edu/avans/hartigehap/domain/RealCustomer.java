@@ -13,11 +13,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 @Entity
@@ -27,7 +23,7 @@ import java.util.Collection;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @ToString(callSuper = true, includeFieldNames = true, of = { "firstName", "lastName", "bills" })
 @NoArgsConstructor
-public class RealCustomer extends Customer {
+public class RealCustomer extends CopyCustomer {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty(message = "{validation.firsstname.NotEmpty.message}")
@@ -112,7 +108,7 @@ public class RealCustomer extends Customer {
     }
 
     @Override
-    public void becomeNull(Customer context){
+    public void becomeNull(CopyCustomer context){
         System.out.println("NullCustomer");
         context.setCustomerState(NullCustomer.getInstance());
     }

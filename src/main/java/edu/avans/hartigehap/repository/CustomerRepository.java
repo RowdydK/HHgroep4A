@@ -9,11 +9,11 @@ import edu.avans.hartigehap.domain.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
-public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
+public interface CustomerRepository extends PagingAndSortingRepository<CopyCustomer, Long> {
 
     List<RealCustomer> findByFirstNameAndLastName(String firstName, String lastName);
 
-    List<Customer> findByRestaurants(Collection<Restaurant> restaurants, Sort sort);
+    List<CopyCustomer> findByRestaurants(Collection<Restaurant> restaurants, Sort sort);
 
-    Page<Customer> findByRestaurants(Collection<Restaurant> restaurants, Pageable pageable);
+    Page<CopyCustomer> findByRestaurants(Collection<Restaurant> restaurants, Pageable pageable);
 }

@@ -7,19 +7,19 @@ import org.springframework.data.domain.Pageable;
 import edu.avans.hartigehap.domain.*;
 
 public interface CustomerService {
-    List<Customer> findAll();
+    List<CopyCustomer> findAll();
 
-    Customer findById(Long id);
+    CopyCustomer findById(Long id);
 
-    Customer findByFirstNameAndLastName(String firstName, String lastName);
+    CopyCustomer findByFirstNameAndLastName(String firstName, String lastName);
 
-    List<Customer> findCustomersForRestaurant(Restaurant restaurant);
+    List<CopyCustomer> findCustomersForRestaurant(Restaurant restaurant);
 
-    Page<Customer> findAllByPage(Pageable pageable);
+    Page<CopyCustomer> findAllByPage(Pageable pageable);
 
-    Page<Customer> findCustomersForRestaurantByPage(Restaurant restaurant, Pageable pageable);
+    Page<CopyCustomer> findCustomersForRestaurantByPage(Restaurant restaurant, Pageable pageable);
 
-    Customer save(Customer customer);
+    CopyCustomer save(CopyCustomer customer);
 
     void delete(Long id);
 }

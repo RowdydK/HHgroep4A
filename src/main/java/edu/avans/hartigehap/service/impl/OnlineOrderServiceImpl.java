@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.avans.hartigehap.domain.Bill;
-import edu.avans.hartigehap.domain.Customer;
 import edu.avans.hartigehap.domain.EmptyBillException;
 import edu.avans.hartigehap.domain.Ingredient;
 import edu.avans.hartigehap.domain.MenuItem;
 import edu.avans.hartigehap.domain.Order;
 import edu.avans.hartigehap.domain.OrderItem;
-import edu.avans.hartigehap.domain.OrderItemIngredient;
 import edu.avans.hartigehap.domain.StateException;
 import edu.avans.hartigehap.repository.BillRepository;
 import edu.avans.hartigehap.repository.CustomerRepository;

@@ -2,7 +2,6 @@ package edu.avans.hartigehap.domain;
 
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -46,7 +45,7 @@ public class Restaurant extends DomainObjectNaturalId {
 
     // no cascading
     @ManyToMany(mappedBy = "restaurants")
-    private Collection<Customer> customers = new ArrayList<>();
+    private Collection<CopyCustomer> customers = new ArrayList<>();
 
     public Restaurant(String name, String imageFileName) {
         super(name);

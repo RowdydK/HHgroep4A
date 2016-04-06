@@ -2,7 +2,6 @@ package edu.avans.hartigehap.web.controller;
 
 import javax.validation.Valid;
 
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class CustomerController {
         Restaurant restaurant = warmupRestaurant(restaurantName, uiModel);
 
         log.info("Listing customers");
-        List<Customer> customers = customerService.findCustomersForRestaurant(restaurant);
+        List<CopyCustomer> customers = customerService.findCustomersForRestaurant(restaurant);
         uiModel.addAttribute("customers", customers);
         log.info("No. of customers: " + customers.size());
 
@@ -54,7 +53,7 @@ public class CustomerController {
 
         log.info("Show customer: " + id);
 
-        Customer customer = customerService.findById(id);
+        CopyCustomer customer = customerService.findById(id);
         uiModel.addAttribute("customer", customer);
         return "hartigehap/showcustomer";
     }
@@ -107,7 +106,7 @@ public class CustomerController {
             // to get the auto generated id
             customer = (RealCustomer) customerService.save(customer);
         } else { // update
-            Customer existingCustomer = customerService.findById(customer.getId());
+            CopyCustomer existingCustomer = customerService.findById(customer.getId());
             assert existingCustomer != null : "customer should exist";
 
             // update user-editable fields
@@ -123,7 +122,7 @@ public class CustomerController {
     public String updateCustomer(
             // the path variable {id} is not used; data binding retrieves its info from
             // query string parameters and form fields, so customer includes id as well
-            @PathVariable("restaurantName") String restaurantName, @Valid Customer customer,
+            @PathVariable("restaurantName") String restaurantName, @Valid CopyCustomer customer,
             BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest,
             RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) Part file) {
 
@@ -138,7 +137,7 @@ public class CustomerController {
             @RequestParam(value = "file", required = false) Part file) {
 
         log.info("Creating customer: " + customer.getFirstName() + " " + customer.getLastName());
-        log.info("Binding Result target: " + (Customer) bindingResult.getTarget());
+        log.info("Binding Result target: " + (CopyCustomer) bindingResult.getTarget());
         log.info("Binding Result: " + bindingResult);
 
         return handleCreateOrUpdateCustomer(true, restaurantName, customer, bindingResult, uiModel,

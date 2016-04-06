@@ -74,7 +74,7 @@ public class Bill extends DomainObject {
 
     // bidirectional one-to-many relationship
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
-    private Customer customer;
+    private CopyCustomer customer;
     
     //New BillState
     public Bill(){
