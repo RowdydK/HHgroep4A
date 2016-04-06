@@ -69,9 +69,9 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
 
 
         //create Pizzas
-         createMeal("pizza tonno", "macaroni.jpg", 9, "easy",
+         createMeal("pizza tonno", "pizza.jpg", 9, "easy",
             Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
-        createMeal("pizza meatlovers", "macaroni.jpg", 9, "easy",
+        createMeal("pizza meatlovers", "pizza.jpg", 9, "easy",
                Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
         
 

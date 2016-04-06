@@ -205,10 +205,12 @@
 							<tbody>
 								<c:if test="${not empty foodCategory.menuItems}">
 									<c:forEach items="${foodCategory.menuItems}" var="menuItem">
-										<spring:url var="imageUrl" value="/resources/images/${menuItem.imageFileName}" />
 										<tr>
+										<spring:url var="imageString" value="${menuItem.image.getImageString()}" />
 											<td class="capitalise">${menuItem.id}</td>
-											<td><img id="menuitemimg" src="${imageUrl}" width="150px" /></td>
+											<td>
+											<img src="${imageString}" />
+											</td>
 											<td>${labelCurrency} ${menuItem.price}</td>
 											<td>
 												<spring:url var="addOrderItemUrl" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/orderItems" />
