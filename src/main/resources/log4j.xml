@@ -20,11 +20,19 @@
 	<!-- logger name="org.hibernate">
 		<level value="debug" />
 	</logger>
-	
+    
 	<logger name="org.springframework.transaction">
 		<level value="debug" />
 	</logger-->
 
+	<logger name="org.hibernate.SQL">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.hibernate.type">
+		<level value="trace" />
+	</logger>
+	
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>

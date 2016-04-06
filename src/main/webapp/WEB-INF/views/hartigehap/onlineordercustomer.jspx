@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:joda="http://www.joda.org/joda/time/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:form="http://www.springframework.org/tags/form"
+	 xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="label_online_menu" var="labelOnlineMenu" />
+	<spring:message code="label_restaurant" var="labelRestaurant" />
+	<spring:message code="label_online_order" var="labelOnlineOrder" />
+	<spring:message code="label_submit_order_button" var="labelSubmitOrderButton" />
+	<spring:message code="label_online_bill" var="labelOnlineBill" />
+	<spring:message code="label_submit_bill_button" var="labelSubmitBillButton" />
+	<spring:message code="label_price_current_order" var="labelPriceCurrentOrder" />
+	<spring:message code="label_total_price_prev_orders" var="labelTotalPricePrevOrders" />
+	<spring:message code="label_menu_item" var="labelMenuItem" />
+	<spring:message code="label_food_category" var="labelFoodCategory" />
+	<spring:message code="label_price" var="labelPrice" />
+	<spring:message code="label_add_button" var="labelAddButton" />
+	<spring:message code="label_remove_button" var="labelRemoveButton" />
+	<spring:message code="label_currency" var="labelCurrency" />
+	<spring:message code="label_menu" var="labelMenu" />
+	<spring:message code="label_categorie" var="labelCategorie" />
+	<spring:message code="label_categorie_tab_text" var="labelCategorieTabText" />
+	<spring:message code="label_welcome_word" var="labelWelcomeWord" />
+	<spring:message code="label_pick_from_menu" var="labelPickFromMenu" />
+	<spring:message code="table_item" var="tableItem" />
+	<spring:message code="table_image" var="tableImage" />
+	<spring:message code="table_price" var="tablePrice" />
+	<spring:message code="table_actions" var="tableActions" />
+	<spring:message code="table_quantity" var="tableQuantity" />
+	<spring:message code="label_customer_first_name" var="labelCustomerFirstName" />
+	<spring:message code="label_customer_last_name" var="labelCustomerLastName" />
+	
+	<spring:url var="showRestaurant" value="/restaurants/${restaurant.id}" />
+
+	<div class="row">
+		<h1>${labelOnlineMenu}</h1>
+		<h2 class="restaurant muted">${labelRestaurant} <a href="${showRestaurant}">${restaurant.id}</a></h2>
+
+		<c:if test="${not empty message}">
+			<div id="message" class="alert alert-info ${message.type}">${message.message}</div>
+		</c:if>
+	</div>
+
+	<c:if test="${empty bill.currentOrder.orderItems}">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">${labelWelcomeWord}</div>
+				<div class="panel-body">
+					${labelPickFromMenu}
+				</div>
+			</div>
+		</div>
+	</c:if>
+
+	<c:if test="${not empty bill.currentOrder.orderItems}">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">${labelOnlineOrder}</h3>
+				</div>
+				<div class="tab-content">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>${tableItem}</th>
+								<th>${tableQuantity}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
+								<tr>
+									<td class="capitalise">${orderItem.menuItem.id}</td>
+									<td>${orderItem.quantity}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</c:if>
+
+
+	
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">${labelOnlineBill}</h3>
+			</div>
+			<div class="tab-content">
+				<ul class="nav panel-tabs">
+					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/customer/newcustomer" />
+					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
+						<li>
+
+						</li>
+						<li>
+						${labelCustomerFirstName}
+						</li>
+						<li>
+						<input type="text" name="firstName"/>
+						</li>
+						<li>
+						${labelCustomerLastName}
+						</li>
+						<li>
+							<input type="text" name="lastName"/>
+						</li>
+						<li>
+						${labelCustomerLastName}
+						</li>
+						<li>
+							<input type="text" name="zipCode"/>
+						</li>
+						<li>
+						${labelCustomerLastName}
+						</li>
+						<li>
+							<input type="text" name="number"/>
+						</li>
+						<li>
+						${labelCustomerLastName}
+						</li>
+						<li>
+							<input type="text" name="cityName"/>
+						</li>
+					<button type="submit" class="btn btn-success">${labelSubmitBillButton}</button>
+					</form:form>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+
+</div>

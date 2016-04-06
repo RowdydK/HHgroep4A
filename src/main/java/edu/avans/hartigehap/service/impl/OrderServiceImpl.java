@@ -63,6 +63,10 @@ public class OrderServiceImpl implements OrderService {
         return submittedOrdersList;
     }
 
+    public Order save(Order order) {
+        return orderRepository.save(order);
+    }
+    
     @Transactional(readOnly = true)
     public List<Order> findPlannedOrdersForRestaurant(Restaurant restaurant) {
         // a query created using a repository method name

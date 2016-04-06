@@ -62,7 +62,7 @@ public class Bill extends DomainObject {
     private Date paidTime;
 
     // unidirectional one-to-one relationship
-    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL) 
     private Order currentOrder;
 
     @OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "bill")
@@ -130,7 +130,8 @@ public class Bill extends DomainObject {
      * @return
      */
     @Transient
-    public int getPriceSubmittedOrSuccessiveStateOrders(Bill bill, int discountValue) {
+    //public int getPriceSubmittedOrSuccessiveStateOrders(Bill bill, int discountValue) {
+    public int getPriceSubmittedOrSuccessiveStateOrders() {
         int price = 0;
         Iterator<Order> orderIterator = orders.iterator();
         while (orderIterator.hasNext()) {
@@ -140,8 +141,8 @@ public class Bill extends DomainObject {
             }
         }
 
-        DiscountStrategy disc = new DiscountStrategy();
-        price = disc.getDiscountPrice(bill, discountValue);
+        //DiscountStrategy disc = new DiscountStrategy();
+        //price = disc.getDiscountPrice(bill, discountValue);
 
         return price;
     }

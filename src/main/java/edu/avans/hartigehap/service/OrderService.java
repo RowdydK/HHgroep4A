@@ -12,6 +12,8 @@ public interface OrderService {
     List<Order> findPlannedOrdersForRestaurant(Restaurant restaurant);
 
     List<Order> findPreparedOrdersForRestaurant(Restaurant restaurant);
+    
+    Order save(Order order);
 
     void planOrder(Order order) throws StateException;
 

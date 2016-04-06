@@ -68,6 +68,7 @@ public class DiningTableServiceImpl implements DiningTableService {
     public void addOrderItem(DiningTable diningTable, String menuItemName) {
         MenuItem menuItem = menuItemRepository.findOne(menuItemName);
         diningTable.getCurrentBill().getCurrentOrder().addOrderItem(menuItem);
+        
     }
 
     public void deleteOrderItem(DiningTable diningTable, String menuItemName) {
