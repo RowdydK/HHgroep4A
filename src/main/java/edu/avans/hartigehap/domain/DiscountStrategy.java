@@ -23,7 +23,7 @@ public class DiscountStrategy {
         Collection<OrderItem> orderItems = new ArrayList<>();
         Collection<FoodCategory> fc;
 
-        for(Order order : bill.getOrders()){
+        for(Order order : bill.getSubmittedOrders()){
             for(OrderItem orderItem : order.getOrderItems()){
                 fc = orderItem.getMenuItem().getFoodCategories();
                 for(FoodCategory foodCategory : fc){
