@@ -87,42 +87,39 @@ public class Order extends DomainObject {
         return orderItems.isEmpty();
     }
 
-    public void addOrderItem(MenuItem menuItem) {
-        Iterator<OrderItem> orderItemIterator = orderItems.iterator();
-        boolean found = false;
-        while (orderItemIterator.hasNext()) {
-            OrderItem orderItem = orderItemIterator.next();
-            if (orderItem.getMenuItem().equals(menuItem)) {
-                orderItem.incrementQuantity();
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            OrderItem orderItem = new OrderItem(menuItem, 1);
-            orderItems.add(orderItem);
-        }
+    public void addOrderItem(MenuItem menuItem) {   	
+    	IteratorRepository itRep = new IteratorRepository(new ArrayList<Object>(orderItems));
+    	
+    	boolean found = false;
+    	for (IteratorPattern itPat = itRep.getIterator(); itPat.hasNext();){
+    		OrderItem orderItem = (OrderItem) itPat.next();
+    		if (orderItem.getMenuItem().equals(menuItem)){
+    			orderItem.incrementQuantity();
+    			found = true;
+    			break;
+    		}
+    	}
+    	if (!found){
+    		OrderItem orderItem = new OrderItem(menuItem, 1);
+    		orderItems.add(orderItem);
+    	}
     }
 
     public void deleteOrderItem(MenuItem menuItem) {
-        Iterator<OrderItem> orderItemIterator = orderItems.iterator();
-        boolean found = false;
-        while (orderItemIterator.hasNext()) {
-            OrderItem orderItem = orderItemIterator.next();
+    	IteratorRepository itRep = new IteratorRepository(new ArrayList<Object>(orderItems));
+    	boolean found = false;
+    	for (IteratorPattern itPat = itRep.getIterator(); itPat.hasNext();){
+    		OrderItem orderItem = (OrderItem) itPat.next();
             if (orderItem.getMenuItem().equals(menuItem)) {
-                found = true;
-                if (orderItem.getQuantity() > 1) {
-                    orderItem.decrementQuantity();
-                } else {
-                    // orderItem.getQuantity() == 1
-                    orderItemIterator.remove();
-                }
-                break;
+            	found = true;
+            	if (orderItem.getQuantity() > 1){
+            		orderItem.decrementQuantity();
+            	}else{
+            		orderItems.remove(orderItem);
+            	}
+            	break;
             }
-        }
-        if (!found) {
-            // do nothing
-        }
+    	}
     }
 
     public void submit() throws StateException {

@@ -108,10 +108,23 @@ public class OnlineOrderController {
         // the request mapping so all events for the same resource will be
         // handled by the same
         // controller method; so we end up with an if statement        
-
+        Bill bill = billService.findById(Long.valueOf(billId));
         switch (event) {
         case "submitOrder":
-        	return nSubmitOrder(restaurantId, billId, uiModel, locale);
+            try {
+            	onlineOrderService.submitBill(bill);
+            }catch(Exception e){
+            	
+            }
+            nFillModel(restaurantId, billId, uiModel);
+            Order order = orderService.findById(bill.getCurrentOrder().getId());
+            uiModel.addAttribute("order", order);
+            
+            // store the message temporarily in the session to allow displaying
+            // after redirect
+            
+            return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer";
+        	//return nSubmitOrder(restaurantId, bill, uiModel, locale);
         // break unreachable
 
         case "submitBill":
@@ -126,16 +139,19 @@ public class OnlineOrderController {
         }
     }
     
-    private String nSubmitOrder(String restaurantId, String billId, Model uiModel,
+    private String nSubmitOrder(String restaurantId, Bill bill, Model uiModel,
             Locale locale) {
         
         //DiningTable diningTable = warmupRestaurant(diningTableId, uiModel);
-        Bill bill = billService.findById(Long.valueOf(billId));
+        //Bill bill = billService.findById(Long.valueOf(billId));
         try {
-            onlineOrderService.submitOrder(bill);
-        } catch (StateException e) {
-            //return handleStateException(e, "message_submit_order_fail", customerId, uiModel, locale);
+        	onlineOrderService.submitBill(bill);
+        	billService.save(bill);
+        }catch(Exception e){
+        	
         }
+        String billId = bill.getId().toString();
+        nFillModel(restaurantId, billId, uiModel);
         
         // store the message temporarily in the session to allow displaying
         // after redirect
@@ -167,7 +183,8 @@ public class OnlineOrderController {
         customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
         
         try {
-			customer.getCurrentBill().submit();
+			bill.submit();
+			billService.save(bill);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,24 +200,28 @@ public class OnlineOrderController {
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/{customerId}", method = RequestMethod.GET)
     public String nShowPayment(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
-    		@PathVariable("customerId") String customerId,
-    		Model uiModel) {
+    		@PathVariable("customerId") String customerId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
         nFillModel(restaurantId, billId , uiModel);
         
+        
         Bill bill = billService.findById(Long.valueOf(billId));
-        
-        Customer customer = customerService.findById(Long.valueOf(customerId));
-        try{
-        	
-        }
-        catch(Exception e){
-        	
-        }
-        
 
-        return "hartigehap/onlineordercustomer";
+        try {
+			bill.paid();
+			billService.save(bill);
+		} catch (StateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        System.out.println("paid");
+        return "hartigehap/onlineorder";
     }
+    
+    
+    ///// OLD CODE 
+    
     
     
     

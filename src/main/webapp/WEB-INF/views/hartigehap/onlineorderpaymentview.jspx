@@ -57,7 +57,7 @@
 		</div>
 	</c:if>
 
-	<c:if test="${not empty order.orderItems}">
+	<c:if test="${not empty bill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -72,7 +72,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${order.orderItems}" var="orderItem">
+							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
@@ -84,57 +84,5 @@
 			</div>
 		</div>
 	</c:if>
-
-
-	
-	<div class="row">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">${labelOnlineBill}</h3>
-			</div>
-			<div class="tab-content">
-				<ul class="nav panel-tabs">
-					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/customer/newcustomer" />
-					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
-						<li>
-
-						</li>
-						<li>
-						${labelCustomerFirstName}
-						</li>
-						<li>
-						<input type="text" name="firstName"/>
-						</li>
-						<li>
-						${labelCustomerLastName}
-						</li>
-						<li>
-							<input type="text" name="lastName"/>
-						</li>
-						<li>
-						${labelCustomerLastName}
-						</li>
-						<li>
-							<input type="text" name="zipCode"/>
-						</li>
-						<li>
-						${labelCustomerLastName}
-						</li>
-						<li>
-							<input type="text" name="number"/>
-						</li>
-						<li>
-						${labelCustomerLastName}
-						</li>
-						<li>
-							<input type="text" name="cityName"/>
-						</li>
-					<button type="submit" class="btn btn-success">${labelSubmitBillButton}</button>
-					</form:form>
-				</ul>
-			</div>
-		</div>
-		
-	</div>
 
 </div>
