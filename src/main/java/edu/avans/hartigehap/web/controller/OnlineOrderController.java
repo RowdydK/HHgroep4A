@@ -2,6 +2,9 @@ package edu.avans.hartigehap.web.controller;
 
 import java.util.Collection;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.joda.time.DateTime;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import edu.avans.hartigehap.domain.*;
+import edu.avans.hartigehap.domain.Bill.BillStateId;
 import edu.avans.hartigehap.service.*;
 import edu.avans.hartigehap.web.form.Message;
 import org.springframework.web.servlet.mvc.support.*;
@@ -136,9 +140,69 @@ public class OnlineOrderController {
         // store the message temporarily in the session to allow displaying
         // after redirect
         
-        return "redirect:/restaurants/"+ restaurantId;
+        return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer";
 
     }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer", method = RequestMethod.GET)
+    public String nShowCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
+    		Model uiModel) {
+        log.info("restaurantId = " + restaurantId);
+        
+
+        nFillModel(restaurantId, billId , uiModel);
+
+        return "hartigehap/onlineordercustomer";
+    }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/newcustomer",params = "firstName", method = RequestMethod.POST)
+    public String nReceiveCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId
+    		,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName , @RequestParam("zipCode") String zipCode,
+    		@RequestParam("zipCode") String cityName,@RequestParam("number") String number,
+    		Model uiModel, Locale locale) {
+        log.info("(receiveEvent) restaurant = " + restaurantId);
+
+        Customer customer;
+        Bill bill = billService.findById(Long.valueOf(billId));
+        customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
+        
+        try {
+			customer.getCurrentBill().submit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   
+
+        System.out.println(firstName);
+        
+        return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer/"+customer.getId();
+
+//        }
+    }
+    
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/{customerId}", method = RequestMethod.GET)
+    public String nShowPayment(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
+    		@PathVariable("customerId") String customerId,
+    		Model uiModel) {
+        log.info("restaurantId = " + restaurantId);
+        nFillModel(restaurantId, billId , uiModel);
+        
+        Bill bill = billService.findById(Long.valueOf(billId));
+        
+        Customer customer = customerService.findById(Long.valueOf(customerId));
+        try{
+        	
+        }
+        catch(Exception e){
+        	
+        }
+        
+
+        return "hartigehap/onlineordercustomer";
+    }
+    
+    
     
 //    @RequestMapping(value = "/restaurants/{restaurantId}/online", method = RequestMethod.GET)
 //    public String showTable(@PathVariable("restaurantId") String restaurantId, Model uiModel) {
