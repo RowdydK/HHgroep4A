@@ -106,6 +106,17 @@ public class Bill extends DomainObject {
         }
         return submittedOrders;
     }
+    
+    public Collection<Order> getAllOrders() {
+        Collection<Order> submittedOrders = new ArrayList<Order>();
+        Iterator<Order> orderIterator = orders.iterator();
+        while (orderIterator.hasNext()) {
+            Order tmp = orderIterator.next();
+                submittedOrders.add(tmp);
+        }
+        return submittedOrders;
+    }
+
 
     /**
      * price of *all* orders, so submitted orders and current (not yet
@@ -146,6 +157,27 @@ public class Bill extends DomainObject {
         return price;
     }
 
+    public String getDiscPrice() {
+        int price = 0;
+        Iterator<Order> orderIterator = orders.iterator();
+        while (orderIterator.hasNext()) {
+            Order tmp = orderIterator.next();
+            if (tmp.isSubmittedOrSuccessiveState()) {
+                price += tmp.getPrice();
+            }
+        }
+
+        try{
+            DiscountStrategy disc = new DiscountStrategy();
+            price = disc.getDiscountPrice(this, 1);
+        }
+        catch(Exception e){
+        	//do nothing...
+        }
+
+        return Integer.toString(price);
+    }
+    
     public void submitOrder() throws StateException {
         currentOrder.submit();
         currentOrder = new Order();

@@ -9,7 +9,7 @@ public class DiscountOnePlusOne extends DiscountStrategy {
 
     public int CalculateDiscount(ArrayList<MenuItem> menuItems){
 
-        int discountPrice = 1;
+        int discountPrice = 0;
 
 
         int itemsToPay;
@@ -18,7 +18,7 @@ public class DiscountOnePlusOne extends DiscountStrategy {
 
             itemsToPay = (menuItems.size()-1)/2;
 
-            for(int i=0; i <= (itemsToPay + 1); i++){
+            for(int i=0; i < itemsToPay; i++){
                 MenuItem tmp = menuItems.get(i);
                 discountPrice += tmp.getPrice();
             }
@@ -27,7 +27,7 @@ public class DiscountOnePlusOne extends DiscountStrategy {
 
             itemsToPay = (menuItems.size()-1)/2;
 
-            for(int i=0; i <= itemsToPay; i++){
+            for(int i=0; i < itemsToPay; i++){
                 MenuItem tmp = menuItems.get(i);
                 discountPrice += tmp.getPrice();
             }
