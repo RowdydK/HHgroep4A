@@ -57,12 +57,10 @@ public abstract class Image {
     }
     
     public byte[] imageToByteArray(){
-    	String location = "C:\\Development\\Java\\Spring Tools Suite Workspace 2\\hh\\src\\main\\webapp\\images";
-   	
     	byte[] result = null;
     	ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
     	try {
-			BufferedImage img = ImageIO.read(new File(location, imageFileName));
+			BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
 			ImageIO.write(img, "jpg", baos);
 			return baos.toByteArray();			
 		} catch (IOException e) {
