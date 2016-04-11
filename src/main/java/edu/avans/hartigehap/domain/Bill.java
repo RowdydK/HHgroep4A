@@ -84,6 +84,7 @@ public class Bill extends DomainObject {
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
     }
+    
 
 //    public Bill() {
 //        billStatus = BillStatus.CREATED;
@@ -183,6 +184,10 @@ public class Bill extends DomainObject {
         currentOrder = new Order();
         currentOrder.setBill(this);
         orders.add(currentOrder);
+    }
+    
+    public void submitOnlineOrder() throws StateException {  	
+        currentOrder.submit();
     }
 
     /*

@@ -36,9 +36,9 @@ public class BillStateCreated extends BillState{
 			throw new EmptyBillException("not allowed to submit an empty bill");
         }
 		
-		if (!currentOrder.isEmpty()){
-			throw new StateException("not allowed to submit an with currentOrder in created state");
-        }
+//		if (!currentOrder.isEmpty()){
+//			throw new StateException("not allowed to submit an with currentOrder in created state");
+//        }
 		context.setBillState(new BillStateSubmitted());
 		context.setBillStateId(Bill.BillStateId.SUBMITTED);
 		System.out.println("billCreated");

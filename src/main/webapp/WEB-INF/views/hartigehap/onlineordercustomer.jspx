@@ -46,18 +46,7 @@
 		</c:if>
 	</div>
 
-	<c:if test="${empty bill.currentOrder.orderItems}">
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">${labelWelcomeWord}</div>
-				<div class="panel-body">
-					${labelPickFromMenu}
-				</div>
-			</div>
-		</div>
-	</c:if>
-
-	<c:if test="${not empty bill.currentOrder.orderItems}">
+	<c:if test="${not empty order.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -72,12 +61,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
+							<c:forEach items="${order.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
+									<spring:url var="priceProd" value="${orderItem.getPrice()}" />
+									<td>${label_currency} ${priceProd}</td>
 								</tr>
 							</c:forEach>
+							<tr>
+								<spring:url var="priceTot" value="${bill.getPriceAllOrders()}" />
+								<th>Total Price</th>
+								<td></td>
+								<td>${label_currency} ${priceTot}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

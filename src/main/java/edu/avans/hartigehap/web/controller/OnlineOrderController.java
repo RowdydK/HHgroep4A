@@ -1,5 +1,7 @@
 package edu.avans.hartigehap.web.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -122,10 +124,11 @@ public class OnlineOrderController {
         switch (event) {
         case "submitOrder":
             try {
+            	bill.submit();
             	onlineOrderService.submitBill(bill);
             	//onlineOrderService.submitOrder(bill.getCurrentOrder());
             }catch(Exception e){
-            	
+            	System.out.println(e);
             }
             nFillModel(restaurantId, billId, uiModel);
             Order order = orderService.findById(bill.getCurrentOrder().getId());
@@ -169,8 +172,20 @@ public class OnlineOrderController {
     		Model uiModel) {
         log.info("restaurantId = " + restaurantId);
         
+        Bill bill = billService.findById(Long.valueOf(billId));
+        
+        
+        Collection<Order> orders = bill.getAllOrders();
+        
+        Order order = null;
+        
+        if (orders.iterator().hasNext()){
+        	order = orders.iterator().next();
+        }
+
 
         nFillModel(restaurantId, billId , uiModel);
+        uiModel.addAttribute("order", order);
 
         return "hartigehap/onlineordercustomer";
     }
@@ -186,7 +201,7 @@ public class OnlineOrderController {
         Bill bill = billService.findById(Long.valueOf(billId));
         customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
         
-        try {
+        try{
 			bill.submit();
 			billService.save(bill);
 		} catch (Exception e) {
