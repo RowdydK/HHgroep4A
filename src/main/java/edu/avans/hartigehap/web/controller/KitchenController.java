@@ -75,6 +75,7 @@ public class KitchenController {
 
         Order order = warmupRestaurant(orderId, uiModel);
 
+
         switch (event) {
         case "planOrder":
             planOrder(order);

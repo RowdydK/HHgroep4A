@@ -39,7 +39,7 @@ public class Bill extends DomainObject {
     public enum BillStateId {
         CREATED, SUBMITTED, PAID
     }
-    
+
     @OneToOne(cascade = javax.persistence.CascadeType.ALL)
     private BillState billState;
 

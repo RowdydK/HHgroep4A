@@ -18,27 +18,13 @@ import lombok.ToString;
 @Setter
 public class BillStateSubmitted extends BillState{
 
-	BillOriginator originator;
-	BillCaretaker caretaker;
-
 	@Override
 	public Date billSubmitted(Bill context)throws StateException{
 
-		Bill newContext = new Bill();
-		newContext = context;
-
-		newContext.setBillState(new BillStatePaid());
-		newContext.setBillStateId(Bill.BillStateId.PAID);
-
-		originator.setBill(context);
-		caretaker.add(originator.saveBillToMemento());
+		context.setBillState(new BillStatePaid());
+		context.setBillStateId(Bill.BillStateId.PAID);
 
 		return new Date();
 	}
 
-	public Bill getPreviousBillState(int i){
-		originator.getBillFromMemento(caretaker.get(i));
-
-		return originator.getBill();
-	}
 }

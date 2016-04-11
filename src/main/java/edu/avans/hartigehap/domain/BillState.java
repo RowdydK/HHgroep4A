@@ -1,6 +1,7 @@
 package edu.avans.hartigehap.domain;
 
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,19 +19,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @Getter
 @Setter
-public abstract class BillState {
+public abstract class BillState implements Serializable{
     private static final long serialVersionUID = 1L;
     
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Transient
 	public final String error = "Cannot instantiate the selected state";
 	
