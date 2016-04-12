@@ -69,9 +69,12 @@ public class OnlineOrderController {
     @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}", method = RequestMethod.GET)
     public String nShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("billId") String billId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
+        Bill bill = billService.findById(Long.valueOf(billId));
+        bill.setStrategy(new DiscountOnePlusOne());
+        int newPrice = bill.getStrategy().CalculateDiscount(bill);
         
         nFillModel(restaurantId,billId,uiModel);
-
+        uiModel.addAttribute("discountPrice", newPrice);
         return "hartigehap/onlineorder";
     }
     

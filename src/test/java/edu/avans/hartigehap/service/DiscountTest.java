@@ -17,16 +17,16 @@ import java.util.Collection;
 public class DiscountTest {
 
 
-    @Test
-    public void discountCalculator (){
-
-        MockClasses setupBill = new MockClasses();
-        DiscountStrategy disc = new DiscountStrategy();
-
-        assertEquals(30, disc.getDiscountPrice(setupBill.SetupBill(), 1));
-        assertNotEquals(24, disc.getDiscountPrice(setupBill.SetupBill(), 1));
-        assertEquals(44, disc.getDiscountPrice(setupBill.SetupBill(), 2));
-        assertNotEquals(20, disc.getDiscountPrice(setupBill.SetupBill(), 2));
-    }
+//    @Test
+//    public void discountCalculator (){
+//
+//        MockClasses setupBill = new MockClasses();
+//        DiscountStrategy disc = new DiscountStrategy();
+//
+//        assertEquals(30, disc.getDiscountPrice(setupBill.SetupBill(), 1));
+//        assertNotEquals(24, disc.getDiscountPrice(setupBill.SetupBill(), 1));
+//        assertEquals(44, disc.getDiscountPrice(setupBill.SetupBill(), 2));
+//        assertNotEquals(20, disc.getDiscountPrice(setupBill.SetupBill(), 2));
+//    }
 
 }

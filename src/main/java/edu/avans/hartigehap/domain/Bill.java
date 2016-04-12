@@ -76,6 +76,13 @@ public class Bill extends DomainObject {
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
     
+    private DiscountStrategy strategy;
+    
+    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
+    public void setStrategy(DiscountStrategy strategy){
+    	this.strategy = strategy;
+    }
+    
     //New BillState
     public Bill(){
     	billState = new BillStateCreated();
@@ -83,6 +90,7 @@ public class Bill extends DomainObject {
     	currentOrder = new Order();
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
+    	strategy = new DiscountOnePlusOne();
     }
     
 
@@ -158,7 +166,7 @@ public class Bill extends DomainObject {
         return price;
     }
 
-    public String getDiscPrice() {
+    public int getDiscPrice() {
         int price = 0;
         Iterator<Order> orderIterator = orders.iterator();
         while (orderIterator.hasNext()) {
@@ -167,16 +175,13 @@ public class Bill extends DomainObject {
                 price += tmp.getPrice();
             }
         }
-
         try{
-            DiscountStrategy disc = new DiscountStrategy();
-            price = disc.getDiscountPrice(this, 1);
-        }
-        catch(Exception e){
-        	//do nothing...
+        	price = strategy.CalculateDiscount(this);
+        }catch(Exception e){
+        	System.out.println(e);
         }
 
-        return Integer.toString(price);
+        return price;
     }
     
     public void submitOrder() throws StateException {

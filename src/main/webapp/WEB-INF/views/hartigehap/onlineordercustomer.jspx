@@ -34,6 +34,7 @@
 	<spring:message code="table_quantity" var="tableQuantity" />
 	<spring:message code="label_customer_first_name" var="labelCustomerFirstName" />
 	<spring:message code="label_customer_last_name" var="labelCustomerLastName" />
+	<spring:message code="label_currency" var="labelCurrency" />
 	
 	<spring:url var="showRestaurant" value="/restaurants/${restaurant.id}" />
 
@@ -75,6 +76,13 @@
 								<td></td>
 								<td>${label_currency} ${priceTot}</td>
 							</tr>
+							<tr>
+							<spring:url var="priceDisc" value="${bill.getDiscPrice()}" />
+								<th>Discount Price</th>
+								<td></td>
+								
+								<td>${priceDisc}</td>
+								</tr>
 						</tbody>
 					</table>
 				</div>
