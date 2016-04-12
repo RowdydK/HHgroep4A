@@ -1,10 +1,15 @@
 package edu.avans.hartigehap.domain;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.persistence.Entity;
 /**
  * Created by Student on 21-03-16.
  */
+
+@Entity
 public class DiscountTwoPlusOne extends DiscountStrategy {
+	
 	
 	public int CalculateDiscount(Bill bill){
 		ArrayList<OrderItem> orderItems = new ArrayList();

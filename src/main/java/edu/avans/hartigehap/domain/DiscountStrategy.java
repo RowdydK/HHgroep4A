@@ -5,9 +5,13 @@ import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import javax.persistence.Entity;
 /**
  * Created by Student on 16-03-16.
  */
+
+@Entity
 public abstract class DiscountStrategy extends DomainObject{
     public int CalculateDiscount(Bill bill){
         return 0;

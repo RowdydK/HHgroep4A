@@ -76,6 +76,7 @@ public class Bill extends DomainObject {
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
     
+    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private DiscountStrategy strategy;
     
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
