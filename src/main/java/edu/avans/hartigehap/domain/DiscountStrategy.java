@@ -12,34 +12,12 @@ public abstract class DiscountStrategy extends DomainObject{
     public int CalculateDiscount(Bill bill){
         return 0;
     }
-    public ArrayList<MenuItem> getMenuItemList(Bill bill){
-        Collection<Order> orders = new ArrayList<>();
-        Collection<OrderItem> orderItems = new ArrayList<>();
-        Collection<FoodCategory> fc;
-        for(Order order : bill.getSubmittedOrders()){
-            for(OrderItem orderItem : order.getOrderItems()){
-                fc = orderItem.getMenuItem().getFoodCategories();
-                for(FoodCategory foodCategory : fc){
-                    if(foodCategory.getTag().equals("pizza")){
-                        orderItems.add(orderItem);
-                    }
-                }
-            }
-        }
-        ArrayList<MenuItem> menuItemList = BubbleSort((ArrayList)orderItems);
-        return menuItemList;
-    }
-    //Sorting the OrderItems in order to get highest PriceValues
-    private ArrayList<MenuItem> BubbleSort(ArrayList<OrderItem> itemList){
-        ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-        for(OrderItem item : itemList){
-            for(int i=0;i<=item.getQuantity();i++){
-                menuItems.add(item.getMenuItem());
-            }
-        }
+    
+    public ArrayList<MenuItem> BubbleSort(ArrayList<MenuItem> menuItems){
         sortPrice(menuItems.toArray(new MenuItem[menuItems.size()]));
         return menuItems;
     }
+    
     public static void sortPrice(MenuItem arr[]){
         Arrays.sort(arr, PRICE_ORDER);
         String out="";

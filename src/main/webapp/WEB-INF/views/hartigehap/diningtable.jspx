@@ -125,11 +125,6 @@
 								<td>${labelCurrency} ${diningTable.currentBill.currentOrder.price}</td>
 								<td>${labelCurrency} ${diningTable.currentBill.priceSubmittedOrSuccessiveStateOrders}</td>
 							</tr>
-							<tr>
-								<td>${labelCurrency}</td>
-								<spring:url var="discountval" value="${diningTable.currentBill.getDiscPrice()}" />
-								<td>${discountval}</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>

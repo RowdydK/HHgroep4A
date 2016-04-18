@@ -90,7 +90,7 @@ public class Bill extends DomainObject {
     	currentOrder = new Order();
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
-    	strategy = new DiscountOnePlusOne();
+    	strategy = DiscountSingleton.getInstance().getDiscountStrategy();
     }
     
 
