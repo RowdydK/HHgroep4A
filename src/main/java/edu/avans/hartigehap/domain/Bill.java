@@ -62,7 +62,7 @@ public class Bill extends DomainObject {
     private Date paidTime;
 
     // unidirectional one-to-one relationship
-    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL) 
     private Order currentOrder;
 
     @OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "bill")
@@ -76,6 +76,13 @@ public class Bill extends DomainObject {
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
     
+    private DiscountStrategy strategy;
+    
+    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
+    public void setStrategy(DiscountStrategy strategy){
+    	this.strategy = strategy;
+    }
+    
     //New BillState
     public Bill(){
     	billState = new BillStateCreated();
@@ -83,7 +90,9 @@ public class Bill extends DomainObject {
     	currentOrder = new Order();
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
+    	strategy = new DiscountOnePlusOne();
     }
+    
 
 //    public Bill() {
 //        billStatus = BillStatus.CREATED;
@@ -106,6 +115,17 @@ public class Bill extends DomainObject {
         }
         return submittedOrders;
     }
+    
+    public Collection<Order> getAllOrders() {
+        Collection<Order> submittedOrders = new ArrayList<Order>();
+        Iterator<Order> orderIterator = orders.iterator();
+        while (orderIterator.hasNext()) {
+            Order tmp = orderIterator.next();
+                submittedOrders.add(tmp);
+        }
+        return submittedOrders;
+    }
+
 
     /**
      * price of *all* orders, so submitted orders and current (not yet
@@ -129,6 +149,7 @@ public class Bill extends DomainObject {
      * @return
      */
     @Transient
+    //public int getPriceSubmittedOrSuccessiveStateOrders(Bill bill, int discountValue) {
     public int getPriceSubmittedOrSuccessiveStateOrders() {
         int price = 0;
         Iterator<Order> orderIterator = orders.iterator();
@@ -138,14 +159,40 @@ public class Bill extends DomainObject {
                 price += tmp.getPrice();
             }
         }
+
+        //DiscountStrategy disc = new DiscountStrategy();
+        //price = disc.getDiscountPrice(bill, discountValue);
+
         return price;
     }
 
+    public int getDiscPrice() {
+        int price = 0;
+        Iterator<Order> orderIterator = orders.iterator();
+        while (orderIterator.hasNext()) {
+            Order tmp = orderIterator.next();
+            if (tmp.isSubmittedOrSuccessiveState()) {
+                price += tmp.getPrice();
+            }
+        }
+        try{
+        	price = strategy.CalculateDiscount(this);
+        }catch(Exception e){
+        	System.out.println(e);
+        }
+
+        return price;
+    }
+    
     public void submitOrder() throws StateException {
         currentOrder.submit();
         currentOrder = new Order();
         currentOrder.setBill(this);
         orders.add(currentOrder);
+    }
+    
+    public void submitOnlineOrder() throws StateException {  	
+        currentOrder.submit();
     }
 
     /*

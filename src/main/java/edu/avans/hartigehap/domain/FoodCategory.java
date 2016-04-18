@@ -5,15 +5,16 @@ import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * 
@@ -34,6 +35,9 @@ public class FoodCategory extends DomainObject {
     // no cascade
     @ManyToMany(mappedBy = "foodCategories")
     private Collection<MenuItem> menuItems = new ArrayList<MenuItem>();
+    
+    @OneToMany
+    private Collection<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     public FoodCategory(String tag) {
         this.tag = tag;

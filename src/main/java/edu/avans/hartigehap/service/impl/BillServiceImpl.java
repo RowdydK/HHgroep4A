@@ -30,6 +30,10 @@ public class BillServiceImpl implements BillService {
     public void billHasBeenPaid(Bill bill) throws StateException {
         bill.paid();
     }
+    
+    public Bill save(Bill bill){
+    	return billRepository.save(bill);
+    }
 
     @Transactional(readOnly = true)
     public List<Bill> findSubmittedBillsForRestaurant(Restaurant restaurant) {

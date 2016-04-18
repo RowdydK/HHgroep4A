@@ -55,7 +55,7 @@
 				<h3 class="panel-title">${labelOnlineOrder}</h3>
 			</div>
 			<ul class="list-group">
-				<spring:url var="onlineLink" value="/restaurant/${restaurant.id}/online" />
+				<spring:url var="onlineLink" value="/restaurants/${restaurant.id}/online" />
 				<a href="${onlineLink}" class="list-group-item">${labelOnlineOrder}</a>
 			</ul>
 		</div>

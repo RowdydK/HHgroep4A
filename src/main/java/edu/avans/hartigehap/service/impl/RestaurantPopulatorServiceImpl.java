@@ -26,6 +26,8 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
     @Autowired
     private MenuItemRepository menuItemRepository;
     @Autowired
+    private IngredientRepository ingredientRepository;
+    @Autowired
     private CustomerRepository customerRepository;
 
     private List<Meal> meals = new ArrayList<>();
@@ -50,6 +52,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         createFoodCategory("energizing drinks");//6
         createFoodCategory("pizza");//7
 
+        
 
         // create Meals
         createMeal("spaghetti", "spaghetti.jpg", 8, "easy",
@@ -58,7 +61,7 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
                 Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(1)));
         createMeal("canneloni", "canneloni.jpg", 9, "easy",
                 Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(1)));
-        createMeal("pizza", "pizza.jpg", 9, "easy", Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(1)));
+        createMeal("pizza", "pizza.jpg", 9, "easy", Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
         createMeal("carpaccio", "carpaccio.jpg", 7, "easy",
                 Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(0)));
         createMeal("ravioli", "ravioli.jpg", 8, "easy",
@@ -66,15 +69,16 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
 
 
         //create Pizzas
-         createMeal("pizza tonno", "tonno.jpg", 9, "easy",
+         createMeal("pizza tonno", "pizza.jpg", 9, "easy",
             Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
-        createMeal("pizza meatlovers", "meatlovers.jpg", 9, "easy",
+        createMeal("pizza meatlovers", "pizza.jpg", 9, "easy",
                Arrays.<FoodCategory> asList(foodCats.get(3), foodCats.get(7)));
+        
 
         // create Drinks
         createDrink("beer", "beer.jpg", 1, Drink.Size.LARGE, Arrays.<FoodCategory> asList(foodCats.get(5)));
         createDrink("coffee", "coffee.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
-        createDrink("cola", "cola.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
+        createDrink("cola", "beer.jpg", 1, Drink.Size.MEDIUM, Arrays.<FoodCategory> asList(foodCats.get(6)));
 
         // create Customers
         byte[] photo = new byte[] { 127, -128, 0 };
@@ -156,6 +160,19 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         // for the moment every restaurant has all available food categories
         for (FoodCategory foodCat : foodCats) {
             if(foodCat.getId() == 8L || foodCat.getId() == 7L) {
+            	if(foodCat.getId() == 8L){
+            		ArrayList<Ingredient> ingredients = new ArrayList<>();
+            		Ingredient ingredient = new Ingredient("Kaas");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		ingredient = new Ingredient("Salami");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		ingredient = new Ingredient("Ananas");
+            		ingredientRepository.save(ingredient);
+            		ingredients.add(ingredient);
+            		foodCat.setIngredients(ingredients);
+            	}
                 restaurant.getOnlineMenu().getFoodCategories().add(foodCat);
             }
         }
