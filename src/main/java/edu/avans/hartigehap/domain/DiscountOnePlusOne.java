@@ -1,10 +1,12 @@
 package edu.avans.hartigehap.domain;
+import javax.persistence.Entity;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 /**
  * Created by Student on 21-03-16.
  */
+@Entity
 public class DiscountOnePlusOne extends DiscountStrategy {
     
 	public int CalculateDiscount(Bill bill){
@@ -12,8 +14,11 @@ public class DiscountOnePlusOne extends DiscountStrategy {
 		for (Order order : bill.getAllOrders()){
 			orderItems.addAll(order.getOrderItems());
 		}
+
 		ArrayList<MenuItem> menuItems = OrderItemtoMenuItems(orderItems);
+
 		ArrayList<MenuItem> discountItems = new ArrayList<>();
+
 		for (MenuItem mi : menuItems){
 			Collection<FoodCategory> fc = mi.getFoodCategories();
 			for (FoodCategory foodCat : fc){
@@ -23,6 +28,7 @@ public class DiscountOnePlusOne extends DiscountStrategy {
 			}
 		}
 		int normalPrice = 0;
+
 		for (MenuItem mi: menuItems){
 			normalPrice = normalPrice + mi.getPrice();
 		}

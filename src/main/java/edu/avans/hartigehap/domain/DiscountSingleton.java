@@ -31,7 +31,7 @@ public class DiscountSingleton {
 		if ((weekNumber%2)==0){
 			return discountTwoPlusOne;
 		}else{
-			return discountOnePlusOne;
+			return discountTwoPlusOne;
 		}
 	}
 	

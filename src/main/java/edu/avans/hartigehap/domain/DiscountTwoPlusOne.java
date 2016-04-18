@@ -1,9 +1,11 @@
 package edu.avans.hartigehap.domain;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 /**
  * Created by Student on 21-03-16.
  */
+@Entity
 public class DiscountTwoPlusOne extends DiscountStrategy {
 	
 	public int CalculateDiscount(Bill bill){

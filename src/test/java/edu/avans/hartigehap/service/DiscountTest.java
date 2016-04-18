@@ -17,16 +17,21 @@ import java.util.Collection;
 public class DiscountTest {
 
 
-//    @Test
-//    public void discountCalculator (){
-//
-//        MockClasses setupBill = new MockClasses();
-//        DiscountStrategy disc = new DiscountStrategy();
-//
-//        assertEquals(30, disc.getDiscountPrice(setupBill.SetupBill(), 1));
-//        assertNotEquals(24, disc.getDiscountPrice(setupBill.SetupBill(), 1));
-//        assertEquals(44, disc.getDiscountPrice(setupBill.SetupBill(), 2));
-//        assertNotEquals(20, disc.getDiscountPrice(setupBill.SetupBill(), 2));
-//    }
+    @Test
+    public void discountCalculator (){
+
+        DiscountStrategy discountStrategyOnePlusOne = new DiscountOnePlusOne();
+        DiscountStrategy discountStrategyTwoPlusOne = new DiscountTwoPlusOne();
+
+        Bill bill;
+        bill = new MockClasses().SetupBill();
+
+        bill.setStrategy(discountStrategyOnePlusOne);
+
+        assertEquals(30, bill.getDiscPrice());
+        assertNotEquals(24, bill.getDiscPrice());
+        //assertEquals(44, disc.getDiscountPrice(setupBill.SetupBill(), 2));
+        //assertNotEquals(20, disc.getDiscountPrice(setupBill.SetupBill(), 2));
+    }
 
 }

@@ -56,9 +56,12 @@ public class OnlineOrderController {
         		uiModel.addAttribute("restaurant", r);
         	}
         }
+
         Bill bill;
         if (billId == null){
+
         	bill = billService.save(new Bill());
+
         }
         else{
         	bill = billService.findById(Long.valueOf(billId));

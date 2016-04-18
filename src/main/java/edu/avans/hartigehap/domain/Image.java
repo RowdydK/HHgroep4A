@@ -60,8 +60,8 @@ public abstract class Image {
     	byte[] result = null;
     	ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
     	try {
-			//BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
-			BufferedImage img = ImageIO.read(new File("C:/Development/Java/Spring Tools Suite Workspace/hh/src/main/webapp/images/" + imageFileName));
+			BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
+			//BufferedImage img = ImageIO.read(new File("~/Users/Student/Dropbox/School/VH11A4_2016/Spring_Project_Not_CE/HHgroep4A/src/main/webapp/images" + imageFileName));
 			ImageIO.write(img, "jpg", baos);
 			return baos.toByteArray();			
 		} catch (IOException e) {
