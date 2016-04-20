@@ -44,6 +44,10 @@ public class DiscountTwoPlusOne extends DiscountStrategy {
 	
     public int getDiscPrice(ArrayList<MenuItem> menuItems){
 		int priceToPay = 0;
+		int totalPrice = 0;
+		for (MenuItem mi: menuItems){
+			totalPrice = totalPrice + mi.getPrice();
+		}
 		int numberOfPizzas = menuItems.size();
 		int index = 0;
 		while(numberOfPizzas>=3){
@@ -53,7 +57,7 @@ public class DiscountTwoPlusOne extends DiscountStrategy {
 		for(MenuItem mi : menuItems){
 		    priceToPay+=mi.getPrice();
 		}
-		return priceToPay;
+		return totalPrice - priceToPay;
 	}
 	
 	
