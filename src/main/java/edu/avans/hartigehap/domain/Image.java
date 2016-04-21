@@ -58,6 +58,7 @@ public abstract class Image extends DomainObject {
     	try {
 			BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
 			//BufferedImage img = ImageIO.read(new File("C:/Development/Java/Spring Tools Suite Workspace/hh/src/main/webapp/images/" + imageFileName));
+
 			ImageIO.write(img, "jpg", baos);
 			return baos.toByteArray();			
 		} catch (IOException e) {

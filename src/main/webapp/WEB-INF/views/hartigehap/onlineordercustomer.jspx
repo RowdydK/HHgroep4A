@@ -103,7 +103,7 @@
 			</div>
 			<div class="tab-content">
 			<ul style="list-style: none;">
-					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/customer/newcustomer" />
+					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bills/${bill.id}/customers/newcustomer" />
 					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
 
 						<li>

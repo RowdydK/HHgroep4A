@@ -56,9 +56,12 @@ public class OnlineOrderController {
         		uiModel.addAttribute("restaurant", r);
         	}
         }
+
         Bill bill;
         if (billId == null){
+
         	bill = billService.save(new Bill());
+
         }
         else{
         	bill = billService.findById(Long.valueOf(billId));
@@ -140,7 +143,7 @@ public class OnlineOrderController {
             // store the message temporarily in the session to allow displaying
             // after redirect
             
-            return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customer";
+            return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customers";
         default:
             //warmupRestaurant(diningTableId, uiModel);
             //log.error("internal error: event " + event + "not recognized");
@@ -166,11 +169,11 @@ public class OnlineOrderController {
         // store the message temporarily in the session to allow displaying
         // after redirect
         
-        return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customer";
+        return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customers";
 
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/customer", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/customers", method = RequestMethod.GET)
     public String nShowCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
     		Model uiModel) {
         log.info("restaurantId = " + restaurantId);

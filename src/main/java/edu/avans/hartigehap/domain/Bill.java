@@ -78,9 +78,9 @@ public class Bill extends DomainObject implements Cloneable {
     // bidirectional one-to-many relationship
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
-    
+
     private DiscountStrategy strategy;
-    
+
     //New BillState
     public Bill(){
     	billState = new BillStateCreated();
@@ -174,6 +174,7 @@ public class Bill extends DomainObject implements Cloneable {
                 price += tmp.getPrice();
             }
         }
+
         try{
         	price = strategy.CalculateDiscount(this);
         }catch(Exception e){

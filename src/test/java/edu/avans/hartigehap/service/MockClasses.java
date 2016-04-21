@@ -24,17 +24,17 @@ public class MockClasses {
         foodCats1.add(foodCat);
         foodCats2.add(foodCat2);
 
-        Meal meal1 = new Meal("spaghetti", "", 10, "lekkerman");
+        Meal meal1 = new Meal("spaghetti", "beer.jpg", 10, "lekkerman");
         meal1.addFoodCategories(foodCats1);
-        Meal meal2 = new Meal("pizza", "", 15, "facking goud");
+        Meal meal2 = new Meal("pizza", "beer.jpg", 15, "facking goud");
         meal2.addFoodCategories(foodCats2);
-        Meal meal3 = new Meal("pizzaatje", "", 14, "superlekker");
+        Meal meal3 = new Meal("pizzaatje", "beer.jpg", 14, "superlekker");
         meal3.addFoodCategories(foodCats2);
-        Meal meal4 = new Meal("pasta", "", 10, "lekkerman");
+        Meal meal4 = new Meal("pasta", "beer.jpg", 10, "lekkerman");
         meal4.addFoodCategories(foodCats1);
-        Meal meal5 = new Meal("pizzatonijn", "", 15, "facking goud");
+        Meal meal5 = new Meal("pizzatonijn", "beer.jpg", 15, "facking goud");
         meal5.addFoodCategories(foodCats2);
-        Meal meal6 = new Meal("pizzahamas", "", 14, "superlekker");
+        Meal meal6 = new Meal("pizzahamas", "beer.jpg", 14, "superlekker");
         meal6.addFoodCategories(foodCats2);
 
         OrderItem orderItem1 = new OrderItem();
