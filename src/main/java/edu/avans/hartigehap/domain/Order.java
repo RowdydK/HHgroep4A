@@ -5,16 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -28,9 +19,14 @@ import lombok.ToString;
  * @author Erco
  */
 @Entity
-@NamedQuery(name = "Order.findSubmittedOrders", query = "SELECT o FROM Order o "
-        + "WHERE o.orderStatus = edu.avans.hartigehap.domain.Order$OrderStatus.SUBMITTED "
-        + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.submittedTime")
+@NamedQueries({
+        @NamedQuery(name = "Order.findSubmittedOrders", query = "SELECT o FROM Order o "
+                + "WHERE o.orderStatus = edu.avans.hartigehap.domain.Order$OrderStatus.SUBMITTED "
+                + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.submittedTime"),
+        @NamedQuery(name = "Order.findPlannedOrders", query = "SELECT o FROM Order o "
+                + "WHERE o.orderStatus = edu.avans.hartigehap.domain.Order$OrderStatus.PLANNED "
+                + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.plannedTime")
+})
 // to prevent collision with MySql reserved keyword
 @Table(name = "ORDERS")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")

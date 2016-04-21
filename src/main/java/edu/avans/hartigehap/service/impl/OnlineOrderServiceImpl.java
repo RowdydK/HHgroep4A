@@ -1,28 +1,19 @@
 package edu.avans.hartigehap.service.impl;
 
+import edu.avans.hartigehap.domain.*;
+import edu.avans.hartigehap.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.avans.hartigehap.domain.Bill;
-import edu.avans.hartigehap.domain.Customer;
-import edu.avans.hartigehap.domain.EmptyBillException;
-import edu.avans.hartigehap.domain.Ingredient;
-import edu.avans.hartigehap.domain.MenuItem;
-import edu.avans.hartigehap.domain.Order;
-import edu.avans.hartigehap.domain.OrderItem;
-import edu.avans.hartigehap.domain.OrderItemIngredient;
-import edu.avans.hartigehap.domain.StateException;
-import edu.avans.hartigehap.repository.BillRepository;
-import edu.avans.hartigehap.repository.CustomerRepository;
-import edu.avans.hartigehap.repository.IngredientRepository;
-import edu.avans.hartigehap.repository.MenuItemRepository;
-import edu.avans.hartigehap.repository.OrderItemIngredientRepository;
-import edu.avans.hartigehap.repository.OrderItemRepository;
-import edu.avans.hartigehap.repository.OrderRepository;
 import edu.avans.hartigehap.service.OnlineOrderService;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 @Service("onlineOrderService")
 @Repository
@@ -43,7 +34,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 	private OrderRepository orderRepository;
 	@Autowired
 	private BillRepository billRepository;
-	
+
 	@Transactional(readOnly = true)
 	public Order getOrder(String orderId){
 		return orderRepository.findOne(Long.valueOf(orderId));
@@ -87,5 +78,21 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 		bill.submitOnlineOrder();
 		billRepository.save(bill);
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Order> findPlannedOrders(Restaurant restaurant) {
+		List<Order> allPlannedOrdersOnline = new ArrayList<>();
+		List<Order> allPlannedOrders = orderRepository.findPlannedOrdersForRestaurant(restaurant);
+		ListIterator<Order> it = allPlannedOrders.listIterator();
+				while(it.hasNext()){
+					Order order = it.next();
+					if (order.getBill().getDiningTable() == null){
+						allPlannedOrdersOnline.add(order);
+					}
+
+				}
+		return allPlannedOrdersOnline;
+	}
+
 }

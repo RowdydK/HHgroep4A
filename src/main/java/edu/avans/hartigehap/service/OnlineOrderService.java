@@ -1,14 +1,11 @@
 package edu.avans.hartigehap.service;
 
-import edu.avans.hartigehap.domain.Bill;
-import edu.avans.hartigehap.domain.Customer;
-import edu.avans.hartigehap.domain.EmptyBillException;
-import edu.avans.hartigehap.domain.Ingredient;
-import edu.avans.hartigehap.domain.Order;
-import edu.avans.hartigehap.domain.StateException;
+import edu.avans.hartigehap.domain.*;
+
+import java.util.List;
 
 public interface OnlineOrderService {
-	
+
 	Order getOrder(String orderId);
 	
 	void addOrderItem(Bill bill, String menuItemName);
@@ -20,5 +17,7 @@ public interface OnlineOrderService {
 	void addOrderItemIngredient(Long OrderItemId, Long ingredientId);
 
     void submitBill(Bill bill) throws StateException, EmptyBillException;
+
+    List<Order> findPlannedOrders(Restaurant restaurant);
     
 }

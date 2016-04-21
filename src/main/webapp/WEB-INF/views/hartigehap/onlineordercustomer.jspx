@@ -34,6 +34,10 @@
 	<spring:message code="table_quantity" var="tableQuantity" />
 	<spring:message code="label_customer_first_name" var="labelCustomerFirstName" />
 	<spring:message code="label_customer_last_name" var="labelCustomerLastName" />
+	<spring:message code="label_customer_zipcode" var="labelCustomerZipcode" />
+	<spring:message code="label_customer_city_name" var="labelCustomerCityName" />
+	<spring:message code="label_customer_phone_number" var="labelCustomerPhoneNumber" />
+	<spring:message code="label_customer_info" var="labelCustomerInfo" />
 	<spring:message code="label_currency" var="labelCurrency" />
 	
 	<spring:url var="showRestaurant" value="/restaurants/${restaurant.id}" />
@@ -95,12 +99,13 @@
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">${labelOnlineBill}</h3>
+				<h3 class="panel-title">${labelCustomerInfo}</h3>
 			</div>
 			<div class="tab-content">
-				<ul class="nav panel-tabs">
+			<ul style="list-style: none;">
 					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/customer/newcustomer" />
 					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
+
 						<li>
 
 						</li>
@@ -117,19 +122,19 @@
 							<input type="text" name="lastName"/>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerZipcode}
 						</li>
 						<li>
 							<input type="text" name="zipCode"/>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerPhoneNumber}
 						</li>
 						<li>
 							<input type="text" name="number"/>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerCityName}
 						</li>
 						<li>
 							<input type="text" name="cityName"/>
