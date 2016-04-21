@@ -243,42 +243,7 @@ public class Bill extends DomainObject implements Cloneable {
     	this.submittedTime = bill.getSubmittedTime();
     	this.version = bill.getVersion();
     }
-    
-//    public void submit() throws StateException, EmptyBillException {
-//        boolean allEmpty = true;
-//        Iterator<Order> orderIterator = orders.iterator();
-//        while (orderIterator.hasNext()) {
-//            Order order = orderIterator.next();
-//            if (!order.isEmpty()) {
-//                allEmpty = false;
-//                break;
-//            }
-//        }
-//        if (allEmpty) {
-//            throw new EmptyBillException("not allowed to submit an empty bill");
-//        }
-//
-//        if (!currentOrder.isEmpty() && currentOrder.getOrderStatus() == Order.OrderStatus.CREATED) {
-//            // the currentOrder is not empty, but not yet submitted
-//            throw new StateException("not allowed to submit an with currentOrder in created state");
-//        }
-//
-//        // this can only happen by directly invoking HTTP requests, so not via
-//        // GUI
-//        // TODO better to use another exception, because now GUI shows wrong
-//        // error message
-//        if (billStatus != BillStatus.CREATED) {
-//            throw new StateException("not allowed to submit an already submitted bill");
-//        }
-//
-//        submittedTime = new Date();
-//        billStatus = BillStatus.SUBMITTED;
-//    }
 
-//    @Transient
-//    public boolean isSubmitted() {
-//        return billStatus == BillStatus.SUBMITTED;
-//    }
     
     
     public void paid() throws StateException {
@@ -286,16 +251,6 @@ public class Bill extends DomainObject implements Cloneable {
     	paidTime = billState.billSubmitted(this);
     }
 
-//    public void paid() throws StateException {
-//
-//        // this can only happen by directly invoking HTTP requests, so not via
-//        // GUI
-//        if (billStatus != BillStatus.SUBMITTED) {
-//            throw new StateException("not allowed to pay an bill that is not in the submitted state");
-//        }
-//
-//        paidTime = new Date();
-//        billStatus = BillStatus.PAID;
-//    }
+
 
 }

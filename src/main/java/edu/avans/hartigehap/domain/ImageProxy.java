@@ -71,21 +71,5 @@ public class ImageProxy extends Image{
 		return false;
 	}
 	
-//	public boolean getAspectRatio(byte[] theImage){
-//		ByteArrayInputStream in = new ByteArrayInputStream(theImage);
-//		try{
-//			BufferedImage img = ImageIO.read(in);
-//			if ((img.getHeight() % img.getWidth()) == 0 ){
-//				return true;
-//			}
-//			else{
-//				return false;
-//			}
-//		}
-//		catch(Exception e){
-//			System.out.println("ImageProxy class - " + e);
-//		}
-//		return false;
-//	}
 	
 }
