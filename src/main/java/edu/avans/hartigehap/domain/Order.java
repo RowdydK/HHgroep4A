@@ -25,7 +25,7 @@ import lombok.ToString;
                 + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.submittedTime"),
         @NamedQuery(name = "Order.findPlannedOrders", query = "SELECT o FROM Order o "
                 + "WHERE o.orderStatus = edu.avans.hartigehap.domain.Order$OrderStatus.PLANNED "
-                + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.plannedTime")
+                + "AND o.bill.customer.restaurant = :restaurant AND o.bill.diningTable is NULL " + "ORDER BY o.plannedTime")
 })
 // to prevent collision with MySql reserved keyword
 @Table(name = "ORDERS")
@@ -33,7 +33,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true, includeFieldNames = true, of = { "orderStatus", "orderItems" })
-public class Order extends DomainObject implements Cloneable {
+public class Order extends DomainObject {
     private static final long serialVersionUID = 1L;
 
     public enum OrderStatus {
@@ -195,22 +195,5 @@ public class Order extends DomainObject implements Cloneable {
         }
         return price;
     }
-    
-    @Override
-    public Order clone() {
-		try {
-			Order clone = (Order) super.clone();
-			Collection<OrderItem> thisOrderItems = orderItems;
-			ArrayList<OrderItem> cloneOrderItems = new ArrayList<>();
-			for(OrderItem orderItem : thisOrderItems){
-				cloneOrderItems.add(orderItem.clone());
-			}
-			clone.setOrderItems(cloneOrderItems);
-			return clone;
-		} catch (CloneNotSupportedException e) {		
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-	}
 
 }

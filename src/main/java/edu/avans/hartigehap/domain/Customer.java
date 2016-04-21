@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -79,6 +80,9 @@ public class Customer extends DomainObject {
     private int partySize;
 
     private String description;
+    
+    @ManyToOne()
+    private Restaurant restaurant;
 
     @Basic(fetch = FetchType.LAZY)
     @Lob
@@ -95,7 +99,7 @@ public class Customer extends DomainObject {
     // no cascading
     // bidirectional one-to-many; mapping on the database happens at the many
     // side
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer")
     private Collection<Bill> bills = new ArrayList<Bill>();
 
     // TODO not complete (bills)
@@ -113,12 +117,13 @@ public class Customer extends DomainObject {
         bills.add(currentBill);
     }
     
-    public Customer(String firstName, String lastName, String number, String zipCode, String cityName, Bill bill){
+    public Customer(String firstName, String lastName, String number, String zipCode, String cityName, Bill bill, Restaurant restaurant){
     	this.firstName = firstName;
     	this.lastName = lastName;
     	this.number = number;
     	this.zipCode = zipCode;
     	this.cityName = cityName;
+    	this.restaurant = restaurant;
     	
     	currentBill = bill;
     	bill.setCustomer(this);

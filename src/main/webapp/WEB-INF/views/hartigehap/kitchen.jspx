@@ -96,8 +96,7 @@
 			</c:if>
 		</div>
 	</div>
-</div>
-
+	
 		<div class="row">
     		<div class="panel panel-default">
     			<div class="panel-heading">
@@ -113,10 +112,10 @@
     					<tbody>
     					<c:forEach items="${allPlannedOnlineOrders}" var="plannedOnlineOrder">
     						<tr>
-    							<spring:url var="showOrder" value="/kitchen/orders/${plannedOrder.id}" />
-    							<td><a href="${showOrder}">${labelPlannedOnlineOrder} ${plannedOrder.bill.customer.lastName} </a></td>
+    							<spring:url var="showOrder" value="/kitchen/orders/${plannedOnlineOrder.id}" />
+    							<td><a href="${showOrder}">${labelPlannedOnlineOrder} ${plannedOnlineOrder.bill.customer.firstName} ${plannedOnlineOrder.bill.customer.lastName} </a></td>
     							<sec:authorize access="hasRole('ROLE_EMPLOYEE')">
-    								<spring:url var="preparedOrderUrl" value="/kitchen/orders/${plannedOrder.id}" />
+    								<spring:url var="preparedOrderUrl" value="/kitchen/orders/${plannedOnlineOrder.id}" />
     								<form:form name="preparedOrderForm" action="${preparedOrderUrl}" method="put">
     									<input type="hidden" name="event" value="orderHasBeenPrepared" />
     									<td style="text-align:right;"><input type="submit" value="${labelPreparedOrderButton}" class="btn btn-success btn-float-left-margin-right" style="float:right;" role="button" /></td>
@@ -129,4 +128,8 @@
     			</c:if>
     		</div>
     	</div>
-    </div>
+	
+</div>
+
+
+

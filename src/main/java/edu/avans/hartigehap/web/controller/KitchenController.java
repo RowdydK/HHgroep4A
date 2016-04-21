@@ -54,9 +54,14 @@ public class KitchenController {
 
         // warmup stuff
         Order order = warmupRestaurant(orderId, uiModel);
-        Restaurant resto = order.getBill().getDiningTable().getRestaurant();
-
-
+        
+        Restaurant resto;
+        if (order.getBill().getDiningTable() == null){
+        	resto = order.getBill().getCustomer().getRestaurant();
+        }else{
+        	resto = order.getBill().getDiningTable().getRestaurant();
+        }
+        
         List<Order> allSubmittedOrders = orderService.findSubmittedOrdersForRestaurant(resto);
         uiModel.addAttribute("allSubmittedOrders", allSubmittedOrders);
 
@@ -98,7 +103,15 @@ public class KitchenController {
             break;
         }
         
-        return "redirect:/restaurants/" + order.getBill().getDiningTable().getRestaurant().getId() + "/kitchen";
+        String restaurantid;
+        if (order.getBill().getDiningTable() == null){
+        	restaurantid = order.getBill().getCustomer().getRestaurant().getId();
+        }else{
+        	restaurantid = order.getBill().getDiningTable().getRestaurant().getId();
+        }
+        
+        
+        return "redirect:/restaurants/" + restaurantid + "/kitchen";
     }
 
     private void planOrder(Order order) {
@@ -123,8 +136,14 @@ public class KitchenController {
         Order order = orderService.findById(Long.valueOf(orderId));
         Collection<Restaurant> restaurants = restaurantService.findAll();
         uiModel.addAttribute("restaurants", restaurants);
-        Restaurant restaurant = restaurantService
+        Restaurant restaurant;
+        if (order.getBill().getDiningTable() == null){
+        	restaurant = restaurantService.fetchWarmedUp(order.getBill().getCustomer().getRestaurant().getId());
+        }
+        else{
+        restaurant = restaurantService
                 .fetchWarmedUp(order.getBill().getDiningTable().getRestaurant().getId());
+        }
         uiModel.addAttribute("restaurant", restaurant);
         return order;
     }
