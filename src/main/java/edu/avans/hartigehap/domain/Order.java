@@ -25,7 +25,7 @@ import lombok.ToString;
                 + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.submittedTime"),
         @NamedQuery(name = "Order.findPlannedOrders", query = "SELECT o FROM Order o "
                 + "WHERE o.orderStatus = edu.avans.hartigehap.domain.Order$OrderStatus.PLANNED "
-                + "AND o.bill.diningTable.restaurant = :restaurant " + "ORDER BY o.plannedTime")
+                + "AND o.bill.customer.restaurant = :restaurant AND o.bill.diningTable is NULL " + "ORDER BY o.plannedTime")
 })
 // to prevent collision with MySql reserved keyword
 @Table(name = "ORDERS")

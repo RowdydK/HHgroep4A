@@ -81,17 +81,8 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Order> findPlannedOrders(Restaurant restaurant) {
-		List<Order> allPlannedOrdersOnline = new ArrayList<>();
-		List<Order> allPlannedOrders = orderRepository.findPlannedOrdersForRestaurant(restaurant);
-		ListIterator<Order> it = allPlannedOrders.listIterator();
-				while(it.hasNext()){
-					Order order = it.next();
-					if (order.getBill().getDiningTable() == null){
-						allPlannedOrdersOnline.add(order);
-					}
-
-				}
-		return allPlannedOrdersOnline;
+		List<Order> allPlannedOnlineOrders = orderRepository.findPlannedOrdersForRestaurant(restaurant);
+		return allPlannedOnlineOrders;
 	}
 
 }

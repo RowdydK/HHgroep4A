@@ -87,6 +87,9 @@ public class RestaurantPopulatorServiceImpl implements RestaurantPopulatorServic
         createCustomer("piet", "bakker", new DateTime(), 1, "description", photo);
         createCustomer("piet", "bakker", new DateTime(), 1, "description", photo);
         createCustomer("piet", "bukker", new DateTime(), 1, "description", photo);
+        
+        // create online order
+        //Customer customerOnline = new Customer("vooraam","achternaam","number","zipcode","location",,)
     }
 
     private void createFoodCategory(String tag) {

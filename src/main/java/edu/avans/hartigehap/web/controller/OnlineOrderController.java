@@ -202,11 +202,13 @@ public class OnlineOrderController {
 
         Customer customer;
         Bill bill = billService.findById(Long.valueOf(billId));
-        customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
+        Restaurant restaurant = restaurantService.findById(restaurantId);
+        customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill, restaurant));
         
         try{
 			bill.submit();
-            bill.getCurrentOrder().setOrderStatus(Order.OrderStatus.PLANNED);
+            //bill.getCurrentOrder().setOrderStatus(Order.OrderStatus.PLANNED);
+            orderService.planOrder(bill.getCurrentOrder());
 			billService.save(bill);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
