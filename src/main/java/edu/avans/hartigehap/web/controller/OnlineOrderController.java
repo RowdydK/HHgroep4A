@@ -179,22 +179,12 @@ public class OnlineOrderController {
         
         Bill bill = billService.findById(Long.valueOf(billId));
         
-        
-        Collection<Order> orders = bill.getAllOrders();
-        
-        Order order = null;
-        
-        if (orders.iterator().hasNext()){
-        	order = orders.iterator().next();
-        }
-
         int newPrice = bill.getStrategy().CalculateDiscount(bill);
 
         nFillModel(restaurantId,billId,uiModel);
         uiModel.addAttribute("discountPrice", newPrice);
 
         nFillModel(restaurantId, billId , uiModel);
-        uiModel.addAttribute("order", order);
 
         return "hartigehap/onlineordercustomer";
     }
@@ -206,7 +196,7 @@ public class OnlineOrderController {
                                    //Model uiModel, Locale locale) {
         log.info("(receiveEvent) restaurant = " + restaurantId);
 
-        Bill bill = billService.findById(Long.valueOf(billId));
+        
 
         if(bindingResult.hasErrors()){
             uiModel.addAttribute("message",new Message("error",
@@ -215,13 +205,14 @@ public class OnlineOrderController {
             nFillModel(restaurantId, billId , uiModel);
             return "hartigehap/onlineordercustomer";
         }else {
-
-            customer.setCurrentBill(bill);
+        	Bill bill = billService.findById(Long.valueOf(billId));
+        	Restaurant restaurant = restaurantService.findById(restaurantId);
+            customer.addOnlineOrderSpecs(restaurant, bill);
             customer = customerService.save(customer);
-
+            bill = billService.save(bill);
             try{
-                bill.submit();
-                billService.save(bill);
+//                bill.submit();
+//                billService.save(bill);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -246,7 +237,8 @@ public class OnlineOrderController {
 
         try {
 			bill.paid();
-			billService.save(bill);
+			orderService.planOrder(bill.getCurrentOrder());
+			bill = billService.save(bill);
 		} catch (StateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

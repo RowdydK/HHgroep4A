@@ -51,7 +51,7 @@
 		</c:if>
 	</div>
 
-	<c:if test="${not empty order.orderItems}">
+	<c:if test="${not empty bill.currentOrder.orderItems}">
 		<div class="row">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -66,7 +66,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${order.orderItems}" var="orderItem">
+							<c:forEach items="${bill.currentOrder.orderItems}" var="orderItem">
 								<tr>
 									<td class="capitalise">${orderItem.menuItem.id}</td>
 									<td>${orderItem.quantity}</td>
@@ -104,7 +104,7 @@
 			<div class="tab-content">
 			<ul style="list-style: none;">
 					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bills/${bill.id}/customers/newcustomer" />
-					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
+					<form:form name="submitCustomerForm" action="${submitCustomer}" modelAttribute="customer" method="post">
 
 						<li>
 
@@ -113,31 +113,31 @@
 						${labelCustomerFirstName}
 						</li>
 						<li>
-						<input type="text" name="firstName"/>
+							<input type="text" name="firstName" /><p style="color: red"><form:errors path="firstName" cssClass="error"/></p>
 						</li>
 						<li>
 						${labelCustomerLastName}
 						</li>
 						<li>
-							<input type="text" name="lastName"/>
+							<input type="text" name="lastName"/><p style="color: red"><form:errors path="lastName" cssClass="error"/></p>
 						</li>
 						<li>
 						${labelCustomerZipcode}
 						</li>
 						<li>
-							<input type="text" name="zipCode"/>
+							<input type="text" name="zipCode"/><p style="color: red"><form:errors path="zipCode" cssClass="error"/></p>
 						</li>
 						<li>
 						${labelCustomerPhoneNumber}
 						</li>
 						<li>
-							<input type="text" name="number"/>
+							<input type="text" name="number"/><p style="color: red"><form:errors path="number" cssClass="error"/></p>
 						</li>
 						<li>
 						${labelCustomerCityName}
 						</li>
 						<li>
-							<input type="text" name="cityName"/>
+							<input type="text" name="cityName"/><p style="color: red"><form:errors path="cityName" cssClass="error"/></p>
 						</li>
 					<button type="submit" class="btn btn-success">${labelSubmitBillButton}</button>
 					</form:form>

@@ -129,6 +129,12 @@ public class Customer extends DomainObject {
     	bill.setCustomer(this);
     	//bills.add(currentBill);
     }
+    
+    public void addOnlineOrderSpecs(Restaurant restaurant, Bill bill){
+    	this.restaurant = restaurant;
+    	currentBill = bill;
+    	bill.setCustomer(this);
+    }
 
     // This method only updates user-editable fields
     // id, version, restaurants, bills are considered not user-editable

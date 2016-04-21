@@ -236,7 +236,6 @@ public class Bill extends DomainObject implements Cloneable {
     	//this.billState = bill.getBillState();
     	this.billStateId = bill.getBillStateId();
     	this.currentOrder = bill.getCurrentOrder();
-    	this.customer = bill.getCustomer();
     	this.diningTable = bill.getDiningTable();
     	this.orders = bill.getOrders();
     	this.paidTime = bill.getPaidTime();

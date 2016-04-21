@@ -35,15 +35,12 @@ public class BillMemento extends DomainObject {
     private DiningTable diningTable;
 	@Column(columnDefinition="blob")
     private DiscountStrategy strategy;
-	@Column(columnDefinition="longblob")
-    private Customer customer;
 	
 	public BillMemento(Bill stateToSave){
 		Bill bill = stateToSave.clone();
 		this.billState = bill.getBillState();
     	this.billStateId = bill.getBillStateId();
     	this.currentOrder = bill.getCurrentOrder();
-    	this.customer = bill.getCustomer();
     	this.diningTable = bill.getDiningTable();
     	this.orders.addAll(bill.getOrders());
     	this.paidTime = bill.getPaidTime();
