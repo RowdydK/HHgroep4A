@@ -25,6 +25,8 @@ public class KitchenController {
     private RestaurantService restaurantService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OnlineOrderService onlineOrderService;
 
     @RequestMapping(value = "/restaurants/{restaurantName}/kitchen", method = RequestMethod.GET)
     public String showKitchen(@PathVariable("restaurantName") String restaurantName, Model uiModel) {
@@ -40,6 +42,9 @@ public class KitchenController {
 
         List<Order> allPlannedOrders = orderService.findPlannedOrdersForRestaurant(restaurant);
         uiModel.addAttribute("allPlannedOrders", allPlannedOrders);
+
+        List<Order> allPlannedOnlineOrders = onlineOrderService.findPlannedOrders(restaurant);
+        uiModel.addAttribute("allPlannedOnlineOrders", allPlannedOnlineOrders);
 
         return "hartigehap/kitchen";
     }
@@ -57,6 +62,10 @@ public class KitchenController {
 
         List<Order> allPlannedOrders = orderService.findPlannedOrdersForRestaurant(resto);
         uiModel.addAttribute("allPlannedOrders", allPlannedOrders);
+
+        List<Order> allPlannedOnlineOrders = onlineOrderService.findPlannedOrders(resto);
+        uiModel.addAttribute("allPlannedOnlineOrders", allPlannedOnlineOrders);
+
 
         String orderContent = "";
         for (OrderItem orderItem : order.getOrderItems()) {

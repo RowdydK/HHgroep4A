@@ -23,4 +23,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .getResultList();
     }
 
+    public List<Order> findPlannedOrdersForRestaurant(Restaurant restaurant) {
+        return em.createNamedQuery("Order.findPlannedOrders", Order.class).setParameter("restaurant", restaurant)
+                .getResultList();
+    }
+
 }

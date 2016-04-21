@@ -206,6 +206,7 @@ public class OnlineOrderController {
         
         try{
 			bill.submit();
+            bill.getCurrentOrder().setOrderStatus(Order.OrderStatus.PLANNED);
 			billService.save(bill);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

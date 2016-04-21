@@ -14,8 +14,10 @@
 	<spring:message code="label_submitted_order" var="labelSubmittedOrder" />
 	<spring:message code="label_plan_order_button" var="labelPlanOrderButton" />
 	<spring:message code="label_all_planned_orders" var="labelAllPlannedOrders" />
+	<spring:message code="label_all_planned_online_orders" var="labelAllPlannedOnlineOrders" />
 	<spring:message code="label_planned_order" var="labelPlannedOrder" />
 	<spring:message code="label_prepared_order_button" var="labelPreparedOrderButton" />
+	<spring:message code="label_all_submitted_online_orders" var="labelAllSubmittedOnlineOrders" />
 	<spring:message code="text_there_are_no_orders" var="textThereAreNoOrders" />
 	<spring:message code="text_there_are_no_planned_orders" var="textThereAreNoPlannedOrders" />
 
@@ -95,3 +97,36 @@
 		</div>
 	</div>
 </div>
+
+		<div class="row">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				<h3 class="panel-title">${labelAllPlannedOnlineOrders}</h3>
+    			</div>
+    			<c:if test="${empty allPlannedOnlineOrders}">
+    				<div class="panel-body">
+    					<span>${textThereAreNoPlannedOrders}</span>
+    				</div>
+    			</c:if>
+    			<c:if test="${not empty allPlannedOnlineOrders}">
+    				<table class="table">
+    					<tbody>
+    					<c:forEach items="${allPlannedOnlineOrders}" var="plannedOnlineOrder">
+    						<tr>
+    							<spring:url var="showOrder" value="/kitchen/orders/${plannedOrder.id}" />
+    							<td><a href="${showOrder}">${labelPlannedOnlineOrder} ${plannedOrder.bill.customer.lastName} </a></td>
+    							<sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+    								<spring:url var="preparedOrderUrl" value="/kitchen/orders/${plannedOrder.id}" />
+    								<form:form name="preparedOrderForm" action="${preparedOrderUrl}" method="put">
+    									<input type="hidden" name="event" value="orderHasBeenPrepared" />
+    									<td style="text-align:right;"><input type="submit" value="${labelPreparedOrderButton}" class="btn btn-success btn-float-left-margin-right" style="float:right;" role="button" /></td>
+    								</form:form>
+    							</sec:authorize>
+    						</tr>
+    					</c:forEach>
+    					</tbody>
+    				</table>
+    			</c:if>
+    		</div>
+    	</div>
+    </div>
