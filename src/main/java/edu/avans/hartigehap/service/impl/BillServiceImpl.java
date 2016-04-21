@@ -29,6 +29,7 @@ public class BillServiceImpl implements BillService {
 
     public void billHasBeenPaid(Bill bill) throws StateException {
         bill.paid();
+        save(bill);
     }
     
     public Bill save(Bill bill){

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemIngredient extends DomainObject {
+public class OrderItemIngredient extends DomainObject implements Cloneable {
 	
 	@OneToOne
 	private Ingredient ingredient;
@@ -27,4 +27,14 @@ public class OrderItemIngredient extends DomainObject {
 	public void incrementQuantity() {
         this.quantity++;
     }
+	
+	@Override
+    public OrderItemIngredient clone() {
+		try {
+			return (OrderItemIngredient) super.clone();
+		} catch (CloneNotSupportedException e) {		
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
 }

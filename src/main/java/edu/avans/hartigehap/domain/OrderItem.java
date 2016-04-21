@@ -30,7 +30,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true, includeFieldNames = true, of = { "menuItem", "ingredients" })
 @NoArgsConstructor
-public class OrderItem extends DomainObject {
+public class OrderItem extends DomainObject implements Cloneable{
     private static final long serialVersionUID = 1L;
 
     // unidirectional many-to-one; deliberately no cascade
@@ -47,7 +47,7 @@ public class OrderItem extends DomainObject {
         this.quantity = quantity;
     }
     
-    public OrderItem(OrderItemBuilder oib) {
+    private OrderItem(OrderItemBuilder oib) {
     	this.menuItem = oib.menuItem;
     	this.quantity = oib.quantity;
 	    if(oib.getBuilderIngredients() != null){
@@ -118,4 +118,21 @@ public class OrderItem extends DomainObject {
     public int getPrice() {
         return menuItem.getPrice() * quantity;
     }
+    
+    @Override
+    public OrderItem clone() {
+		try {
+			OrderItem clone = (OrderItem) super.clone();
+			Collection<OrderItemIngredient> thisIngredients = ingredients;
+			ArrayList<OrderItemIngredient> cloneIngredients = new ArrayList<>();
+			for(OrderItemIngredient orderItem : thisIngredients){
+				cloneIngredients.add(orderItem.clone());
+			}
+			clone.setIngredients(cloneIngredients);
+			return clone;
+		} catch (CloneNotSupportedException e) {		
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
 }

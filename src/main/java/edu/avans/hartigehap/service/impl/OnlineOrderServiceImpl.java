@@ -85,6 +85,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 	@Override
 	public void submitBill(Bill bill) throws StateException, EmptyBillException {
 		bill.submitOnlineOrder();
+		billRepository.save(bill);
 	}
 	
 }

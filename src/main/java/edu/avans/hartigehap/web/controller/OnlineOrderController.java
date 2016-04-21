@@ -66,7 +66,7 @@ public class OnlineOrderController {
         uiModel.addAttribute("bill", bill);
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}", method = RequestMethod.GET)
     public String nShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("billId") String billId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
         Bill bill = billService.findById(Long.valueOf(billId));
@@ -78,7 +78,7 @@ public class OnlineOrderController {
         return "hartigehap/onlineorder";
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems", method = RequestMethod.POST)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/orderItems", method = RequestMethod.POST)
     public String nAddOrderItem(@PathVariable("restaurantId") String restaurantId, @PathVariable ("billId") String billId,
     		@RequestParam String menuItemName, Model uiModel){
     	
@@ -86,21 +86,21 @@ public class OnlineOrderController {
     	
     	onlineOrderService.addOrderItem(bill, menuItemName);
     	
-    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    	return "redirect:/restaurants/" + restaurantId + "/online/bills/"+ billId;
     	
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems/{orderItemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/orderItems/{orderItemId}", method = RequestMethod.POST)
     public String nAddOrderItemIngredient(@PathVariable("restaurantId") String restaurantId, @PathVariable ("billId") String billId, @PathVariable ("orderItemId") String orderItemId,
     		@RequestParam Long ingredientId, Model uiModel){
     	log.debug("IngredientId: " + ingredientId);
     	onlineOrderService.addOrderItemIngredient(Long.valueOf(orderItemId), ingredientId);
     	
-    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    	return "redirect:/restaurants/" + restaurantId + "/online/bills/"+ billId;
     	
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/orderItems/{menuItemName}", method = RequestMethod.DELETE)
     public String nDeleteMenuItem(@PathVariable("restaurantId") String restaurantId,
             @PathVariable("menuItemName") String menuItemName,@PathVariable("billId") String billId,
             Model uiModel) {
@@ -110,10 +110,10 @@ public class OnlineOrderController {
     	onlineOrderService.deleteOrderItem(bill, menuItemName);
 
 
-    	return "redirect:/restaurants/" + restaurantId + "/online/bill/"+ billId;
+    	return "redirect:/restaurants/" + restaurantId + "/online/bills/"+ billId;
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}", method = RequestMethod.PUT)
     public String nReceiveEvent(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId
     		,@RequestParam String event, Model uiModel, Locale locale) {
         log.info("(receiveEvent) restaurant = " + restaurantId);
@@ -140,7 +140,7 @@ public class OnlineOrderController {
             // store the message temporarily in the session to allow displaying
             // after redirect
             
-            return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer";
+            return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customer";
         default:
             //warmupRestaurant(diningTableId, uiModel);
             //log.error("internal error: event " + event + "not recognized");
@@ -166,11 +166,11 @@ public class OnlineOrderController {
         // store the message temporarily in the session to allow displaying
         // after redirect
         
-        return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer";
+        return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customer";
 
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/customer", method = RequestMethod.GET)
     public String nShowCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
     		Model uiModel) {
         log.info("restaurantId = " + restaurantId);
@@ -193,7 +193,7 @@ public class OnlineOrderController {
         return "hartigehap/onlineordercustomer";
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/newcustomer",params = "firstName", method = RequestMethod.POST)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/customers/newcustomer",params = "firstName", method = RequestMethod.POST)
     public String nReceiveCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId
     		,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName , @RequestParam("zipCode") String zipCode,
     		@RequestParam("zipCode") String cityName,@RequestParam("number") String number,
@@ -215,12 +215,12 @@ public class OnlineOrderController {
 
         System.out.println(firstName);
         
-        return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer/"+customer.getId();
+        return "redirect:/restaurants/"+ restaurantId + "/online/bills/"+billId+"/customers/"+customer.getId();
 
 //        }
     }
     
-    @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/{customerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/restaurants/{restaurantId}/online/bills/{billId}/customers/{customerId}", method = RequestMethod.GET)
     public String nShowPayment(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId,
     		@PathVariable("customerId") String customerId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);

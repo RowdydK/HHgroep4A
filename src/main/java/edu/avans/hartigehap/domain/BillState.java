@@ -23,13 +23,8 @@ import lombok.ToString;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @Getter
 @Setter
-public abstract class BillState {
+public abstract class BillState extends DomainObject implements Cloneable {
     private static final long serialVersionUID = 1L;
-    
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     @Transient
 	public final String error = "Cannot instantiate the selected state";
@@ -49,7 +44,15 @@ public abstract class BillState {
 		System.out.println(error);
 	}
 
-
+	@Override
+    public BillState clone() {
+		try {
+			return (BillState) super.clone();
+		} catch (CloneNotSupportedException e) {		
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
 	
 	
 }

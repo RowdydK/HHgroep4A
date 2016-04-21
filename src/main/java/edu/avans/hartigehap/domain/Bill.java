@@ -33,9 +33,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Getter
 @Setter
 @ToString(callSuper = true, includeFieldNames = true, of = { "billStateId", "currentOrder", "orders" })
-public class Bill extends DomainObject {
+public class Bill extends DomainObject implements Cloneable {
     private static final long serialVersionUID = 1L;
 
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    private BillCaretaker caretaker;
+    
     public enum BillStateId {
         CREATED, SUBMITTED, PAID
     }
@@ -78,11 +81,6 @@ public class Bill extends DomainObject {
     
     private DiscountStrategy strategy;
     
-    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
-    public void setStrategy(DiscountStrategy strategy){
-    	this.strategy = strategy;
-    }
-    
     //New BillState
     public Bill(){
     	billState = new BillStateCreated();
@@ -91,6 +89,7 @@ public class Bill extends DomainObject {
     	currentOrder.setBill(this);
     	orders.add(currentOrder);
     	strategy = DiscountSingleton.getInstance().getDiscountStrategy();
+    	caretaker = new BillCaretaker();
     }
     
 
@@ -201,7 +200,48 @@ public class Bill extends DomainObject {
      */
     
     public void submit() throws StateException, EmptyBillException{
+    	caretaker.addSavedState(saveToMemento());
     	submittedTime = billState.billCreated(this, orders, currentOrder);
+    }
+    
+    @Override
+    public Bill clone() {
+		try {
+			Bill clone = (Bill) super.clone();
+			// 	clone.setBillState(this.billState.clone());
+			clone.setCurrentOrder(this.currentOrder.clone());
+			Collection<Order> thisOrders = orders;
+			ArrayList<Order> cloneOrders = new ArrayList<>();
+			for(Order order : thisOrders){
+				Order orderClone = order.clone();
+				cloneOrders.add(orderClone);
+				if(order.equals(currentOrder)){
+					clone.setCurrentOrder(orderClone);
+				}
+			}
+			clone.setOrders(cloneOrders);
+			return clone;
+		} catch (CloneNotSupportedException e) {		
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+    
+    public BillMemento saveToMemento(){
+    	return new BillMemento(this);
+    }
+    
+    public void restoreFromMemento(BillMemento bill){
+    	//this.billState = bill.getBillState();
+    	this.billStateId = bill.getBillStateId();
+    	this.currentOrder = bill.getCurrentOrder();
+    	this.customer = bill.getCustomer();
+    	this.diningTable = bill.getDiningTable();
+    	this.orders = bill.getOrders();
+    	this.paidTime = bill.getPaidTime();
+    	this.strategy = bill.getStrategy();
+    	this.submittedTime = bill.getSubmittedTime();
+    	this.version = bill.getVersion();
     }
     
 //    public void submit() throws StateException, EmptyBillException {
@@ -242,6 +282,7 @@ public class Bill extends DomainObject {
     
     
     public void paid() throws StateException {
+    	caretaker.addSavedState(saveToMemento());
     	paidTime = billState.billSubmitted(this);
     }
 

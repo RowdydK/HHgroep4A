@@ -95,7 +95,7 @@ public class Customer extends DomainObject {
     // no cascading
     // bidirectional one-to-many; mapping on the database happens at the many
     // side
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private Collection<Bill> bills = new ArrayList<Bill>();
 
     // TODO not complete (bills)

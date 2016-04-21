@@ -31,7 +31,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public abstract class Image {
+public abstract class Image extends DomainObject {
 	
 	public Image(){
 
@@ -39,10 +39,6 @@ public abstract class Image {
 	
     @Column(name = "IMAGEFILENAME")
     protected String imageFileName;
-	
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
@@ -60,8 +56,8 @@ public abstract class Image {
     	byte[] result = null;
     	ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
     	try {
-			//BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
-			BufferedImage img = ImageIO.read(new File("C:/Development/Java/Spring Tools Suite Workspace/hh/src/main/webapp/images/" + imageFileName));
+			BufferedImage img = ImageIO.read(new File(getClass().getResource("/../../images/" + imageFileName).getFile()));
+			//BufferedImage img = ImageIO.read(new File("C:/Development/Java/Spring Tools Suite Workspace/hh/src/main/webapp/images/" + imageFileName));
 			ImageIO.write(img, "jpg", baos);
 			return baos.toByteArray();			
 		} catch (IOException e) {
