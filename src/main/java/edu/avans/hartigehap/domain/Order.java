@@ -5,7 +5,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,7 +43,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true, includeFieldNames = true, of = { "orderStatus", "orderItems" })
-public class Order extends DomainObject {
+public class Order extends DomainObject implements Cloneable {
     private static final long serialVersionUID = 1L;
 
     public enum OrderStatus {
@@ -195,5 +205,22 @@ public class Order extends DomainObject {
         }
         return price;
     }
+        
+    @Override
+    public Order clone() {
+		try {
+			Order clone = (Order) super.clone();
+			Collection<OrderItem> thisOrderItems = orderItems;
+			ArrayList<OrderItem> cloneOrderItems = new ArrayList<>();
+			for(OrderItem orderItem : thisOrderItems){
+				cloneOrderItems.add(orderItem.clone());
+			}
+			clone.setOrderItems(cloneOrderItems);
+			return clone;
+		} catch (CloneNotSupportedException e) {		
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
 
 }

@@ -1,13 +1,12 @@
 package edu.avans.hartigehap.domain;
-import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 /**
  * Created by Student on 21-03-16.
  */
-@Entity
 public class DiscountTwoPlusOne extends DiscountStrategy {
-	
+
+	@Override
 	public int CalculateDiscount(Bill bill){
 		ArrayList<OrderItem> orderItems = new ArrayList();
 		for (Order order : bill.getAllOrders()){
@@ -28,7 +27,7 @@ public class DiscountTwoPlusOne extends DiscountStrategy {
 			normalPrice = normalPrice + mi.getPrice();
 		}
 		discountItems = BubbleSort(discountItems);
-		
+
 		return (normalPrice - getDiscPrice(discountItems));
 
     }
@@ -36,14 +35,15 @@ public class DiscountTwoPlusOne extends DiscountStrategy {
 	public ArrayList<MenuItem> OrderItemtoMenuItems(ArrayList<OrderItem> itemList){
         ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
         for(OrderItem item : itemList){
-            for(int i=0;i<item.getQuantity();i++){
-                menuItems.add(item.getMenuItem());
-            }
+			for(int i=0;i<item.getQuantity();i++){
+				menuItems.add(item.getMenuItem());
+			}
         }
         return menuItems;
 	}
     
-	
+
+
     public int getDiscPrice(ArrayList<MenuItem> menuItems){
 		int priceToPay = 0;
 		int totalPrice = 0;

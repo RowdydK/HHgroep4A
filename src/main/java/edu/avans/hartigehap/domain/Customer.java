@@ -45,11 +45,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Customer extends DomainObject {
     private static final long serialVersionUID = 1L;
 
-    //@NotEmpty(message = "{validation.firstname.NotEmpty.message}")
+    @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
     private String firstName;
 
-    //@NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     private String lastName;
     

@@ -18,20 +18,19 @@ public class DiscountTest {
 
 
     @Test
-    public void discountCalculator (){
+    public void discountCalculator() {
 
-        DiscountStrategy discountStrategyOnePlusOne = new DiscountOnePlusOne();
-        DiscountStrategy discountStrategyTwoPlusOne = new DiscountTwoPlusOne();
+        DiscountStrategy discountOne = new DiscountOnePlusOne();
+        DiscountStrategy discountTwo = new DiscountTwoPlusOne();
 
-        Bill bill;
-        bill = new MockClasses().SetupBill();
+        Bill bill = new MockClasses().SetupBill();
+        bill.setStrategy(discountOne);
 
-        bill.setStrategy(discountStrategyOnePlusOne);
+        assertEquals(38, bill.getDiscPrice());
+        //assertNotEquals(24, bill.getDiscPrice());
+        bill.setStrategy(discountTwo);
+        assertEquals(47, bill.getDiscPrice());
+        //assertNotEquals(20, disc.getDiscountPrice(bill));
 
-        assertEquals(30, bill.getDiscPrice());
-        assertNotEquals(24, bill.getDiscPrice());
-        //assertEquals(44, disc.getDiscountPrice(setupBill.SetupBill(), 2));
-        //assertNotEquals(20, disc.getDiscountPrice(setupBill.SetupBill(), 2));
     }
-
 }
