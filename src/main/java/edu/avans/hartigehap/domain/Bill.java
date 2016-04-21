@@ -75,10 +75,10 @@ public class Bill extends DomainObject {
     // bidirectional one-to-many relationship
     @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     private Customer customer;
-
-    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
+    
     private DiscountStrategy strategy;
     
+    @ManyToOne(cascade = javax.persistence.CascadeType.ALL)
     public void setStrategy(DiscountStrategy strategy){
     	this.strategy = strategy;
     }
@@ -175,7 +175,6 @@ public class Bill extends DomainObject {
                 price += tmp.getPrice();
             }
         }
-
         try{
         	price = strategy.CalculateDiscount(this);
         }catch(Exception e){

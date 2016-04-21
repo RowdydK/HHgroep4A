@@ -44,28 +44,28 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Customer extends DomainObject {
     private static final long serialVersionUID = 1L;
 
-    //@NotEmpty(message = "{validation.firstname.NotEmpty.message}")
+    @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
     private String firstName;
 
-    //@NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     private String lastName;
     
-//    @NotEmpty(message = "{validation.streetName.NotEmpty.message}")
-//    @Size(min = 1, max = 40, message = "{validation.streetName.Size.message}")
+    //@NotEmpty(message = "{validation.streetName.NotEmpty.message}")
+    @Size(min = 1, max = 40, message = "{validation.streetName.Size.message}")
     private String streetName;
     
-//    @NotEmpty(message = "{validation.number.NotEmpty.message}")
-//    @Size(min = 1, max = 10, message = "{validation.number.Size.message}")
+    //@NotEmpty(message = "{validation.number.NotEmpty.message}")
+    @Size(min = 1, max = 10, message = "{validation.number.Size.message}")
     private String number;
     
-//    @NotEmpty(message = "{validation.zipCode.NotEmpty.message}")
-//    @Size(min = 1, max = 10, message = "{validation.zipCode.Size.message}")
+    //@NotEmpty(message = "{validation.zipCode.NotEmpty.message}")
+    @Size(min = 1, max = 10, message = "{validation.zipCode.Size.message}")
     private String zipCode;
     
     //@NotEmpty(message = "{validation.cityName.NotEmpty.message}")
-    //@Size(min = 1, max = 40, message = "{validation.cityName.Size.message}")
+    @Size(min = 1, max = 40, message = "{validation.cityName.Size.message}")
     private String cityName;
     
     // works with hibernate 3.x

@@ -40,7 +40,7 @@ public class OrderItem extends DomainObject {
     @ManyToMany(cascade = javax.persistence.CascadeType.ALL)
 	private Collection<OrderItemIngredient> ingredients = new ArrayList<>();
     
-    private int quantity = 0;
+    private int quantity;
 
     public OrderItem(MenuItem menuItem, int quantity) {
         this.menuItem = menuItem;

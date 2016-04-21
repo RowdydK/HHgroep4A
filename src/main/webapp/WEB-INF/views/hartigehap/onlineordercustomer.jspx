@@ -34,9 +34,14 @@
 	<spring:message code="table_quantity" var="tableQuantity" />
 	<spring:message code="label_customer_first_name" var="labelCustomerFirstName" />
 	<spring:message code="label_customer_last_name" var="labelCustomerLastName" />
+	<spring:message code="label_customer_zipCode" var="labelCustomerZipCode" />
+	<spring:message code="label_customer_city" var="labelCustomerCity" />
 	<spring:message code="label_currency" var="labelCurrency" />
+	<spring:message code="label_customer_number" var="labelCustomerNumber" />
 	
 	<spring:url var="showRestaurant" value="/restaurants/${restaurant.id}" />
+
+
 
 	<div class="row">
 		<h1>${labelOnlineMenu}</h1>
@@ -77,11 +82,10 @@
 								<td>${label_currency} ${priceTot}</td>
 							</tr>
 							<tr>
-							<spring:url var="priceDisc" value="${bill.getDiscPrice()}" />
 								<th>Discount Price</th>
 								<td></td>
 								
-								<td>${priceDisc}</td>
+								<td>${discountPrice}</td>
 								</tr>
 						</tbody>
 					</table>
@@ -100,7 +104,7 @@
 			<div class="tab-content">
 				<ul class="nav panel-tabs">
 					<spring:url var="submitCustomer" value="/restaurants/${restaurant.id}/online/bill/${bill.id}/customer/newcustomer" />
-					<form:form name="submitCustomerForm" action="${submitCustomer}" method="post">
+					<form:form name="submitCustomerForm" action="${submitCustomer}" modelAttribute="customer" method="post">
 						<li>
 
 						</li>
@@ -108,31 +112,31 @@
 						${labelCustomerFirstName}
 						</li>
 						<li>
-						<input type="text" name="firstName"/>
+							<input type="text" name="firstName" /><p style="color: red"><form:errors path="firstName" cssClass="error"/></p>
 						</li>
 						<li>
 						${labelCustomerLastName}
 						</li>
 						<li>
-							<input type="text" name="lastName"/>
+							<input type="text" name="lastName"/><p style="color: red"><form:errors path="lastName" cssClass="error"/></p>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerZipCode}
 						</li>
 						<li>
-							<input type="text" name="zipCode"/>
+							<input type="text" name="zipCode"/><p style="color: red"><form:errors path="zipCode" cssClass="error"/></p>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerNumber}
 						</li>
 						<li>
-							<input type="text" name="number"/>
+							<input type="text" name="number"/><p style="color: red"><form:errors path="number" cssClass="error"/></p>
 						</li>
 						<li>
-						${labelCustomerLastName}
+						${labelCustomerCity}
 						</li>
 						<li>
-							<input type="text" name="cityName"/>
+							<input type="text" name="cityName"/><p style="color: red"><form:errors path="cityName" cssClass="error"/></p>
 						</li>
 					<button type="submit" class="btn btn-success">${labelSubmitBillButton}</button>
 					</form:form>

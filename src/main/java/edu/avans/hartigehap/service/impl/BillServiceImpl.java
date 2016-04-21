@@ -12,8 +12,6 @@ import edu.avans.hartigehap.repository.*;
 import edu.avans.hartigehap.service.*;
 import edu.avans.hartigehap.domain.*;
 
-import javax.persistence.EntityManager;
-
 @Service("billService")
 @Repository
 @Transactional(rollbackFor = StateException.class)
@@ -34,12 +32,7 @@ public class BillServiceImpl implements BillService {
     }
     
     public Bill save(Bill bill){
-
-        EntityManager em = null;
-
-        //em.persist(bill);
-
-        return billRepository.save(bill);
+    	return billRepository.save(bill);
     }
 
     @Transactional(readOnly = true)

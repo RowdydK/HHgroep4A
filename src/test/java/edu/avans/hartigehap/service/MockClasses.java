@@ -24,31 +24,37 @@ public class MockClasses {
         foodCats1.add(foodCat);
         foodCats2.add(foodCat2);
 
-        Meal meal1 = new Meal("spaghetti", "beer.jpg", 10, "lekkerman");
+        Meal meal1 = new Meal("spaghetti", "spaghetti.jpg", 10, "lekkerman");
         meal1.addFoodCategories(foodCats1);
-        Meal meal2 = new Meal("pizza", "beer.jpg", 15, "facking goud");
+        Meal meal2 = new Meal("pizza", "pizza.jpg", 9, "facking goud");
         meal2.addFoodCategories(foodCats2);
-        Meal meal3 = new Meal("pizzaatje", "beer.jpg", 14, "superlekker");
+        Meal meal3 = new Meal("pizzaatje", "pizza.jpg", 9, "superlekker");
         meal3.addFoodCategories(foodCats2);
-        Meal meal4 = new Meal("pasta", "beer.jpg", 10, "lekkerman");
+        Meal meal4 = new Meal("pasta", "macaroni.jpg", 10, "lekkerman");
         meal4.addFoodCategories(foodCats1);
-        Meal meal5 = new Meal("pizzatonijn", "beer.jpg", 15, "facking goud");
+        Meal meal5 = new Meal("pizzatonijn", "pizza.jpg", 9, "facking goud");
         meal5.addFoodCategories(foodCats2);
-        Meal meal6 = new Meal("pizzahamas", "beer.jpg", 14, "superlekker");
+        Meal meal6 = new Meal("pizzahamas", "pizza.jpg", 9, "superlekker");
         meal6.addFoodCategories(foodCats2);
 
         OrderItem orderItem1 = new OrderItem();
         orderItem1.setMenuItem(meal1);
+        orderItem1.incrementQuantity();
         OrderItem orderItem2 = new OrderItem();
         orderItem2.setMenuItem(meal2);
+        orderItem2.incrementQuantity();
         OrderItem orderItem3 = new OrderItem();
         orderItem3.setMenuItem(meal3);
+        orderItem3.incrementQuantity();
         OrderItem orderItem4 = new OrderItem();
         orderItem4.setMenuItem(meal4);
+        orderItem4.incrementQuantity();
         OrderItem orderItem5 = new OrderItem();
         orderItem5.setMenuItem(meal5);
+        orderItem5.incrementQuantity();
         OrderItem orderItem6 = new OrderItem();
         orderItem6.setMenuItem(meal6);
+        orderItem6.incrementQuantity();
 
 
         Collection<Order> orders = new ArrayList<>();

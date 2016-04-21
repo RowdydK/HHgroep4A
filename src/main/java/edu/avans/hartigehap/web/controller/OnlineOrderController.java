@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import edu.avans.hartigehap.domain.*;
 import edu.avans.hartigehap.domain.Bill.BillStateId;
@@ -56,12 +58,9 @@ public class OnlineOrderController {
         		uiModel.addAttribute("restaurant", r);
         	}
         }
-
         Bill bill;
         if (billId == null){
-
         	bill = billService.save(new Bill());
-
         }
         else{
         	bill = billService.findById(Long.valueOf(billId));
@@ -73,7 +72,7 @@ public class OnlineOrderController {
     public String nShowTable(@PathVariable("restaurantId") String restaurantId, @PathVariable("billId") String billId, Model uiModel) {
         log.info("restaurantId = " + restaurantId);
         Bill bill = billService.findById(Long.valueOf(billId));
-        bill.setStrategy(new DiscountOnePlusOne());
+        //bill.setStrategy(new DiscountOnePlusOne());
         int newPrice = bill.getStrategy().CalculateDiscount(bill);
         
         nFillModel(restaurantId,billId,uiModel);
@@ -189,6 +188,10 @@ public class OnlineOrderController {
         	order = orders.iterator().next();
         }
 
+        int newPrice = bill.getStrategy().CalculateDiscount(bill);
+
+        nFillModel(restaurantId,billId,uiModel);
+        uiModel.addAttribute("discountPrice", newPrice);
 
         nFillModel(restaurantId, billId , uiModel);
         uiModel.addAttribute("order", order);
@@ -197,30 +200,37 @@ public class OnlineOrderController {
     }
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/newcustomer",params = "firstName", method = RequestMethod.POST)
-    public String nReceiveCustomer(@PathVariable("restaurantId") String restaurantId,@PathVariable("billId") String billId
-    		,@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName , @RequestParam("zipCode") String zipCode,
-    		@RequestParam("zipCode") String cityName,@RequestParam("number") String number,
-    		Model uiModel, Locale locale) {
+    public String nReceiveCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult bindingResult, @PathVariable("restaurantId") String restaurantId, @PathVariable("billId") String billId, Locale locale, Model uiModel){
+                                   //@RequestParam("firstName") @Valid String firstName, @Valid @RequestParam("lastName") String lastName , @Valid @RequestParam("zipCode") String zipCode,
+                                    //@Valid @RequestParam("zipCode") String cityName, @Valid @RequestParam("number") String number,
+                                   //Model uiModel, Locale locale) {
         log.info("(receiveEvent) restaurant = " + restaurantId);
 
-        Customer customer;
         Bill bill = billService.findById(Long.valueOf(billId));
-        customer = customerService.save(new Customer(firstName,lastName,zipCode,cityName,number,bill));
-        
-        try{
-			bill.submit();
-			billService.save(bill);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-   
 
-        System.out.println(firstName);
-        
-        return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer/"+customer.getId();
+        if(bindingResult.hasErrors()){
+            uiModel.addAttribute("message",new Message("error",
+                    messageSource.getMessage("customer_save_fail", new Object[] {}, locale)));
+            uiModel.addAttribute("customer", customer);
+            nFillModel(restaurantId, billId , uiModel);
+            return "hartigehap/onlineordercustomer";
+        }else {
+            customer = customerService.save(customer);
 
-//        }
+            try{
+                bill.submit();
+                billService.save(bill);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+            System.out.println(customer.getFirstName());
+
+            return "redirect:/restaurants/"+ restaurantId + "/online/bill/"+billId+"/customer/"+customer.getId();
+        }
+
     }
     
     @RequestMapping(value = "/restaurants/{restaurantId}/online/bill/{billId}/customer/{customerId}", method = RequestMethod.GET)
