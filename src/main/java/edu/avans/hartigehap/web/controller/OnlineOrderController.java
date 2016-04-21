@@ -215,6 +215,8 @@ public class OnlineOrderController {
             nFillModel(restaurantId, billId , uiModel);
             return "hartigehap/onlineordercustomer";
         }else {
+
+            customer.setCurrentBill(bill);
             customer = customerService.save(customer);
 
             try{
