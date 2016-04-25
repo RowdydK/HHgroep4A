@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BillMemento extends DomainObject {
     private BillCaretaker caretaker;
-	//Make sure the 
+	//Make sure the settings of the max_allowed_packet size in the my.ini file of your mySQL config in XAMP/MAMP/AMPPS
+	// must be set higher for this to be able to run succesfully. This file can be found in your XAMP/MAMP/AMPPS installation folder.
 	@Column(columnDefinition="blob")
     private BillState billState;
     
