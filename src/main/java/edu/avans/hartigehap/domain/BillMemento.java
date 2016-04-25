@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BillMemento extends DomainObject {
     private BillCaretaker caretaker;
+	//Make sure the 
 	@Column(columnDefinition="blob")
     private BillState billState;
     
